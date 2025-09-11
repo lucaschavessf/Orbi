@@ -21,9 +21,12 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 * Sqlite
 * Azure
 
-## 📊 Exemplos / Prints
+## Jira
 
-(Adicionar imagens e GIFs da aplicação quando disponível)
+[Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
+
+<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/fb71bd22-54a0-4b03-aac2-22098602291e" />
+
 
 ## 👥 Contribuidores
 
