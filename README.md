@@ -16,8 +16,9 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 ## ⚙ Tecnologias Utilizadas
 
-* Python
-* Framework Django
+* Java
+* Spring Boot
+* Angular 
 * Sqlite
 * Azure
 
@@ -25,14 +26,17 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 [Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
 
-<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/fb71bd22-54a0-4b03-aac2-22098602291e" />
+<img width="1904" height="998" alt="image" src="https://github.com/user-attachments/assets/83dc5cd4-7823-4599-8b4e-6532c9790eee" />
+
 
 
 ## 👥 Contribuidores
 
-* Lucas Chaves – Desenvolvedor Backend
-* Matheus Andrade – Desenvolvedor Frontend
-* Allysson Fellype – Tech Lead
-* Fernando Marinho - Quality Assurance
-* Eulália Regina - Product Owner
+* [Eulália Regina]((https://www.linkedin.com/in/eulalialbuquerque/)) - Product Owner
+* [Allysson Fellype](https://www.linkedin.com/in/allysson-fellype-868390249/) – Tech Lead
+* [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Quality Assurance
+* [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Backend
+* [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Frontend
+
+
   
