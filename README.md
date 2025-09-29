@@ -16,11 +16,13 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 ## ⚙ Tecnologias Utilizadas
 
-* Java
-* Spring Boot
-* Angular 
-* Sqlite
-* Azure
+<div align="center">
+  <img alt="Java" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Java.svg">
+  <img alt="SpringBoot" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Spring Boot.svg">
+  <img alt="Angular" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Angular.svg">
+  <img alt="Sqlite" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/SQLite.svg">
+  <img alt="Azure" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Azure.svg">
+</div>
 
 ## Jira
 
@@ -32,7 +34,7 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 ## 👥 Contribuidores
 
-* [Eulália Regina]((https://www.linkedin.com/in/eulalialbuquerque/)) - Product Owner
+* [Eulália Regina](https://www.linkedin.com/in/eulalialbuquerque/) - Product Owner
 * [Allysson Fellype](https://www.linkedin.com/in/allysson-fellype-868390249/) – Tech Lead
 * [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Quality Assurance
 * [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Backend
