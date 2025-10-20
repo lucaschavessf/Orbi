@@ -1,15 +1,14 @@
 package com.example.orbi.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 import com.example.orbi.dto.UsuarioDTO;
 import com.example.orbi.services.UsuarioService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -32,6 +31,27 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @DeleteMapping("/deletar/username/{username}")
+    public ResponseEntity<String> deletarUsuarioPorUsername(@PathVariable String username) {
+        try {
+            usuarioService.deleteUsuarioPorUsername(username);
+            return ResponseEntity.ok("Usuário deletado com sucesso");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/usuario/{username}")
+    public ResponseEntity<UsuarioDTO> buscarUsuario(@PathVariable String username) {
+        try {
+            UsuarioDTO usuario = usuarioService.buscarPorUsername(username);
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     
