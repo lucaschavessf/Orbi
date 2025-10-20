@@ -48,10 +48,15 @@ public class UsuarioService {
     }
 
     public List<UsuarioDTO> listarUsuarios() {
-        return usuarioRepository.findAll().stream()
-                .map(UsuarioDTO::new)
-                .collect(Collectors.toList());
+    return usuarioRepository.findAll().stream()
+            .map(usuario -> {
+                UsuarioDTO dto = new UsuarioDTO(usuario);
+                dto.setSenha(null); // zera a senha
+                return dto;
+            })
+            .collect(Collectors.toList());
     }
+
 
     @Transactional
     public void deleteUsuarioPorUsername(String username) {
