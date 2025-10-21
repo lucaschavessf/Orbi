@@ -19,8 +19,9 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 <div align="center">
   <img alt="Java" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Java.svg">
   <img alt="SpringBoot" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Spring Boot.svg">
+  <img alt="Postman" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Postman.svg">
   <img alt="Angular" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Angular.svg">
-  <img alt="Sqlite" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/SQLite.svg">
+  <img alt="PostgreSQL" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Postgresql.svg">
   <img alt="Azure" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Azure.svg">
 </div>
 
