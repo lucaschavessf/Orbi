@@ -1,0 +1,20 @@
+/* src/styles.css (global) */
+:root {
+  --bg: #121216;            /* fundo geral */
+  --surface: #1b1b1f;       /* cards / painel */
+  --on-surface: #e6e6e9;    /* texto */
+  --input-bg: #151518;      /* inputs */
+  --primary: #5b8cff;       /* botão primário azul suave */
+  --error: #ff6b6b;
+  --success: #67e8a6;
+}
+
+/* aplica o fundo escuro à aplicação */
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--on-surface);
+  font-family: Inter, Roboto, -apple-system, 'Segoe UI', Arial;
+  margin: 0;
+  padding: 0;
+}
