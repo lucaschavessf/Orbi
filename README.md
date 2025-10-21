@@ -28,17 +28,15 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 [Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
 
-<img width="1904" height="998" alt="image" src="https://github.com/user-attachments/assets/83dc5cd4-7823-4599-8b4e-6532c9790eee" />
-
-
+<img width="1917" height="949" alt="image" src="https://github.com/user-attachments/assets/13195e3c-a2a5-44eb-85a9-996ffafb60b3" />
 
 ## 👥 Contribuidores
 
 * [Eulália Regina](https://www.linkedin.com/in/eulalialbuquerque/) - Product Owner
 * [Allysson Fellype](https://www.linkedin.com/in/allysson-fellype-868390249/) – Tech Lead
-* [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Quality Assurance
-* [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Backend
-* [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Frontend
+* [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Desenvolvedor Front-End
+* [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Back-End
+* [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Back-End
 
 
   
