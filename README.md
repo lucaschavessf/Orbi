@@ -27,9 +27,12 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 ## Jira
 
-[Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
-
 <img width="1917" height="949" alt="image" src="https://github.com/user-attachments/assets/13195e3c-a2a5-44eb-85a9-996ffafb60b3" />
+
+## 🔗 Links
+
+* [Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
+* [Link do Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/) 
 
 ## 👥 Contribuidores
 
@@ -38,6 +41,7 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 * [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Desenvolvedor Front-End
 * [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Back-End
 * [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Back-End
+
 
 
   
