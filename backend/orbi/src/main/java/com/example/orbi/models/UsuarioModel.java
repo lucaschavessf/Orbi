@@ -42,7 +42,6 @@ public class UsuarioModel implements Serializable {
     @Column(length = 512)
     private String fotoPerfil;
 
-    // Getters and Setters
     public UUID getId() {
         return id;
     }
