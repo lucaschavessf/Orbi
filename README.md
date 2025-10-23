@@ -29,10 +29,15 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 
 <img width="1917" height="949" alt="image" src="https://github.com/user-attachments/assets/13195e3c-a2a5-44eb-85a9-996ffafb60b3" />
 
+## Protótipo
+
+![ORBI](https://github.com/user-attachments/assets/8dc9f139-af91-488e-94c0-49b8e89313b5)
+
 ## 🔗 Links
 
-* [Link do jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
-* [Link do Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/) 
+* [Jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
+* [Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/) 
+* [Vídeo do Protótipo](https://photos.app.goo.gl/oafnAap4K7Bmqj9h9) 
 
 ## 👥 Contribuidores
 
