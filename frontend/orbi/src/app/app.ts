@@ -9,7 +9,7 @@ import { FormCadastroComponent } from './components/form-cadastro-component/form
   selector: 'app-root',
   standalone: true,
   // HttpClientModule é incluído para fornecer a dependência globalmente
-  imports: [CommonModule, HttpClientModule, FormCadastroComponent,RouterModule],
+  imports: [CommonModule, HttpClientModule,RouterModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
