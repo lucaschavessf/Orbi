@@ -1,0 +1,18 @@
+/* src/app/components/cabecalho-component/cabecalho-component.css */
+
+/* ocupar toda a largura e ficar fixo no topo */
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* efeito de transição sutil */
+header {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* quando o usuário der scroll, podemos mudar a opacidade (opcional) */
+header.scrolled {
+  background-color: rgba(17, 24, 39, 0.9); /* gray-900 com transparência */
+  backdrop-filter: blur(6px);
+}

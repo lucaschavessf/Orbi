@@ -1,0 +1,11 @@
+/* src/app/pages/layout-principal-component/layout-principal-component.css */
+
+/* Define que o componente de layout deve se comportar como um bloco
+  e ocupar toda a altura do seu container (geralmente o <router-outlet>
+  ou o <body>).
+*/
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

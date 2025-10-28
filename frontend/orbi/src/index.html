@@ -2,10 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Orbi</title>
-  <base href="/">
+  <title>Orbi Data</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Tailwind CDN (carrega antes de tudo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tema customizado opcional -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            orbi: {
+              purple: '#7c3aed',
+              dark: '#0f172a',
+              light: '#a78bfa'
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>
