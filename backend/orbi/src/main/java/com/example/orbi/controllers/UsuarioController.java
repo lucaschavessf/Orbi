@@ -2,9 +2,8 @@ package com.example.orbi.controllers;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 import com.example.orbi.dto.UsuarioDTO;
+import com.example.orbi.dto.LoginRequestDTO;
 import com.example.orbi.services.UsuarioService;
 
 import org.springframework.http.HttpStatus;
@@ -43,7 +42,6 @@ public class UsuarioController {
         }
     }
 
-
     @GetMapping("/usuario/{username}")
     public ResponseEntity<UsuarioDTO> buscarUsuario(@PathVariable String username) {
         try {
@@ -54,5 +52,17 @@ public class UsuarioController {
         }
     }
 
-    
+    @PostMapping("/login")
+    public ResponseEntity<?> verificarUsuario(@RequestBody LoginRequestDTO loginRequest) {
+        try {
+            UsuarioDTO usuario = usuarioService.verificarLogin(
+                    loginRequest.getUsername(),
+                    loginRequest.getSenha()
+            );
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(e.getMessage());
+        }
+    }
 }

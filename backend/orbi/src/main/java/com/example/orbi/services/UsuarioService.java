@@ -57,7 +57,6 @@ public class UsuarioService {
             .collect(Collectors.toList());
     }
 
-
     @Transactional
     public void deleteUsuarioPorUsername(String username) {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
@@ -65,12 +64,27 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-
     public UsuarioDTO buscarPorUsername(String username) {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         UsuarioDTO dto = new UsuarioDTO(usuario);
         dto.setSenha(null);
+        return dto;
+    }
+
+    public UsuarioDTO verificarLogin(String username, String senhaRecebida) {
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário ou senha inválidos"));
+
+        boolean senhaCorreta = passwordEncoder.matches(senhaRecebida, usuario.getSenha());
+
+        if (!senhaCorreta) {
+            throw new RuntimeException("Usuário ou senha inválidos");
+        }
+
+        UsuarioDTO dto = new UsuarioDTO(usuario);
+        dto.setSenha(null);
+
         return dto;
     }
 
