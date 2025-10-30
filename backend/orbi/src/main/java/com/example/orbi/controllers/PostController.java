@@ -22,13 +22,13 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping
+    @PostMapping("/criar_post")
     public ResponseEntity<PostResponseDTO> criarPost(@RequestBody @Valid PostRequestDTO dto) {
         PostResponseDTO response = postService.criarPost(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/listar_posts")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPosts(
             @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
