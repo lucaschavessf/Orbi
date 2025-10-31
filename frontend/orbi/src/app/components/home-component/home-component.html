@@ -1,40 +1,75 @@
 <!-- Barra de navegação fixa -->
-<nav class="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-lg z-50">
-  <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+<nav class="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-lg z-50 backdrop-blur-sm bg-opacity-90">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
     <!-- Logo -->
-    <div class="text-2xl font-semibold tracking-wide">
+    <div class="text-2xl font-bold tracking-wide">
       <span class="text-indigo-400">ORBI</span>
     </div>
 
     <!-- Botões -->
-    <div class="flex space-x-4">
+    <div class="flex space-x-3 sm:space-x-4">
       <button 
         (click)="irParaLogin()" 
-        class="px-5 py-2 rounded-lg bg-transparent border border-indigo-400 text-indigo-400 hover:bg-indigo-400 hover:text-white transition duration-200">
+        class="px-4 py-2 sm:px-5 sm:py-2 rounded-lg bg-transparent border border-indigo-400 text-indigo-400 hover:bg-indigo-400 hover:text-white transition duration-200 font-medium">
         Entrar
       </button>
 
       <button 
         (click)="irParaCadastro()" 
-        class="px-5 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition duration-200">
+        class="px-4 py-2 sm:px-5 sm:py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition duration-200 font-medium">
         CADASTRAR-SE
       </button>
     </div>
   </div>
 </nav>
 
-<!-- Conteúdo principal (landing) -->
-<section class="pt-24 bg-gray-100 min-h-screen flex flex-col items-center justify-center text-center px-4">
-  <h1 class="text-5xl font-bold text-gray-900 mb-4">Bem-vindo à <span class="text-indigo-500">ORBI</span></h1>
-  <p class="text-lg text-gray-600 max-w-2xl">
-    A plataforma que conecta inteligência de dados, inovação e tecnologia para impulsionar o futuro.
-  </p>
+<!-- Hero Section -->
+<section class="min-h-screen flex items-center justify-center pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-indigo-50">
+  <div class="max-w-4xl mx-auto text-center">
+    
+    <!-- Conteúdo principal -->
+    <div class="hero-content mb-8">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+        Bem-vindo à 
+        <span class="text-indigo-500 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+          ORBI
+        </span>
+      </h1>
+      
+      <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        A plataforma que conecta inteligência de dados, inovação e tecnologia para impulsionar o futuro do seu negócio.
+      </p>
+    </div>
 
-  <div class="mt-8">
-    <button 
-      (click)="irParaCadastro()" 
-      class="px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition">
-      Começar agora
-    </button>
+    <!-- Call to Action -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+      <button 
+        (click)="irParaCadastro()" 
+        class="px-8 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition transform hover:scale-105 duration-200 font-semibold shadow-lg hover:shadow-xl">
+        Começar agora
+      </button>
+      
+      <button 
+        (click)="irParaLogin()" 
+        class="px-8 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 font-semibold">
+        Já tenho conta
+      </button>
+    </div>
+
+    <!-- Elementos visuais adicionais (opcional) -->
+    <div class="mt-16 grid grid-cols-2 sm:grid-cols-3 gap-8 opacity-60">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-indigo-500">+1000</div>
+        <div class="text-sm text-gray-500">Usuários</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-indigo-500">99%</div>
+        <div class="text-sm text-gray-500">Satisfação</div>
+      </div>
+      <div class="text-center col-span-2 sm:col-span-1">
+        <div class="text-2xl font-bold text-indigo-500">24/7</div>
+        <div class="text-sm text-gray-500">Suporte</div>
+      </div>
+    </div>
   </div>
 </section>
