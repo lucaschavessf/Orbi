@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts")
@@ -34,5 +35,18 @@ public class PostController {
             Pageable pageable) {
         Page<PostResponseDTO> page = postService.listarPosts(pageable);
         return ResponseEntity.ok(PageResponseDTO.of(page));
+    }
+    @Autowired
+    private com.example.orbi.services.PostLikeService postLikeService;
+
+    @PostMapping("/{id}/curtir")
+    public ResponseEntity<String> curtirPost(@PathVariable("id") UUID id,
+                                             @RequestParam String username) {
+        try {
+            postLikeService.toggleLike(id, username);
+            return ResponseEntity.ok("Curtida atualizada com sucesso");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

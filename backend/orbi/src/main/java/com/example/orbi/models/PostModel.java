@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
+
 
 @Data
 @Entity
@@ -27,6 +30,14 @@ public class PostModel {
         @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id", nullable = false)
     private UsuarioModel autor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<UsuarioModel> curtidas = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
