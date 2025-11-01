@@ -1,0 +1,114 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Definindo cores customizadas (baseadas na imagem) */
+  .dark-bg { background-color: #1A192C; }
+  .card-bg { background-color: #25233C; }
+  .text-light { color: #E0E0E0; }
+  .text-primary { color: #A855F7; /* Um roxo vibrante */ }
+  .focus-primary:focus { border-color: #A855F7; box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5); }
+
+  /* Garante que o input de texto receba as cores corretas */
+  input[type="text"]::placeholder, textarea::placeholder {
+      color: #9CA3AF; /* gray-400 */
+      opacity: 1; /* Para Firefox */
+  }
+</style>
+
+<!-- Ajustado para ocupar a tela inteira (min-h-screen, w-full) e preencher o fundo. -->
+<!-- Removido 'justify-center' para simular o layout de conteúdo principal. -->
+<div class="flex p-8 dark-bg min-h-screen w-full"> 
+  <!-- Aumentando o max-w para que o formulário ocupe mais espaço na tela -->
+  <div class="w-full max-w-4xl card-bg rounded-2xl shadow-xl p-6 mx-auto">
+    
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-6 text-light">
+      <h2 class="text-2xl font-bold">Postar</h2>
+      <button class="text-gray-400 text-sm hover:text-primary transition">Rascunhos</button>
+    </div>
+
+    <!-- Selecionar comunidade -->
+    <div class="mb-6">
+      <div class="flex items-center gap-2 border border-gray-600 rounded-full px-4 py-2 bg-gray-700/50 cursor-pointer hover:border-primary transition">
+        <!-- Ícone do site (mantido o local e fallback) -->
+        <img 
+          src="image_7d541d.png" 
+          alt="Logo do seu site" 
+          class="w-5 h-5 object-contain" 
+          onerror="this.onerror=null; this.src='https://placehold.co/20x20/7C3AED/ffffff?text=Site+Logo'" 
+        />
+        <span class="text-sm text-light font-medium">Selecione uma comunidade</span>
+        <span class="ml-auto text-gray-400">▼</span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-6 border-b border-gray-700 mb-4 text-gray-400">
+      <button class="pb-2 font-medium border-b-2 border-primary text-primary">Texto</button>
+      <button class="pb-2 font-medium hover:text-primary transition">Multimídia</button>
+      <button class="pb-2 font-medium hover:text-primary transition">Link</button>
+      <button class="pb-2 font-medium text-gray-600" disabled>Enquete</button>
+    </div>
+
+    <!-- Campo de título -->
+    <div class="mb-4">
+      <input
+        type="text"
+        placeholder="Título*"
+        maxlength="300"
+        class="w-full border border-gray-600 rounded-full px-4 py-2 bg-gray-700/50 text-light focus:ring-2 focus:ring-primary focus-primary focus:outline-none placeholder:text-gray-400"
+      />
+      <div class="text-right text-sm text-gray-500 mt-1">0/300</div>
+    </div>
+
+    <!-- Adicionar tags -->
+    <div class="mb-4">
+      <button class="bg-gray-700/50 text-gray-400 rounded-full px-4 py-1 text-sm cursor-default hover:bg-gray-700/70 transition">
+        Adicionar tags
+      </button>
+    </div>
+
+    <!-- Caixa de texto -->
+    <div class="border border-gray-600 rounded-2xl overflow-hidden">
+      <!-- Toolbar -->
+      <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-700 bg-gray-700/50 text-gray-400 text-sm">
+        <button class="hover:text-light transition"><b>B</b></button>
+        <button class="hover:text-light transition"><i>i</i></button>
+        <button class="hover:text-light transition"><s>S</s></button>
+        <button class="hover:text-light transition">X²</button>
+        <button class="hover:text-light transition">T</button>
+        <span class="border-l border-gray-700 h-5 mx-1"></span>
+        <button class="hover:text-light transition">🔗</button>
+        <button class="hover:text-light transition">🖼️</button>
+        <button class="hover:text-light transition">🎥</button>
+        <span class="border-l border-gray-700 h-5 mx-1"></span>
+        <button class="hover:text-light transition">•</button>
+        <button class="hover:text-light transition">1.</button>
+        <span class="border-l border-gray-700 h-5 mx-1"></span>
+        <button class="hover:text-light transition">&lt;/&gt;</button>
+        <button class="hover:text-light transition">```</button>
+        <span class="border-l border-gray-700 h-5 mx-1"></span>
+        <button class="hover:text-light transition">▦</button>
+        <span class="ml-auto">⋯</span>
+      </div>
+
+      <!-- Área de texto -->
+      <textarea
+        placeholder="Texto do post (opcional)"
+        class="w-full px-4 py-3 resize-none border-none focus:ring-0 focus:outline-none text-light card-bg placeholder:text-gray-400"
+        rows="6"
+      ></textarea>
+    </div>
+
+    <!-- Botões -->
+    <div class="flex justify-end gap-3 mt-6">
+      <!-- Botão desativado (Rascunho) com estilo escuro -->
+      <button class="px-6 py-2 bg-gray-700/50 text-gray-400 rounded-full cursor-default transition">
+        Salvar rascunho
+      </button>
+      <!-- Botão Postar com destaque na cor primária -->
+      <button class="px-6 py-2 bg-primary text-white font-medium rounded-full hover:bg-purple-600 transition">
+        Postar
+      </button>
+    </div>
+  </div>
+</div>

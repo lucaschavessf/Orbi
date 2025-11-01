@@ -4,10 +4,12 @@ import { FormCadastroComponent } from './components/form-cadastro-component/form
 import { FormLoginComponent } from './components/form-login-component/form-login-component';
 import { HomeComponent } from './components/home-component/home-component';
 import { LayoutPrincipalComponent } from './components/layout-principal-component/layout-principal-component';
+import { CriarPostComponent } from './components/criar-post-component/criar-post-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'cadastrar', component: FormCadastroComponent },
   { path: 'login', component: FormLoginComponent },
-  { path: 'feed', component: LayoutPrincipalComponent}
+  { path: 'feed', component: LayoutPrincipalComponent},
+  { path: 'criar_post', component: CriarPostComponent}
 ];

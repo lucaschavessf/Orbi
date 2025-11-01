@@ -24,3 +24,14 @@
     display: none; /* você pode trocar por transform/translate ou v-if controlado */
   }
 }
+
+.material-icons {
+  font-size: 22px;
+  color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+
+

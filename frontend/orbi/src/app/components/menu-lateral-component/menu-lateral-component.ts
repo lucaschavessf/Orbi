@@ -24,4 +24,5 @@ export class MenuLateralComponent {
     'Filmes e TV',
     'Perguntas'
   ];
+
 }
