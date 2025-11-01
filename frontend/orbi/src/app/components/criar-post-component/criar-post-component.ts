@@ -1,38 +1,64 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Post } from '../../models/posts';
+import { PostService } from '../../services/post-service';
+import { UsuarioService } from '../../services/usuario-service'; 
 
 @Component({
-  selector: 'app-criar-post',
+  selector: 'app-criar-post-component',
+  standalone: true,
+  imports: [CommonModule, FormsModule], 
   templateUrl: './criar-post-component.html',
-  styleUrls: ['./criar-post-component.css']
+  styleUrl: './criar-post-component.css'
 })
 export class CriarPostComponent {
   selectedTab: 'texto' | 'midia' | 'link' = 'texto';
   selectedCommunity = '';
   communities = ['Tecnologia', 'Programação', 'Design', 'Jogos'];
 
-  post = {
-    title: '',
-    content: '',
-    link: '',
-    media: null as File | null
-  };
+  statusMessage = signal<string | null>(null);
+  isError = signal(false);
+  isLoading = signal(false);
+
+  post: Post = { titulo: '', conteudo: '', usernameAutor: '' };
+
+  private postService = inject(PostService);
+  private usuarioService = inject(UsuarioService); 
 
   @ViewChild('contentArea', { static: false }) contentArea!: ElementRef<HTMLTextAreaElement>;
-
-  onFileSelected(event: any) {
-    const file = event.target.files?.[0] ?? null;
-    this.post.media = file;
-  }
 
   saveDraft() {
     console.log('Rascunho salvo:', this.post);
   }
 
   postar() {
-    console.log('Post enviado:', this.post);
+    this.isLoading.set(true);
+    this.statusMessage.set(null);
+
+    const usuario = this.usuarioService.getUsuarioLogado();
+    if (usuario) {
+      this.post.usernameAutor = usuario.username;
+    }
+
+    this.postService.postar(this.post).subscribe({
+      next: (res) => {
+        console.log('Post criado com sucesso:', res);
+        this.statusMessage.set('Post criado com sucesso!');
+        this.isError.set(false);
+        this.post = { titulo: '', conteudo: '', usernameAutor: '' };
+        this.isLoading.set(false);
+        setTimeout(() => this.statusMessage.set(null), 3000);
+      },
+      error: (err) => {
+        console.error('Erro ao criar post:', err);
+        this.statusMessage.set('Erro ao criar post. Verifique o console.');
+        this.isError.set(true);
+        this.isLoading.set(false);
+      }
+    });
   }
 
-  // --- funções para manipular o texto do post ---
   private getTextarea(): HTMLTextAreaElement | null {
     return this.contentArea ? this.contentArea.nativeElement : null;
   }
@@ -44,7 +70,7 @@ export class CriarPostComponent {
     const after = textarea.value.slice(end);
     textarea.value = before + value + after;
     textarea.selectionStart = textarea.selectionEnd = start + value.length;
-    this.post.content = textarea.value;
+    this.post.conteudo = textarea.value;
     textarea.focus();
   }
 

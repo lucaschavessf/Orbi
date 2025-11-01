@@ -1,4 +1,3 @@
-/* Adicione isso ao seu CSS global ou componente */
 .hero-content {
   animation: fadeInUp 0.8s ease-out;
 }
@@ -14,7 +13,6 @@
   }
 }
 
-/* Efeito de flutuação suave para elementos visuais */
 .floating {
   animation: floating 3s ease-in-out infinite;
 }

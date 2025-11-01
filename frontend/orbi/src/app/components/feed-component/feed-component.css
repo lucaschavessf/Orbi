@@ -1,22 +1,15 @@
-/* src/app/components/feed-component/feed-component.css */
-
 :host {
   display: block;
-  /* Garante que o feed ocupe o espaço disponível no layout principal */
   height: 100%; 
-  overflow: hidden; /* A rolagem é interna do <main> */
+  overflow: hidden; 
 }
 
-/* Estilização da barra de rolagem para combinar com o menu lateral.
-  Aplicado diretamente no <main> do HTML, mas podemos garantir 
-  aqui também se necessário.
-*/
 :host main::-webkit-scrollbar {
   width: 8px;
 }
 
 :host main::-webkit-scrollbar-thumb {
-  background-color: rgba(124, 58, 237, 0.6); /* Tom de roxo/lilás */
+  background-color: rgba(124, 58, 237, 0.6); 
   border-radius: 6px;
 }
 

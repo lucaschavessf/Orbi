@@ -1,43 +1,17 @@
-<!-- 
-  Container principal da aplicação.
-  h-screen: altura total da tela.
-  flex flex-col: layout vertical (cabeçalho em cima, conteúdo embaixo).
-  overflow-hidden: evita a rolagem no nível da página,
-  pois o menu e o feed terão suas próprias rolagens.
--->
+
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-gray-950">
   
-  <!-- 1. Cabeçalho -->
-  <!-- O <app-cabecalho> agora está sendo renderizado. -->
-  <!-- O placeholder foi removido. -->
+
   <app-cabecalho class="w-full h-16 flex-shrink-0"></app-cabecalho>
 
-  <!-- 2. Corpo Principal (Menu Lateral + Feed) -->
-  <!-- 
-    flex-1: faz esta div ocupar todo o espaço vertical restante.
-    flex: organiza os filhos (menu e feed) horizontalmente.
-    overflow-hidden: os filhos controlarão suas próprias rolagens.
-  -->
   <div class="flex flex-1 overflow-hidden">
 
-    <!-- 2a. Menu Lateral -->
-    <!-- 
-      w-64: largura fixa de 16rem (pode ajustar).
-      hidden lg:block: Fica escondido em telas pequenas (mobile/tablet)
-                       e visível (block) a partir do breakpoint 'lg' (1024px).
-                       Isso implementa a responsividade que seu CSS do menu-lateral já previa.
-      flex-shrink-0: Impede que o menu encolha.
-    -->
     <app-menu-lateral class="w-64 flex-shrink-0 hidden lg:block"></app-menu-lateral>
 
-    <!-- 2b. Feed -->
-    <!-- 
-      flex-1: faz o feed ocupar todo o espaço horizontal restante.
-      h-full: garante que ele tenha a altura total do container pai.
-    -->
-    <app-feed class="flex-1 h-full"></app-feed>
+    <div class="flex-1 h-full overflow-hidden">
+      <router-outlet></router-outlet>
+    </div>
 
   </div>
 
 </div>
-
