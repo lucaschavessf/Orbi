@@ -11,6 +11,5 @@ import com.example.orbi.models.UsuarioModel;
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, UUID> {
     Optional<UsuarioModel> findByUsername(String username);
-
+    Optional<UsuarioModel> findByEmail(String email);
 }
-
