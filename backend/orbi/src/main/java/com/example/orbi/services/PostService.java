@@ -48,7 +48,10 @@ public class PostService {
                 post.getTitulo(),
                 post.getConteudo(),
                 post.getAutor().getUsername(),
-                post.getDataCriacao()
+                post.getDataCriacao(),
+                postRepository.contarCurtidas(post.getId())
         );
     }
+
+
 }

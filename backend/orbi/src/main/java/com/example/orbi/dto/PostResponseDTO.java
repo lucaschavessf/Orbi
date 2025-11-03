@@ -10,5 +10,6 @@ public record PostResponseDTO(
         String conteudo,
         String usernameAutor,
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-        LocalDateTime dataCriacao
+        LocalDateTime dataCriacao,
+        long numeroCurtidas
 ) {}

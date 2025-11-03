@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UsuarioService } from '../../services/usuario-service'; 
+import { PostService } from '../../services/post-service';
 
 export interface Post {
   id: string;
@@ -7,7 +9,7 @@ export interface Post {
   conteudo: string;
   usernameAutor: string;
   dataCriacao: string;
-  upvotes?: number;
+  numeroCurtidas?: number;
   comments?: number;
   flair?: string;
 }
@@ -21,9 +23,24 @@ export interface Post {
 })
 export class PostComponent {
   @Input() post!: Post;
+  private usuarioService = inject(UsuarioService); 
+  private postService = inject(PostService);
+  private usernameAutor = this.usuarioService.getUsuarioLogado().username;
 
   formatVotes(votes: number = 0): string {
     if (votes >= 1000) return (votes / 1000).toFixed(1) + 'k';
     return votes.toString();
   }
+
+  curtirPost(): void {
+    this.postService.curtirPost(this.post.id,this.usernameAutor).subscribe({
+      next: (res: string) => {
+        console.log('Post curtido com sucesso:', res);
+      },
+      error: (err) => {
+        console.error('Erro ao curtir Post', err);
+      }
+    });
+  }
+
 }

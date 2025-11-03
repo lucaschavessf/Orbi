@@ -23,7 +23,8 @@ export class FeedComponent implements OnInit {
           titulo: item.titulo,
           conteudo: item.conteudo,
           usernameAutor: item.usernameAutor,
-          dataCriacao: item.dataCriacao
+          dataCriacao: item.dataCriacao,
+          numeroCurtidas: item.numeroCurtidas
         }));
       },
       error: (err) => console.error('Erro ao carregar posts:', err)

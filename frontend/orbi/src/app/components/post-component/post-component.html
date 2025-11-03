@@ -1,12 +1,16 @@
 <article class="bg-gray-800 rounded-lg border border-gray-700 flex hover:border-gray-600 transition-colors duration-200">
 
   <div class="flex flex-col items-center p-2 sm:p-3 bg-gray-800/50 rounded-l-lg">
-    <button class="p-1 rounded hover:bg-gray-700 text-gray-400 hover:text-orange-500 transition">
+    <button 
+      (click)="curtirPost()" 
+      class="p-1 rounded hover:bg-gray-700 text-gray-400 hover:text-orange-500 transition active:scale-95"
+      title="Curtir">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
       </svg>
     </button>
-    <span class="text-sm font-bold my-1 text-white">{{ formatVotes(post.upvotes) }}</span>
+
+    <span class="text-sm font-bold my-1 text-white">{{ formatVotes(post.numeroCurtidas) }}</span>
     <button class="p-1 rounded hover:bg-gray-700 text-gray-400 hover:text-blue-500 transition">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

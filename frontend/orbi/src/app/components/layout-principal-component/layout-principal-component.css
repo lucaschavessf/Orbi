@@ -1,5 +1,8 @@
-:host {
-  display: block;
+html, body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden; /* evita scroll desnecessário */
+  background-color: #0f172a; /* o mesmo tom do bg-gray-950 */
 }
