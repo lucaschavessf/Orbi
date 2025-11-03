@@ -1,5 +1,11 @@
 # 📌 Orbi
 
+![Status](https://img.shields.io/badge/status-em_desenvolvimento-yellow)
+![Java](https://img.shields.io/badge/Java-21-blue?logo=java)
+![Spring](https://img.shields.io/badge/Spring_Boot-3.x-brightgreen?logo=spring)
+![Angular](https://img.shields.io/badge/Angular-20-red?logo=angular)
+![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
+
 ## 📖 Descrição
 
 O Orbi é uma aplicação voltada para o ambiente universitário que promove o compartilhamento e a organização de conteúdos acadêmicos, como simulados, slides, mapas mentais, questões, resumos e dicas.
@@ -14,39 +20,78 @@ Mais do que um repositório de materiais, o Orbi busca fortalecer a troca de con
 * Organização e categorização de conteúdos
 * Rede colaborativa de aprendizado
 
-## ⚙ Tecnologias Utilizadas
+## ⚙️ Tecnologias Utilizadas
 
-<div align="center">
-  <img alt="Java" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Java.svg">
-  <img alt="SpringBoot" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Spring Boot.svg">
-  <img alt="Postman" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Postman.svg">
-  <img alt="Angular" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Angular.svg">
-  <img alt="PostgreSQL" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Postgresql.svg">
-  <img alt="Azure" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Azure.svg">
-</div>
+Este projeto é um monorepo que utiliza uma arquitetura full-stack moderna.
 
-## Jira
+### Backend
+* **Java 21**
+* **Spring Boot 3** (Web, Data JPA, Security, Validation)
+* **PostgreSQL** (Banco de dados relacional)
+* **Spring Security + BCrypt** (Para criptografia de senhas)
+* **Lombok** (Para redução de boilerplate)
+* **Maven** (Gerenciador de dependências)
 
-<img width="1917" height="949" alt="image" src="https://github.com/user-attachments/assets/13195e3c-a2a5-44eb-85a9-996ffafb60b3" />
+### Frontend
+* **Angular 20** (Standalone Components)
+* **TypeScript**
+* **Tailwind CSS** (Estilização via CDN)
+* **RxJS** (Programação reativa)
+* **Angular Router** (Roteamento com Auth Guards)
 
-## Protótipo
+### Arquitetura
+O backend segue uma arquitetura em camadas (Controller-Service-Repository) para garantir a separação de responsabilidades e facilitar a manutenção.
+* **Controllers:** Responsáveis por expor os endpoints REST, receber requisições e retornar DTOs.
+* **Services:** Contêm a lógica de negócio principal da aplicação.
+* **Repositories:** Camada de acesso a dados, utilizando Spring Data JPA.
+* **DTOs:** (Data Transfer Objects) usados para validar e formatar dados entre o cliente e o servidor.
 
-![ORBI](https://github.com/user-attachments/assets/8dc9f139-af91-488e-94c0-49b8e89313b5)
+## 🏁 Como Executar o Projeto
 
-## 🔗 Links
+### Pré-requisitos
+* Java 21 (ou JDK compatível)
+* Node.js (v20 ou superior)
+* Um banco de dados PostgreSQL rodando (por padrão, na `localhost:5432` com uma base chamada `orbi`).
 
-* [Jira](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2) 
-* [Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/) 
-* [Vídeo do Protótipo](https://photos.app.goo.gl/oafnAap4K7Bmqj9h9) 
+### 1. Backend (Spring Boot)
+1.  Navegue até a pasta `backend/orbi`.
+2.  Configure suas variáveis de banco de dados (usuário e senha) no arquivo `src/main/resources/application.properties`.
+3.  Execute a aplicação (pode ser pela sua IDE ou usando o Maven Wrapper):
+    ```bash
+    # No Linux/macOS
+    ./mvnw spring-boot:run
+    
+    # No Windows
+    ./mvnw.cmd spring-boot:run
+    ```
+4.  A API estará rodando em `http://localhost:8080`.
+
+### 2. Frontend (Angular)
+1.  Navegue até a pasta `frontend/orbi`.
+2.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+3.  Inicie o servidor de desenvolvimento:
+    ```bash
+    npm start
+    ```
+4.  Acesse a aplicação em `http://localhost:4200`. O app se conectará automaticamente ao backend rodando na porta 8080.
+
+## 📋 Gestão de Projeto
+
+O planejamento, as jornadas de usuário e o backlog do projeto são gerenciados através do Jira.
+* [**Link do Board do Jira**](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2)
+
+<img width="1904" height="998" alt="image" src="https://github.com/user-attachments/assets/83dc5cd4-7823-4599-8b4e-6532c9790eee" />
 
 ## 👥 Contribuidores
 
 * [Eulália Regina](https://www.linkedin.com/in/eulalialbuquerque/) - Product Owner
 * [Allysson Fellype](https://www.linkedin.com/in/allysson-fellype-868390249/) – Tech Lead
-* [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Desenvolvedor Front-End
-* [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Back-End
-* [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Back-End
-
+* [Fernando Marinho](https://www.linkedin.com/in/fernando-marinho-05589335a/) - Desenvolvedor Front-end
+* [Lucas Chaves](https://www.linkedin.com/in/lucaschavesf/) – Desenvolvedor Back-end
+* [Matheus Andrade](https://www.linkedin.com/in/matheus-andrade-silva1/) – Desenvolvedor Back-end
 
 
   
