@@ -11,5 +11,6 @@ public record PostResponseDTO(
         String usernameAutor,
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         LocalDateTime dataCriacao,
-        long numeroCurtidas
+        Integer totalCurtidas,
+        Integer totalDeslikes
 ) {}

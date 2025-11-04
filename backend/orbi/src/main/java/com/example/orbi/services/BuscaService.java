@@ -31,6 +31,7 @@ public class BuscaService {
         dto.setConteudo(post.getConteudo());
         dto.setDataCriacao(post.getDataCriacao());
         dto.setTotalCurtidas(post.getCurtidas() != null ? post.getCurtidas().size() : 0);
+        dto.setTotalDeslikes(post.getDeslikes() != null ? post.getDeslikes().size() : 0);
 
         if (post.getAutor() != null) {
             BuscaResponseDTO.AutorDTO autorDTO = new BuscaResponseDTO.AutorDTO();

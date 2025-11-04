@@ -17,6 +17,7 @@ public class BuscaResponseDTO {
     private LocalDateTime dataCriacao;
     private AutorDTO autor;
     private Integer totalCurtidas;
+    private Integer totalDeslikes;
 
     @Data
     @NoArgsConstructor

@@ -49,7 +49,8 @@ public class PostService {
                 post.getConteudo(),
                 post.getAutor().getUsername(),
                 post.getDataCriacao(),
-                postRepository.contarCurtidas(post.getId())
+                post.getCurtidas() != null ? post.getCurtidas().size() : 0,
+                post.getDeslikes() != null ? post.getDeslikes().size() : 0
         );
     }
 

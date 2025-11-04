@@ -30,7 +30,7 @@ public class PostModel {
     @JoinColumn(name = "autor_id", nullable = false)
     private UsuarioModel autor;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "post_likes",
             joinColumns = @JoinColumn(name = "post_id"),
@@ -38,7 +38,7 @@ public class PostModel {
     )
     private Set<UsuarioModel> curtidas = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "post_dislikes",
             joinColumns = @JoinColumn(name = "post_id"),
