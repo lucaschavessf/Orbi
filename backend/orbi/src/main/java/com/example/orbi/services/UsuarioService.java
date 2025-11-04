@@ -11,7 +11,6 @@ import com.example.orbi.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +24,14 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
+        if (usuarioRepository.findByUsername(usuarioDTO.getUsername()).isPresent()) {
+            throw new RuntimeException("Username já está em uso");
+        }
+
+        if (usuarioRepository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("Email já está em uso");
+        }
+
         UsuarioModel usuario = new UsuarioModel();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setNome(usuarioDTO.getNome());
@@ -51,7 +58,7 @@ public class UsuarioService {
     return usuarioRepository.findAll().stream()
             .map(usuario -> {
                 UsuarioDTO dto = new UsuarioDTO(usuario);
-                dto.setSenha(null); // zera a senha
+                dto.setSenha(null);
                 return dto;
             })
             .collect(Collectors.toList());
@@ -87,8 +94,4 @@ public class UsuarioService {
 
         return dto;
     }
-
-
-
-
 }

@@ -4,6 +4,7 @@ import com.example.orbi.dto.PageResponseDTO;
 import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
 import com.example.orbi.services.PostService;
+import com.example.orbi.services.PostDislikeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,12 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private com.example.orbi.services.PostLikeService postLikeService;
+
+    @Autowired
+    private PostDislikeService postDislikeService;
+
     @PostMapping("/criar_post")
     public ResponseEntity<PostResponseDTO> criarPost(@RequestBody @Valid PostRequestDTO dto) {
         PostResponseDTO response = postService.criarPost(dto);
@@ -39,8 +46,6 @@ public class PostController {
         Page<PostResponseDTO> page = postService.listarPosts(pageable);
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
-    @Autowired
-    private com.example.orbi.services.PostLikeService postLikeService;
 
     @PostMapping("/{id}/curtir")
     public ResponseEntity<String> curtirPost(@PathVariable("id") UUID id,
@@ -52,5 +57,15 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-    
+
+    @PostMapping("/{id}/descurtir")
+    public ResponseEntity<String> descurtirPost(@PathVariable("id") UUID id,
+                                                @RequestParam String username) {
+        try {
+            postDislikeService.toggleDislike(id, username);
+            return ResponseEntity.ok("Deslike atualizado com sucesso");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

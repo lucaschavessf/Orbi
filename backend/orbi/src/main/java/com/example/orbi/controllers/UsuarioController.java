@@ -21,10 +21,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrar_usuario")
-    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO createdUsuario = usuarioService.createUsuario(usuarioDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
+    public ResponseEntity<?> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        try {
+            UsuarioDTO createdUsuario = usuarioService.createUsuario(usuarioDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
+
 
     @GetMapping("/listar_usuarios")
     public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
