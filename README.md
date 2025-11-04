@@ -80,11 +80,14 @@ O backend segue uma arquitetura em camadas (Controller-Service-Repository) para 
 
 ## 📋 Gestão de Projeto
 
-O planejamento, as jornadas de usuário e o backlog do projeto são gerenciados através do Jira.
+* [Link do Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/)
+
+* [Vídeo do Protótipo](https://photos.app.goo.gl/oafnAap4K7Bmqj9h9) 
+
 * [**Link do Board do Jira**](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2)
 
 <img width="1904" height="998" alt="image" src="https://github.com/user-attachments/assets/83dc5cd4-7823-4599-8b4e-6532c9790eee" />
-
+  
 ## 👥 Contribuidores
 
 * [Eulália Regina](https://www.linkedin.com/in/eulalialbuquerque/) - Product Owner
