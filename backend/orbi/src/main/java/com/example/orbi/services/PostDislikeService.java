@@ -12,18 +12,18 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class PostLikeService {
+public class PostDislikeService {
 
     private final PostRepository postRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public PostLikeService(PostRepository postRepository, UsuarioRepository usuarioRepository) {
+    public PostDislikeService(PostRepository postRepository, UsuarioRepository usuarioRepository) {
         this.postRepository = postRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional
-    public void toggleLike(UUID postId, String username) {
+    public void toggleDislike(UUID postId, String username) {
         PostModel post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado"));
 
@@ -32,14 +32,14 @@ public class PostLikeService {
 
         UsuarioModel managedUser = usuarioRepository.getReferenceById(user.getId());
 
-        Set<UsuarioModel> curtidas = post.getCurtidas();
         Set<UsuarioModel> deslikes = post.getDeslikes();
+        Set<UsuarioModel> curtidas = post.getCurtidas();
 
-        if (curtidas.contains(managedUser)) {
-            curtidas.remove(managedUser);
-        } else {
+        if (deslikes.contains(managedUser)) {
             deslikes.remove(managedUser);
-            curtidas.add(managedUser);
+        } else {
+            curtidas.remove(managedUser);
+            deslikes.add(managedUser);
         }
 
         postRepository.save(post);

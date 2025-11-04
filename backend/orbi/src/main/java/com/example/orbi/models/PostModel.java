@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.Set;
 import java.util.HashSet;
 
-
 @Data
 @Entity
 @Table(name = "posts")
@@ -27,7 +26,7 @@ public class PostModel {
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
-        @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id", nullable = false)
     private UsuarioModel autor;
 
@@ -38,6 +37,14 @@ public class PostModel {
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     private Set<UsuarioModel> curtidas = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_dislikes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<UsuarioModel> deslikes = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
