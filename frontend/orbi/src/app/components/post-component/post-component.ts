@@ -42,5 +42,15 @@ export class PostComponent {
       }
     });
   }
+  descurtirPost(): void {
+    this.postService.descurtirPost(this.post.id,this.usernameAutor).subscribe({
+      next: (res: string) => {
+        console.log('Post curtido com sucesso:', res);
+      },
+      error: (err) => {
+        console.error('Erro ao curtir Post', err);
+      }
+    });
+  }
 
 }

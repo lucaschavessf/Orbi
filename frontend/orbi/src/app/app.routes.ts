@@ -13,14 +13,20 @@ export const routes: Routes = [
   { path: 'login', component: FormLoginComponent },
 
   {
-    path: '',
-    component: LayoutPrincipalComponent,
-    canActivate: [AuthGuard],
-    children: [
-      { path: 'feed', component: FeedComponent },
-      { path: 'criar_post', component: CriarPostComponent },
-      { path: '', redirectTo: 'feed', pathMatch: 'full' }
-    ]
+  path: '',
+  component: LayoutPrincipalComponent,
+  canActivate: [AuthGuard],
+  children: [
+    {
+      path: 'feed',
+      component: FeedComponent,
+      children: [
+        { path: '**', component: FeedComponent }
+      ]
+    },
+    { path: 'criar_post', component: CriarPostComponent },
+    { path: '', redirectTo: 'feed', pathMatch: 'full' }
+  ]
   },
 
   { path: '**', redirectTo: '' }

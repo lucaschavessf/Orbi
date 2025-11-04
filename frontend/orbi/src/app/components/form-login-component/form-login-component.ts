@@ -39,10 +39,8 @@ export class FormLoginComponent {
       next: (res) => {
         console.log('Login bem-sucedido:', res);
 
-        // ✅ salva sessão
         this.authService.salvarUsuario(res);
         this.usuarioService.salvarUsuario(res);
-        // ✅ redireciona para o feed
         this.router.navigate(['/feed']);
 
         this.isError.set(false);

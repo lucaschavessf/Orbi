@@ -21,6 +21,11 @@ curtirPost(postId: string, username: string): Observable<any> {
   const url = `${environment.apiUrl}/posts/${postId}/curtir?username=${username}`;
   return this.http.post(url, null,{ responseType: 'text' });
 }
+descurtirPost(postId: string, username: string): Observable<any> {
+  console.log('Curtindo post com ID:', postId, 'para o usuário:', username);
+  const url = `${environment.apiUrl}/posts/${postId}/descurtir?username=${username}`;
+  return this.http.post(url, null,{ responseType: 'text' });
+}
 
 }
 
