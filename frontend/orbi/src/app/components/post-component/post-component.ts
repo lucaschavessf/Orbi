@@ -4,12 +4,16 @@ import { UsuarioService } from '../../services/usuario-service';
 import { PostService } from '../../services/post-service';
 
 export interface Post {
+  descurtidoPeloUsuario: boolean;
+  curtidoPeloUsuario: boolean;
   id: string;
   titulo: string;
   conteudo: string;
   usernameAutor: string;
   dataCriacao: string;
   numeroCurtidas?: number;
+  totalPontuacao?: number;
+  numeroDeslikes?: number;
   comments?: number;
   flair?: string;
 }
@@ -33,19 +37,44 @@ export class PostComponent {
   }
 
   curtirPost(): void {
-    this.postService.curtirPost(this.post.id,this.usernameAutor).subscribe({
-      next: (res: string) => {
-        console.log('Post curtido com sucesso:', res);
-      },
-      error: (err) => {
-        console.error('Erro ao curtir Post', err);
+    console.log(this.post.curtidoPeloUsuario);
+    this.postService.curtirPost(this.post.id, this.usernameAutor).subscribe({
+      next: () => {
+        if(this.post.curtidoPeloUsuario == false){
+          this.post.numeroCurtidas = (this.post.numeroCurtidas ?? 0) + 1;
+          if(this.post.descurtidoPeloUsuario){
+            this.post.numeroDeslikes = (this.post.numeroDeslikes ?? 0) - 1;
+            this.post.descurtidoPeloUsuario = false;     
+          }
+          this.post.totalPontuacao = (this.post.numeroCurtidas ?? 0) - (this.post.numeroDeslikes ?? 0);
+          this.post.curtidoPeloUsuario = true;     
+        }
+        else{
+          this.post.numeroCurtidas = (this.post.numeroCurtidas ?? 0) - 1;
+          this.post.totalPontuacao = (this.post.numeroCurtidas ?? 0) - (this.post.numeroDeslikes ?? 0);
+          this.post.curtidoPeloUsuario = false;     
+        }
       }
     });
   }
   descurtirPost(): void {
+    console.log(this.post.descurtidoPeloUsuario);
     this.postService.descurtirPost(this.post.id,this.usernameAutor).subscribe({
       next: (res: string) => {
-        console.log('Post curtido com sucesso:', res);
+        if(this.post.descurtidoPeloUsuario == false){
+          this.post.numeroDeslikes = (this.post.numeroDeslikes ?? 0) + 1;
+          if(this.post.curtidoPeloUsuario){
+            this.post.numeroCurtidas = (this.post.numeroCurtidas ?? 0) - 1;
+            this.post.curtidoPeloUsuario = false;     
+          }
+          this.post.totalPontuacao = (this.post.numeroCurtidas ?? 0) - (this.post.numeroDeslikes ?? 0);
+          this.post.descurtidoPeloUsuario = true;     
+        }
+        else{
+          this.post.numeroDeslikes = (this.post.numeroDeslikes ?? 0) - 1;
+          this.post.totalPontuacao = (this.post.numeroCurtidas ?? 0) - (this.post.numeroDeslikes ?? 0);
+          this.post.descurtidoPeloUsuario = false;     
+        }
       },
       error: (err) => {
         console.error('Erro ao curtir Post', err);

@@ -41,9 +41,10 @@ public class PostController {
 
     @GetMapping("/listar_posts")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPosts(
+            @RequestParam String username,
             @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
-        Page<PostResponseDTO> page = postService.listarPosts(pageable);
+        Page<PostResponseDTO> page = postService.listarPosts(pageable,username);
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
 

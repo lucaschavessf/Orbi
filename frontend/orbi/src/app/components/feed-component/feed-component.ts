@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Post, PostComponent } from '../post-component/post-component';
 import { environment } from '../../../environments/environments';
 import { CabecalhoService } from '../../services/cabecalho-service';
+import { UsuarioService } from '../../services/usuario-service';
 
 @Component({
   selector: 'app-feed',
@@ -16,7 +17,8 @@ import { CabecalhoService } from '../../services/cabecalho-service';
 export class FeedComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   private subscription!: Subscription;
-
+  private usuarioService = inject(UsuarioService); 
+  private usernameAutor = this.usuarioService.getUsuarioLogado().username;
   constructor(private http: HttpClient, private searchService: CabecalhoService) {}
 
   ngOnInit(): void {
@@ -36,9 +38,9 @@ export class FeedComponent implements OnInit, OnDestroy {
   let currentUrl = '';
 
   if (!term) {
-    currentUrl = `${environment.apiUrl}/posts/listar_posts?size=10`;
+    currentUrl = `${environment.apiUrl}/posts/listar_posts?username=${this.usernameAutor}&size=10`;
   } else {
-    currentUrl = `${environment.apiUrl}/api/busca?q=${encodeURIComponent(term)}`;
+    currentUrl = `${environment.apiUrl}/api/busca?username=${this.usernameAutor}&q=${encodeURIComponent(term)}`;
   }
 
   this.http.get<any>(currentUrl).subscribe({
@@ -53,7 +55,11 @@ export class FeedComponent implements OnInit, OnDestroy {
           conteudo: item.conteudo,
           usernameAutor,
           dataCriacao: item.dataCriacao,
-          numeroCurtidas: item.totalCurtidas
+          numeroCurtidas: item.totalCurtidas ,
+          numeroDeslikes: item.totalDeslikes,
+          totalPontuacao: (item.totalCurtidas ?? 0) - (item.totalDeslikes ?? 0),
+          curtidoPeloUsuario: item.curtidoPeloUsuario,
+          descurtidoPeloUsuario: item.descurtidoPeloUsuario
         };
       });
     },

@@ -6,6 +6,9 @@ import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,16 +36,27 @@ public class PostService {
 
         PostModel postSalvo = postRepository.save(post);
 
-        return mapToResponseDTO(postSalvo);
+        return mapToResponseDTO(postSalvo, autor);
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponseDTO> listarPosts(Pageable pageable) {
+    public Page<PostResponseDTO> listarPosts(Pageable pageable, String username) {
+        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
+
         return postRepository.findAll(pageable)
-                .map(this::mapToResponseDTO);
+                .map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
     }
 
-    private PostResponseDTO mapToResponseDTO(PostModel post) {
+
+    private PostResponseDTO mapToResponseDTO(PostModel post, UsuarioModel usuario) {
+        boolean curtido = false;
+        boolean descurtido = false;
+
+        if (usuario != null) {
+            curtido = post.getCurtidas().contains(usuario);
+            descurtido = post.getDeslikes().contains(usuario);
+        }
+
         return new PostResponseDTO(
                 post.getId(),
                 post.getTitulo(),
@@ -50,9 +64,12 @@ public class PostService {
                 post.getAutor().getUsername(),
                 post.getDataCriacao(),
                 post.getCurtidas() != null ? post.getCurtidas().size() : 0,
-                post.getDeslikes() != null ? post.getDeslikes().size() : 0
+                post.getDeslikes() != null ? post.getDeslikes().size() : 0,
+                curtido,
+                descurtido
         );
     }
+
 
 
 }

@@ -12,5 +12,8 @@ public record PostResponseDTO(
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         LocalDateTime dataCriacao,
         Integer totalCurtidas,
-        Integer totalDeslikes
+        Integer totalDeslikes,
+        Boolean curtidoPeloUsuario,
+        Boolean descurtidoPeloUsuario
 ) {}
+

@@ -1,23 +1,65 @@
 <article class="bg-gray-800 rounded-lg border border-gray-700 flex hover:border-gray-600 transition-colors duration-200">
 
   <div class="flex flex-col items-center p-2 sm:p-3 bg-gray-800/50 rounded-l-lg">
-    <button 
-      (click)="curtirPost()" 
-      class="p-1 rounded hover:bg-gray-700 text-gray-400 hover:text-orange-500 transition active:scale-95"
-      title="Curtir">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-      </svg>
-    </button>
-
-    <span class="text-sm font-bold my-1 text-white">{{ formatVotes(post.numeroCurtidas) }}</span>
     <button
-    (click)="descurtirPost()"  
-    class="p-1 rounded hover:bg-gray-700 text-gray-400 hover:text-blue-500 transition">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-      </svg>
-    </button>
+    (click)="curtirPost()"
+    class="p-1 rounded transition active:scale-95"
+    [ngClass]="{
+      'text-orange-500 bg-gray-700': post.curtidoPeloUsuario,
+      'text-gray-400 hover:text-orange-500 hover:bg-gray-700': !post.curtidoPeloUsuario
+    }"
+    title="Curtir"
+  >
+    <svg
+      class="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      [ngClass]="{
+        'stroke-orange-500': post.curtidoPeloUsuario,
+        'stroke-gray-400': !post.curtidoPeloUsuario
+      }"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 15l7-7 7 7"
+      ></path>
+    </svg>
+  </button>
+
+  <span class="text-sm font-bold my-1 text-white">
+    {{ formatVotes(post.totalPontuacao) }}
+  </span>
+
+  <button
+    (click)="descurtirPost()"
+    class="p-1 rounded transition active:scale-95"
+    [ngClass]="{
+      'text-blue-500 bg-gray-700': post.descurtidoPeloUsuario,
+      'text-gray-400 hover:text-blue-500 hover:bg-gray-700': !post.descurtidoPeloUsuario
+    }"
+    title="Descurtir"
+  >
+    <svg
+      class="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      [ngClass]="{
+        'stroke-blue-500': post.descurtidoPeloUsuario,
+        'stroke-gray-400': !post.descurtidoPeloUsuario
+      }"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
+      ></path>
+    </svg>
+  </button>
   </div>
 
   <div class="flex-1 p-3 sm:p-4">
