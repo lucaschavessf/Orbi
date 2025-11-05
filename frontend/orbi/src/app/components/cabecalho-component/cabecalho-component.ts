@@ -1,28 +1,22 @@
-// src/app/components/cabecalho-component/cabecalho-component.ts
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { CabecalhoService } from '../../services/cabecalho-service';
 
 @Component({
   selector: 'app-cabecalho',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cabecalho-component.html',
   styleUrls: ['./cabecalho-component.css']
 })
 export class CabecalhoComponent {
-  @Output() menuToggle = new EventEmitter<void>();
   searchTerm = '';
 
-  onSearch() {
-    if (this.searchTerm.trim()) {
-      console.log('Pesquisando:', this.searchTerm);
-      // redirecionar ou chamar serviço de busca futuramente
-    }
-  }
+  constructor(private cabecalhoService: CabecalhoService) {}
 
-  toggleMenu() {
-    this.menuToggle.emit();
+  onSearch() {
+    const term = this.searchTerm.trim();
+    this.cabecalhoService.setSearchTerm(term);
   }
 }

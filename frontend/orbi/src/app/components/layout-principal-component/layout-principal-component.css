@@ -1,11 +1,8 @@
-/* src/app/pages/layout-principal-component/layout-principal-component.css */
-
-/* Define que o componente de layout deve se comportar como um bloco
-  e ocupar toda a altura do seu container (geralmente o <router-outlet>
-  ou o <body>).
-*/
-:host {
-  display: block;
+html, body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden; /* evita scroll desnecessário */
+  background-color: #0f172a; /* o mesmo tom do bg-gray-950 */
 }

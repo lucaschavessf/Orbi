@@ -14,19 +14,16 @@ import { Usuario } from '../../models/usuario';
 export class FormCadastroComponent {
   usuario: Usuario = { username: '',nome: '', cpf: '',email: '', senha: '' ,tipo: 'ALUNO', curso: '', bio: ''};
   
-  // Signals para feedback de UI
   statusMessage = signal<string | null>(null);
   isError = signal(false);
   isLoading = signal(false);
 
-  // Classe CSS dinâmica baseada no estado de erro
   statusClass = computed(() =>
     this.isError()
       ? 'bg-red-100 text-red-800 border border-red-300'
       : 'bg-green-100 text-green-800 border border-green-300'
   );
 
-  // Injeção de dependência via 'inject'
   private cadastroService = inject(FormCadastroService);
 
   cadastrar() {

@@ -1,12 +1,8 @@
-/* src/app/components/menu-lateral-component/menu-lateral-component.css */
-
-/* garantir que o menu ocupe toda a altura quando em layout com flex */
 :host {
   display: block;
   height: 100%;
 }
 
-/* customização da rolagem (opcional) */
 :host ::-webkit-scrollbar {
   width: 8px;
 }
@@ -18,9 +14,19 @@
   background: transparent;
 }
 
-/* responsividade: esconder o menu em telas pequenas (toggle deve ser implementado no header) */
 @media (max-width: 1024px) {
   :host {
-    display: none; /* você pode trocar por transform/translate ou v-if controlado */
+    display: none; 
   }
 }
+
+.material-icons {
+  font-size: 22px;
+  color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+
+

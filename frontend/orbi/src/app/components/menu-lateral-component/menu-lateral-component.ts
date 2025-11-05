@@ -1,4 +1,4 @@
-// src/app/components/menu-lateral-component/menu-lateral-component.ts
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./menu-lateral-component.css']
 })
 export class MenuLateralComponent {
-  // dados estáticos de exemplo — substitua por dados reais se quiser
   recentes = [
     { label: 'r/datasciencebr', route: '/r/datasciencebr' },
     { label: 'r/DistantHorizons', route: '/r/distanthorizons' }
@@ -24,4 +23,5 @@ export class MenuLateralComponent {
     'Filmes e TV',
     'Perguntas'
   ];
+
 }
