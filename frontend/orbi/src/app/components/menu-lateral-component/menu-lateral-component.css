@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+:host ::-webkit-scrollbar {
+  width: 8px;
+}
+:host ::-webkit-scrollbar-thumb {
+  background-color: rgba(124, 58, 237, 0.6); /* lilás suave */
+  border-radius: 6px;
+}
+:host ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (max-width: 1024px) {
+  :host {
+    display: none; 
+  }
+}
+
+.material-icons {
+  font-size: 22px;
+  color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+
+

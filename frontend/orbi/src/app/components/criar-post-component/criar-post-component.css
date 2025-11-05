@@ -1,0 +1,10 @@
+.dark-bg { background-color: #1A192C; }
+.card-bg { background-color: #25233C; }
+.text-light { color: #E0E0E0; }
+.text-primary { color: #A855F7; }
+.focus-primary:focus { border-color: #A855F7; box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5); }
+
+input[type="text"]::placeholder, textarea::placeholder {
+    color: #9CA3AF;
+    opacity: 1; 
+}

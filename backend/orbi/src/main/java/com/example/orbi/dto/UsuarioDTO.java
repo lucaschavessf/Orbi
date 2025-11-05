@@ -45,4 +45,3 @@ public class UsuarioDTO {
         return model;
     }
 }
-

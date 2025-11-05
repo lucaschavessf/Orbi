@@ -1,0 +1,18 @@
+:root {
+  --bg: #121216;            
+  --surface: #1b1b1f;       
+  --on-surface: #e6e6e9;    
+  --input-bg: #151518;      
+  --primary: #5b8cff;      
+  --error: #ff6b6b;
+  --success: #67e8a6;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--on-surface);
+  font-family: Inter, Roboto, -apple-system, 'Segoe UI', Arial;
+  margin: 0;
+  padding: 0;
+}
