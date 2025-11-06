@@ -8,6 +8,8 @@ import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +49,49 @@ public class PostService {
                 .map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
     }
 
+    @Transactional
+    public PostResponseDTO toggleLike(UUID postId, String username) {
+        PostModel post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        UsuarioModel user = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Set<UsuarioModel> curtidas = post.getCurtidas();
+        Set<UsuarioModel> deslikes = post.getDeslikes();
+
+        if (curtidas.contains(user)) {
+            curtidas.remove(user);
+        } else {
+            deslikes.remove(user);
+            curtidas.add(user);
+        }
+
+        PostModel saved = postRepository.save(post);
+        return mapToResponseDTO(saved, user);
+    }
+
+    @Transactional
+    public PostResponseDTO toggleDislike(UUID postId, String username) {
+        PostModel post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        UsuarioModel user = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Set<UsuarioModel> deslikes = post.getDeslikes();
+        Set<UsuarioModel> curtidas = post.getCurtidas();
+
+        if (deslikes.contains(user)) {
+            deslikes.remove(user);
+        } else {
+            curtidas.remove(user);
+            deslikes.add(user);
+        }
+
+        PostModel saved = postRepository.save(post);
+        return mapToResponseDTO(saved, user);
+    }
 
     private PostResponseDTO mapToResponseDTO(PostModel post, UsuarioModel usuario) {
         boolean curtido = false;
@@ -69,7 +114,4 @@ public class PostService {
                 descurtido
         );
     }
-
-
-
 }

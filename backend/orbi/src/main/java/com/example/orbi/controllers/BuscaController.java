@@ -17,7 +17,7 @@ public class BuscaController {
 
     @GetMapping
     public ResponseEntity<Page<BuscaResponseDTO>> buscar(
-            @RequestParam(name = "username") String username,   
+            @RequestParam(name = "username", required = false) String username,
             @RequestParam(name = "q") String texto,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
@@ -26,8 +26,7 @@ public class BuscaController {
             return ResponseEntity.badRequest().build();
         }
 
-        Page<BuscaResponseDTO> resultados = buscaService.buscarPosts(texto.trim(), page, size,username);
+        Page<BuscaResponseDTO> resultados = buscaService.buscarPosts(texto.trim(), page, size, username);
         return ResponseEntity.ok(resultados);
     }
 }
-

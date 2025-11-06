@@ -30,7 +30,6 @@ public class UsuarioController {
         }
     }
 
-
     @GetMapping("/listar_usuarios")
     public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.listarUsuarios();

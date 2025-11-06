@@ -74,27 +74,22 @@ public class UsuarioService {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // Passo 1: Remover todas as curtidas dos posts do usuário (onde ele é autor)
         entityManager.createNativeQuery("DELETE FROM post_likes WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
 
-        // Passo 2: Remover todas as curtidas que o usuário deu em outros posts
         entityManager.createNativeQuery("DELETE FROM post_likes WHERE usuario_id = :usuarioId")
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
 
-        // Passo 3: Remover todos os deslikes dos posts do usuário (onde ele é autor)
         entityManager.createNativeQuery("DELETE FROM post_dislikes WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
 
-        // Passo 4: Remover todos os deslikes que o usuário deu em outros posts
         entityManager.createNativeQuery("DELETE FROM post_dislikes WHERE usuario_id = :usuarioId")
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
 
-        // Passo 5: Deletar todos os posts do usuário
         entityManager.createNativeQuery("DELETE FROM posts WHERE autor_id = :usuarioId")
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
