@@ -46,6 +46,14 @@ public class PostModel {
     )
     private Set<UsuarioModel> deslikes = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "post_favoritos",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<UsuarioModel> favoritos = new HashSet<>();
+
     @PrePersist
     protected void onCreate() {
         if (this.dataCriacao == null) {

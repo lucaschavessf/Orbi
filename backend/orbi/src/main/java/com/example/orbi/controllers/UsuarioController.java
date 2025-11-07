@@ -11,8 +11,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/usuarios")
 public class UsuarioController {
     private UsuarioService usuarioService;
 
@@ -20,7 +21,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping("/cadastrar_usuario")
+    @PostMapping
     public ResponseEntity<?> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         try {
             UsuarioDTO createdUsuario = usuarioService.createUsuario(usuarioDTO);
@@ -30,29 +31,29 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/listar_usuarios")
+    @GetMapping
     public ResponseEntity<List<UsuarioDTO>> listarUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.ok(usuarios);
     }
 
-    @DeleteMapping("/deletar/username/{username}")
-    public ResponseEntity<String> deletarUsuarioPorUsername(@PathVariable String username) {
-        try {
-            usuarioService.deleteUsuarioPorUsername(username);
-            return ResponseEntity.ok("Usuário deletado com sucesso");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/usuario/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<UsuarioDTO> buscarUsuario(@PathVariable String username) {
         try {
             UsuarioDTO usuario = usuarioService.buscarPorUsername(username);
             return ResponseEntity.ok(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<String> deletarUsuarioPorUsername(@PathVariable String username) {
+        try {
+            usuarioService.deleteUsuarioPorUsername(username);
+            return ResponseEntity.ok("Usuário deletado com sucesso");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

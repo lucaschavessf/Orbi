@@ -1,6 +1,7 @@
 package com.example.orbi.repositories;
 
 import com.example.orbi.models.PostModel;
+import com.example.orbi.models.UsuarioModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,32 +15,26 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<PostModel, UUID> {
 
     @Query(value = """
-        SELECT DISTINCT p.* FROM posts p 
-        LEFT JOIN usuarios a ON p.autor_id = a.id 
-        WHERE 
-            to_tsvector('portuguese', COALESCE(p.titulo, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(p.conteudo, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(a.username, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(a.nome, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR LOWER(p.titulo) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(p.conteudo) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(a.username) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(a.nome) LIKE LOWER(CONCAT('%', :texto, '%'))
-        ORDER BY p.data_criacao DESC
-        """,
+    SELECT DISTINCT p.* FROM posts p 
+    LEFT JOIN usuarios a ON p.autor_id = a.id 
+    WHERE 
+        unaccent(LOWER(p.titulo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(p.conteudo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(a.username)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(a.nome)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+    ORDER BY p.data_criacao DESC
+    """,
             countQuery = """
-        SELECT COUNT(DISTINCT p.id) FROM posts p 
-        LEFT JOIN usuarios a ON p.autor_id = a.id 
-        WHERE 
-            to_tsvector('portuguese', COALESCE(p.titulo, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(p.conteudo, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(a.username, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR to_tsvector('portuguese', COALESCE(a.nome, '')) @@ to_tsquery('portuguese', :texto || ':*')
-            OR LOWER(p.titulo) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(p.conteudo) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(a.username) LIKE LOWER(CONCAT('%', :texto, '%'))
-            OR LOWER(a.nome) LIKE LOWER(CONCAT('%', :texto, '%'))
-        """,
+    SELECT COUNT(DISTINCT p.id) FROM posts p 
+    LEFT JOIN usuarios a ON p.autor_id = a.id 
+    WHERE 
+        unaccent(LOWER(p.titulo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(p.conteudo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(a.username)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+        OR unaccent(LOWER(a.nome)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+    """,
             nativeQuery = true)
     Page<PostModel> buscarPorTexto(@Param("texto") String texto, Pageable pageable);
+
+    Page<PostModel> findByFavoritosContaining(UsuarioModel usuario, Pageable pageable);
 }

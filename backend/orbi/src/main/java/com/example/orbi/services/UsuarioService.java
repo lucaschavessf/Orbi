@@ -94,7 +94,6 @@ public class UsuarioService {
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
 
-        // Passo 6: Deletar o usuário
         usuarioRepository.delete(usuario);
     }
 

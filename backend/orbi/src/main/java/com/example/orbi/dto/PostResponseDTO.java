@@ -14,6 +14,6 @@ public record PostResponseDTO(
         Integer totalCurtidas,
         Integer totalDeslikes,
         Boolean curtidoPeloUsuario,
-        Boolean descurtidoPeloUsuario
+        Boolean descurtidoPeloUsuario,
+        Boolean favoritadoPeloUsuario
 ) {}
-
