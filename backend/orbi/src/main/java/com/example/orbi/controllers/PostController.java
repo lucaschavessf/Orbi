@@ -53,28 +53,14 @@ public class PostController {
         return ResponseEntity.ok(PageResponseDTO.of(resultados)); // ✅ Retorna resultados reais!
     }
 
-    @PostMapping("/{id}/curtir")
-    public ResponseEntity<PostResponseDTO> curtirPost(
-            @PathVariable("id") UUID id,
+    @PostMapping("/{postId}/avaliar")
+    public ResponseEntity<PostResponseDTO> avaliarPost(
+            @PathVariable UUID postId,
+            @RequestParam Boolean avaliacao,
             @RequestParam String username) {
-        try {
-            PostResponseDTO response = postService.toggleLike(id, username);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
 
-    @PostMapping("/{id}/descurtir")
-    public ResponseEntity<PostResponseDTO> descurtirPost(
-            @PathVariable("id") UUID id,
-            @RequestParam String username) {
-        try {
-            PostResponseDTO response = postService.toggleDislike(id, username);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        PostResponseDTO dto = postService.toggleAvaliar(postId, username, avaliacao);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/{id}/favoritar")

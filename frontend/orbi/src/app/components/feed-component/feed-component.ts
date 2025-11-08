@@ -25,8 +25,6 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.subscription = this.searchService.searchTerm$.subscribe(term => {
       this.loadPosts(term);
     });
-
-    // carregar inicialmente sem termo
     this.loadPosts('');
   }
 
@@ -38,9 +36,9 @@ export class FeedComponent implements OnInit, OnDestroy {
   let currentUrl = '';
 
   if (!term) {
-    currentUrl = `${environment.apiUrl}/posts/listar_posts?username=${this.usernameAutor}&size=10`;
+    currentUrl = `${environment.apiUrl}/posts?username=${this.usernameAutor}&size=10`;
   } else {
-    currentUrl = `${environment.apiUrl}/api/busca?username=${this.usernameAutor}&q=${encodeURIComponent(term)}`;
+    currentUrl = `${environment.apiUrl}/posts/search?username=${this.usernameAutor}&q=${encodeURIComponent(term)}`;
   }
 
   this.http.get<any>(currentUrl).subscribe({

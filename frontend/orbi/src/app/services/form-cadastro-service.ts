@@ -9,7 +9,7 @@ import { environment } from '../../environments/environments';
 })
 export class FormCadastroService {
 
-  private apiUrl = `${environment.apiUrl}/cadastrar_usuario`;;
+  private apiUrl = `${environment.apiUrl}/usuarios`;;
 
   private http = inject(HttpClient);
 

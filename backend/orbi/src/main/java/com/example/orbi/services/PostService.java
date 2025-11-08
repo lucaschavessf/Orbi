@@ -2,8 +2,10 @@ package com.example.orbi.services;
 
 import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
+import com.example.orbi.models.AvaliacaoModel;
 import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
+import com.example.orbi.repositories.AvaliacaoRepository;
 import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
@@ -26,6 +28,9 @@ public class PostService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private AvaliacaoRepository avaliacaoRepository;
 
     @Transactional
     public PostResponseDTO criarPost(PostRequestDTO dto) {
@@ -65,57 +70,53 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDTO toggleLike(UUID postId, String username) {
-        PostModel post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
-
+    public PostResponseDTO toggleAvaliar(UUID postId, String username, Boolean avaliacao) {
         UsuarioModel user = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Set<UsuarioModel> curtidas = post.getCurtidas();
-        Set<UsuarioModel> deslikes = post.getDeslikes();
-
-        if (curtidas.contains(user)) {
-            curtidas.remove(user);
-        } else {
-            deslikes.remove(user);
-            curtidas.add(user);
-        }
-
-        PostModel saved = postRepository.save(post);
-        return mapToResponseDTO(saved, user);
-    }
-
-    @Transactional
-    public PostResponseDTO toggleDislike(UUID postId, String username) {
         PostModel post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado"));
 
-        UsuarioModel user = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Optional<AvaliacaoModel> avaliacaoExistente =
+                avaliacaoRepository.findByUsuarioIdAndIdConteudo(user.getId(), postId);
 
-        Set<UsuarioModel> deslikes = post.getDeslikes();
-        Set<UsuarioModel> curtidas = post.getCurtidas();
+        if (avaliacaoExistente.isPresent()) {
+            AvaliacaoModel av = avaliacaoExistente.get();
 
-        if (deslikes.contains(user)) {
-            deslikes.remove(user);
+            if (av.getAvaliacao().equals(avaliacao)) {
+                avaliacaoRepository.delete(av);
+            } else {
+                av.setAvaliacao(avaliacao);
+                avaliacaoRepository.save(av);
+            }
         } else {
-            curtidas.remove(user);
-            deslikes.add(user);
+            AvaliacaoModel nova = new AvaliacaoModel();
+            nova.setUsuario(user);
+            nova.setIdConteudo(postId);
+            nova.setAvaliacao(avaliacao);
+            avaliacaoRepository.save(nova);
         }
 
-        PostModel saved = postRepository.save(post);
-        return mapToResponseDTO(saved, user);
+        return mapToResponseDTO(post, user);
     }
 
     private PostResponseDTO mapToResponseDTO(PostModel post, UsuarioModel usuario) {
+        long totalCurtidas = avaliacaoRepository.countByIdConteudoAndAvaliacao(post.getId(), true);
+        long totalDeslikes = avaliacaoRepository.countByIdConteudoAndAvaliacao(post.getId(), false);
+
         boolean curtido = false;
         boolean descurtido = false;
         boolean favoritado = false;
 
         if (usuario != null) {
-            curtido = post.getCurtidas().contains(usuario);
-            descurtido = post.getDeslikes().contains(usuario);
+            Optional<AvaliacaoModel> avaliacaoOpt =
+                    avaliacaoRepository.findByUsuarioIdAndIdConteudo(usuario.getId(), post.getId());
+
+            if (avaliacaoOpt.isPresent()) {
+                curtido = Boolean.TRUE.equals(avaliacaoOpt.get().getAvaliacao());
+                descurtido = Boolean.FALSE.equals(avaliacaoOpt.get().getAvaliacao());
+            }
+
             favoritado = post.getFavoritos().contains(usuario);
         }
 
@@ -125,13 +126,14 @@ public class PostService {
                 post.getConteudo(),
                 post.getAutor().getUsername(),
                 post.getDataCriacao(),
-                post.getCurtidas() != null ? post.getCurtidas().size() : 0,
-                post.getDeslikes() != null ? post.getDeslikes().size() : 0,
+                (int) totalCurtidas,
+                (int) totalDeslikes,
                 curtido,
                 descurtido,
                 favoritado
         );
     }
+
 
     @Transactional
     public PostResponseDTO toggleFavorito(UUID postId, String username) {

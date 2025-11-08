@@ -8,8 +8,7 @@ import { environment } from '../../environments/environments';
   providedIn: 'root'
 })
 export class PostService {
-  private apiUrlCriarPost = `${environment.apiUrl}/posts/criar_post`;
-  private apiUrlCurtirPost = `${environment.apiUrl}/posts/`;
+  private apiUrlCriarPost = `${environment.apiUrl}/posts`;
   private http = inject(HttpClient);
 
   postar(post: Post): Observable<any> {
@@ -18,12 +17,12 @@ export class PostService {
 
 curtirPost(postId: string, username: string): Observable<any> {
   console.log('Curtindo post com ID:', postId, 'para o usuário:', username);
-  const url = `${environment.apiUrl}/posts/${postId}/curtir?username=${username}`;
+  const url = `${environment.apiUrl}/posts/${postId}/avaliar?avaliacao=True&username=${username}`;
   return this.http.post(url, null,{ responseType: 'text' });
 }
 descurtirPost(postId: string, username: string): Observable<any> {
   console.log('Curtindo post com ID:', postId, 'para o usuário:', username);
-  const url = `${environment.apiUrl}/posts/${postId}/descurtir?username=${username}`;
+  const url = `${environment.apiUrl}/posts/${postId}/avaliar?avaliacao=False&username=${username}`;
   return this.http.post(url, null,{ responseType: 'text' });
 }
 

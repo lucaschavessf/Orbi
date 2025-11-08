@@ -8,7 +8,7 @@ import { environment } from '../../environments/environments';
   providedIn: 'root'
 })
 export class FormLoginService {
-  private apiUrl = `${environment.apiUrl}/login`;
+  private apiUrl = `${environment.apiUrl}/usuarios/login`;
 
   private http = inject(HttpClient);
 
