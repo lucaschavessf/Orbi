@@ -6,6 +6,7 @@ import { PostService } from '../../services/post-service';
 export interface Post {
   descurtidoPeloUsuario: boolean;
   curtidoPeloUsuario: boolean;
+  favoritadoPeloUsuario?: boolean;
   id: string;
   titulo: string;
   conteudo: string;
@@ -34,6 +35,20 @@ export class PostComponent {
   formatVotes(votes: number = 0): string {
     if (votes >= 1000) return (votes / 1000).toFixed(1) + 'k';
     return votes.toString();
+  }
+
+  favoritarPost(): void {
+    console.log(this.post.favoritadoPeloUsuario);
+    this.postService.favoritarPost(this.post.id, this.usernameAutor).subscribe({
+      next: () => {
+        if(this.post.favoritadoPeloUsuario == false){
+          this.post.favoritadoPeloUsuario = true;    
+        }
+        else{
+          this.post.favoritadoPeloUsuario = false;     
+        }
+      }
+    });
   }
 
   curtirPost(): void {

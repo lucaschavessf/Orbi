@@ -2,96 +2,114 @@
 
   <div class="flex flex-col items-center p-2 sm:p-3 bg-gray-800/50 rounded-l-lg">
     <button
-    (click)="curtirPost()"
-    class="p-1 rounded transition active:scale-95"
-    [ngClass]="{
-      'text-orange-500 bg-gray-700': post.curtidoPeloUsuario,
-      'text-gray-400 hover:text-orange-500 hover:bg-gray-700': !post.curtidoPeloUsuario
-    }"
-    title="Curtir"
-  >
-    <svg
-      class="w-5 h-5"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
+      (click)="curtirPost()"
+      class="p-1 rounded transition active:scale-95"
       [ngClass]="{
-        'stroke-orange-500': post.curtidoPeloUsuario,
-        'stroke-gray-400': !post.curtidoPeloUsuario
+        'text-orange-500 bg-gray-700': post.curtidoPeloUsuario,
+        'text-gray-400 hover:text-orange-500 hover:bg-gray-700': !post.curtidoPeloUsuario
       }"
+      title="Curtir"
     >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M5 15l7-7 7 7"
-      ></path>
-    </svg>
-  </button>
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        [ngClass]="{
+          'stroke-orange-500': post.curtidoPeloUsuario,
+          'stroke-gray-400': !post.curtidoPeloUsuario
+        }"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 15l7-7 7 7"
+        ></path>
+      </svg>
+    </button>
 
-  <span class="text-sm font-bold my-1 text-white">
-    {{ formatVotes(post.totalPontuacao) }}
-  </span>
+    <span class="text-sm font-bold my-1 text-white">
+      {{ formatVotes(post.totalPontuacao) }}
+    </span>
 
-  <button
-    (click)="descurtirPost()"
-    class="p-1 rounded transition active:scale-95"
-    [ngClass]="{
-      'text-blue-500 bg-gray-700': post.descurtidoPeloUsuario,
-      'text-gray-400 hover:text-blue-500 hover:bg-gray-700': !post.descurtidoPeloUsuario
-    }"
-    title="Descurtir"
-  >
-    <svg
-      class="w-5 h-5"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
+    <button
+      (click)="descurtirPost()"
+      class="p-1 rounded transition active:scale-95"
       [ngClass]="{
-        'stroke-blue-500': post.descurtidoPeloUsuario,
-        'stroke-gray-400': !post.descurtidoPeloUsuario
+        'text-blue-500 bg-gray-700': post.descurtidoPeloUsuario,
+        'text-gray-400 hover:text-blue-500 hover:bg-gray-700': !post.descurtidoPeloUsuario
       }"
+      title="Descurtir"
     >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M19 9l-7 7-7-7"
-      ></path>
-    </svg>
-  </button>
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        [ngClass]="{
+          'stroke-blue-500': post.descurtidoPeloUsuario,
+          'stroke-gray-400': !post.descurtidoPeloUsuario
+        }"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </button>
   </div>
 
   <div class="flex-1 p-3 sm:p-4">
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">·</span>
-      <span class="text-gray-200 text-base font-semibold">@{{ post.usernameAutor }}</span>
+    <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center gap-2 text-sm">
+        <span class="text-gray-400">·</span>
+        <span class="text-gray-200 text-base font-semibold">@{{ post.usernameAutor }}</span>
+        <span class="text-gray-400">{{ post.dataCriacao | date:'short' }}</span>
+      </div>
 
-      <span class="text-gray-400">{{ post.dataCriacao | date:'short' }}</span>
+      <button
+        (click)="favoritarPost()"
+        class="p-2 rounded transition active:scale-95"
+        [ngClass]="{
+          'text-red-500 bg-gray-700': post.favoritadoPeloUsuario,
+          'text-gray-400 hover:text-red-500 hover:bg-gray-700': !post.favoritadoPeloUsuario
+        }"
+        title="Favoritar"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M6 2a2 2 0 0 0-2 2v18l8-4 8 4V4a2 2 0 0 0-2-2H6z"></path>
+        </svg>
+      </button>
     </div>
 
     <div class="flex items-center gap-2 mb-2">
       <h2 class="text-lg sm:text-xl font-semibold text-white hover:underline cursor-pointer">
         {{ post.titulo }}
       </h2>
-      <span *ngIf="post.flair"
-            class="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-600 text-indigo-100 whitespace-nowrap">
-        {{ post.flair }}
-      </span>
     </div>
+
     <div class="relative max-h-96 overflow-y-auto pr-2">
       <p class="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
         {{ post.conteudo }}
       </p>
     </div>
 
-    
-
     <div class="flex items-center gap-4 mt-4 text-sm font-medium">
       <button class="flex items-center gap-1.5 px-3 py-2 rounded-full hover:bg-gray-700 text-gray-400 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10z"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10z"
+          ></path>
         </svg>
         <span>{{ post.comments || 0 }} Comentários</span>
       </button>

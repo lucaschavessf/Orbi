@@ -68,6 +68,7 @@ public class PostController {
             @PathVariable("id") UUID id,
             @RequestParam String username) {
         try {
+            System.out.println("inicio");
             PostResponseDTO response = postService.toggleFavorito(id, username);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {

@@ -26,5 +26,11 @@ descurtirPost(postId: string, username: string): Observable<any> {
   return this.http.post(url, null,{ responseType: 'text' });
 }
 
+favoritarPost(postId: string, username: string): Observable<any> {
+  console.log('Curtindo post com ID:', postId, 'para o usuário:', username);
+  const url = `${environment.apiUrl}/posts/${postId}/favoritar?username=${username}`;
+  return this.http.post(url, null,{ responseType: 'text' });
+}
+
 }
 

@@ -57,7 +57,8 @@ export class FeedComponent implements OnInit, OnDestroy {
           numeroDeslikes: item.totalDeslikes,
           totalPontuacao: (item.totalCurtidas ?? 0) - (item.totalDeslikes ?? 0),
           curtidoPeloUsuario: item.curtidoPeloUsuario,
-          descurtidoPeloUsuario: item.descurtidoPeloUsuario
+          descurtidoPeloUsuario: item.descurtidoPeloUsuario,
+          favoritadoPeloUsuario: item.favoritadoPeloUsuario
         };
       });
     },
