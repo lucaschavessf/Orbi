@@ -1,7 +1,7 @@
 <nav class="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-lg z-50 backdrop-blur-sm bg-opacity-90">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+  <div class=" w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
     <div class="text-2xl font-bold tracking-wide">
-      <span class="text-indigo-400">ORBI</span>
+      <img src="/Orbi-logo.png" alt="Logo" class="h-12" />
     </div>
     <div class="flex space-x-3 sm:space-x-4">
       <button 
@@ -9,55 +9,113 @@
         class="px-4 py-2 sm:px-5 sm:py-2 rounded-lg bg-transparent border border-indigo-400 text-indigo-400 hover:bg-indigo-400 hover:text-white transition duration-200 font-medium">
         Entrar
       </button>
+  
+
 
       <button 
         (click)="irParaCadastro()" 
-        class="px-4 py-2 sm:px-5 sm:py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition duration-200 font-medium">
+        class="px-4 py-2 sm:px-5 sm:py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:bg-indigo-600 text-white transition duration-200 font-medium">
         CADASTRAR-SE
       </button>
     </div>
   </div>
 </nav>
-<section class="min-h-screen flex items-center justify-center pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-indigo-50">
+
+
+<section class="hero">
+  <div class="overlay"></div>
   <div class="max-w-4xl mx-auto text-center">
-    <div class="hero-content mb-8">
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+    <div class="hero-content">
+      <h1 class="text-4xl sm:text-6xl lg:text-6xl font-bold text-indigo-500 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent leading-tight">
         Bem-vindo à 
         <span class="text-indigo-500 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
           ORBI
         </span>
       </h1>
       
-      <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-        A plataforma que conecta inteligência de dados, inovação e tecnologia para impulsionar o futuro do seu negócio.
+      <p class="text-lg sm:text-xl text-white max-w-2xl mx-auto leading-relaxed py-9">
+        A plataforma que conecta estudantes e professores em uma comunidade de aprendizado colaborativo. Compartilhe e organize simulados, resumos, slides, questões e muito mais.
       </p>
     </div>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center -translate-y-15">
       <button 
         (click)="irParaCadastro()" 
-        class="px-8 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition transform hover:scale-105 duration-200 font-semibold shadow-lg hover:shadow-xl">
+        class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:bg-indigo-600 transition transform hover:scale-105 duration-200 font-semibold shadow-lg hover:shadow-xl">
         Começar agora
       </button>
-      
+
+    </div>
+
+<div class="texto flex justify-center translate-y-20">
+  <button 
+    (click)="scrollParaConteudo()" 
+    class="text-white hover:text-indigo-400 transition duration-200 flex flex-col items-center">
+    <span>Saiba mais</span>
+    <span class="animate-bounce text-3xl">↓</span>
+  </button>
+</div>
+
+  </div>
+</section>
+
+<section id="sobre" class="bg-gray-950 text-white py-0 flex flex-col lg:flex-row items-stretch justify-center min-h-screen">
+ 
+  <div class="flex-1 flex">
+    <img 
+      src="/Orbi-comunidade.webp" 
+      alt="Estudo colaborativo" 
+      class="w-full h-full object-cover rounded-none"
+    />
+  </div>
+
+  <div class="flex-1 bg-gray-900 flex items-center justify-center shadow-md">
+    <div class="max-w-2xl w-full p-16 translate-x-10">
+      <h2 class="text-4xl font-bold text-indigo-400 mb-6">Saiba mais sobre a ORBI</h2>
+      <p class="text-gray-300 leading-relaxed mb-4">
+        A ORBI é mais do que uma plataforma — é um ecossistema educacional projetado para 
+        transformar a maneira como você aprende e compartilha conhecimento.
+      </p>
+      <p class="text-gray-300 leading-relaxed mb-4">
+        Nosso objetivo é unir estudantes e professores em um ambiente onde colaboração e 
+        tecnologia caminham lado a lado, promovendo um aprendizado dinâmico e acessível.
+      </p>
+      <p class="text-gray-300 leading-relaxed">
+        Crie grupos de estudo, compartilhe simulados, participe de desafios e conecte-se com 
+        pessoas que têm os mesmos objetivos acadêmicos que você.
+      </p>
+    </div>
+
+    <div class="texto flex justify-center items-center translate-y-80">
       <button 
-        (click)="irParaLogin()" 
-        class="px-8 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 font-semibold">
-        Já tenho conta
+        (click)="scrollParainfo()" 
+        class="text-white hover:text-indigo-400 transition duration-200 flex flex-col -translate-x-80 ">
+        <span></span>
+        <span class="animate-bounce text-3xl">↓</span>
       </button>
     </div>
-    <div class="mt-16 grid grid-cols-2 sm:grid-cols-3 gap-8 opacity-60">
-      <div class="text-center">
-        <div class="text-2xl font-bold text-indigo-500">+1000</div>
-        <div class="text-sm text-gray-500">Usuários</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-indigo-500">99%</div>
-        <div class="text-sm text-gray-500">Satisfação</div>
-      </div>
-      <div class="text-center col-span-2 sm:col-span-1">
-        <div class="text-2xl font-bold text-indigo-500">24/7</div>
-        <div class="text-sm text-gray-500">Suporte</div>
-      </div>
+  </div>
+</section>
+
+
+  <section id="conteudo" class="py-24 bg-gray-900 text-center">
+  <h2 class="text-3xl font-bold text-gray-200 mb-6">Por que escolher a ORBI?</h2>
+  <p class="max-w-3xl mx-auto text-gray-400 leading-relaxed">
+    No Orbi, conhecimento circula, cresce e fortalece — tornando seus estudos mais dinâmicos 
+    e integrados ao seu dia a dia acadêmico.
+  </p>
+
+  <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-indigo-500 mb-3">Inovação</h3>
+      <p class="text-gray-600">Reinventamos a forma de estudar ao reunir conteúdo, colaboração e tecnologia em um único espaço acadêmico..</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-indigo-500 mb-3">Performance</h3>
+      <p class="text-gray-600">Organize materiais, acompanhe seu ritmo de estudo e eleve seu desempenho com ferramentas práticas e eficientes..</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-indigo-500 mb-3">Comunidade</h3>
+      <p class="text-gray-600">Participe de uma rede onde estudantes e professores compartilham conhecimento, trocam experiências e aprendem juntos.</p>
     </div>
   </div>
 </section>

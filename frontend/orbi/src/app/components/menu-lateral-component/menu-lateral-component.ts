@@ -11,6 +11,17 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./menu-lateral-component.css']
 })
 export class MenuLateralComponent {
+  selectedImage: string | ArrayBuffer | null = null;
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => this.selectedImage = reader.result;
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
   recentes = [
     { label: 'r/datasciencebr', route: '/r/datasciencebr' },
     { label: 'r/DistantHorizons', route: '/r/distanthorizons' }

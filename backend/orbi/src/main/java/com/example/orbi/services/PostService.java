@@ -12,6 +12,7 @@ import com.example.orbi.repositories.UsuarioRepository;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Objects;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,20 +44,26 @@ public class PostService {
         post.setAutor(autor);
 
         PostModel postSalvo = postRepository.save(post);
-
         return mapToResponseDTO(postSalvo, autor);
     }
 
     @Transactional(readOnly = true)
     public Page<PostResponseDTO> listarPosts(Pageable pageable, String username) {
-        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 10);
+        }
 
+        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
         return postRepository.findAll(pageable)
                 .map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
     }
 
     @Transactional(readOnly = true)
     public Page<PostResponseDTO> buscarPosts(String texto, Pageable pageable, String username) {
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 10);
+        }
+
         Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
 
         Pageable pageableWithoutSort = PageRequest.of(
@@ -65,12 +72,13 @@ public class PostService {
         );
 
         Page<PostModel> postsPage = postRepository.buscarPorTexto(texto, pageableWithoutSort);
-
         return postsPage.map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
     }
 
     @Transactional
     public PostResponseDTO toggleAvaliar(UUID postId, String username, Boolean avaliacao) {
+        Objects.requireNonNull(postId, "O ID do post não pode ser nulo");
+
         UsuarioModel user = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -134,9 +142,10 @@ public class PostService {
         );
     }
 
-
     @Transactional
     public PostResponseDTO toggleFavorito(UUID postId, String username) {
+        Objects.requireNonNull(postId, "O ID do post não pode ser nulo");
+
         PostModel post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado"));
 
@@ -157,11 +166,14 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<PostResponseDTO> listarFavoritos(String username, Pageable pageable) {
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 10);
+        }
+
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         Page<PostModel> favoritos = postRepository.findByFavoritosContaining(usuario, pageable);
-
         return favoritos.map(post -> mapToResponseDTO(post, usuario));
     }
 }

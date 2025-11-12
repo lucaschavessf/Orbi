@@ -1,19 +1,30 @@
 
 <nav class="h-full flex flex-col bg-gray-950 text-gray-100 px-4 py-6">
 
-  <div class="mb-6 flex items-center gap-3">
-    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow">
-
-      <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.2"></circle>
-        <path d="M8 12h8" stroke="white" stroke-width="1.2" stroke-linecap="round"></path>
-      </svg>
+  <div class="relative w-24 h-24">
+  <label for="file-upload" class="cursor-pointer">
+    <div class="w-full h-full rounded-full overflow-hidden border-4 border-none flex items-center justify-center translate-x-10 bg-gray-600">
+      <img 
+        *ngIf="selectedImage" 
+        [src]="selectedImage" 
+        alt="Avatar" 
+        class="w-full h-full object-cover"
+      />
+      <span *ngIf="!selectedImage" class="text-gray-200 text-sm">+</span>
     </div>
-    <span class="font-semibold text-lg">ORBI</span>
-  </div>
+  </label>
+
+  <input 
+    id="file-upload" 
+    type="file" 
+    accept="image/*" 
+    (change)="onFileSelected($event)" 
+    class="hidden"
+  />
+</div>
 
 
-  <ul class="space-y-2 text-sm">
+  <ul class="space-y-2 text-sm translate-y-4 translate-x-2">
     <li><a routerLink="/feed" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">home_filled</span> Página inicial</a></li>
     <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">person</span> Perfil</a></li>
     <li><a routerLink="/criar_post" class="block px-3 py-2 rounded hover:bg-gray-800 transition"> <span class="material-icons">add_box </span> Criar Post</a></li>
