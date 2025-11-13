@@ -6,6 +6,7 @@ import com.example.orbi.models.AvaliacaoModel;
 import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.repositories.AvaliacaoRepository;
+import com.example.orbi.repositories.ComentarioRepository;
 import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
@@ -32,6 +33,9 @@ public class PostService {
 
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     @Transactional
     public PostResponseDTO criarPost(PostRequestDTO dto) {
@@ -111,6 +115,7 @@ public class PostService {
     private PostResponseDTO mapToResponseDTO(PostModel post, UsuarioModel usuario) {
         long totalCurtidas = avaliacaoRepository.countByIdConteudoAndAvaliacao(post.getId(), true);
         long totalDeslikes = avaliacaoRepository.countByIdConteudoAndAvaliacao(post.getId(), false);
+        long totalComentarios = comentarioRepository.countByPostId(post.getId());
 
         boolean curtido = false;
         boolean descurtido = false;
@@ -138,7 +143,8 @@ public class PostService {
                 (int) totalDeslikes,
                 curtido,
                 descurtido,
-                favoritado
+                favoritado,
+                (int) totalComentarios
         );
     }
 

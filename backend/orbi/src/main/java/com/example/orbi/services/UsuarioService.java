@@ -13,6 +13,7 @@ import com.example.orbi.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,24 +75,26 @@ public class UsuarioService {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        entityManager.createNativeQuery("DELETE FROM post_likes WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
-                .setParameter("usuarioId", usuario.getId())
+        UUID usuarioId = usuario.getId();
+
+        entityManager.createNativeQuery("DELETE FROM avaliacoes WHERE usuario_id = :usuarioId")
+                .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
-        entityManager.createNativeQuery("DELETE FROM post_likes WHERE usuario_id = :usuarioId")
-                .setParameter("usuarioId", usuario.getId())
+        entityManager.createNativeQuery("DELETE FROM comentarios WHERE autor_id = :usuarioId")
+                .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
-        entityManager.createNativeQuery("DELETE FROM post_dislikes WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
-                .setParameter("usuarioId", usuario.getId())
+        entityManager.createNativeQuery("DELETE FROM post_favoritos WHERE usuario_id = :usuarioId")
+                .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
-        entityManager.createNativeQuery("DELETE FROM post_dislikes WHERE usuario_id = :usuarioId")
-                .setParameter("usuarioId", usuario.getId())
+        entityManager.createNativeQuery("DELETE FROM post_favoritos WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
+                .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
-        entityManager.createNativeQuery("DELETE FROM posts WHERE autor_id = :usuarioId")
-                .setParameter("usuarioId", usuario.getId())
+        entityManager.createNativeQuery("DELETE FROM avaliacoes WHERE id_conteudo IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
+                .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
         usuarioRepository.delete(usuario);
