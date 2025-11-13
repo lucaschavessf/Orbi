@@ -50,7 +50,7 @@ public class PostController {
             return ResponseEntity.badRequest().build();
         }
         Page<PostResponseDTO> resultados = postService.buscarPosts(texto.trim(), pageable, username);
-        return ResponseEntity.ok(PageResponseDTO.of(resultados)); // ✅ Retorna resultados reais!
+        return ResponseEntity.ok(PageResponseDTO.of(resultados));
     }
 
     @PostMapping("/{postId}/avaliar")

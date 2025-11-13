@@ -35,6 +35,5 @@ public interface PostRepository extends JpaRepository<PostModel, UUID> {
     """,
             nativeQuery = true)
     Page<PostModel> buscarPorTexto(@Param("texto") String texto, Pageable pageable);
-
     Page<PostModel> findByFavoritosContaining(UsuarioModel usuario, Pageable pageable);
 }

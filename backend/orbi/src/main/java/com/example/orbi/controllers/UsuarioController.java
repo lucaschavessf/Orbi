@@ -1,5 +1,8 @@
 package com.example.orbi.controllers;
 
+import com.example.orbi.dto.LoginResponseDTO;
+import com.example.orbi.services.JwtService;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.example.orbi.dto.UsuarioDTO;
@@ -16,9 +19,11 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioController {
     private UsuarioService usuarioService;
+    private final JwtService jwtService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, JwtService jwtService) {
         this.usuarioService = usuarioService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping
@@ -64,7 +69,18 @@ public class UsuarioController {
                     loginRequest.getUsername(),
                     loginRequest.getSenha()
             );
-            return ResponseEntity.ok(usuario);
+
+            String token = jwtService.generateToken(usuario.getUsername(), usuario.getTipo().name());
+            Long expiresIn = jwtService.getExpirationTime();
+
+            LoginResponseDTO response = new LoginResponseDTO(
+                    token,
+                    usuario.getUsername(),
+                    usuario.getTipo().name(),
+                    expiresIn
+            );
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(e.getMessage());
