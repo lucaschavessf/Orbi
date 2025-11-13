@@ -21,4 +21,19 @@ export class HomeComponent {
     this.router.navigate(['/cadastrar']);
   }
 
+  scrollParaConteudo() {
+  const elemento = document.getElementById('sobre');
+  if (elemento) {
+    elemento.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+scrollParainfo(){
+  const elemento = document.getElementById('conteudo');
+  if (elemento) {
+    elemento.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+
 }
