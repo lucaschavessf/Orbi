@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CabecalhoService } from '../../services/cabecalho-service';
+import { AuthService } from '../../services/auth-service'; // <-- IMPORTANTE
+import { Usuario } from '../../models/usuario'; // <-- para tipagem
+import { UsuarioService } from '../../services/usuario-service';
+import { AzureService } from '../../services/azure-service';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -10,29 +14,46 @@ import { CabecalhoService } from '../../services/cabecalho-service';
   templateUrl: './menu-lateral-component.html',
   styleUrls: ['./menu-lateral-component.css']
 })
-export class MenuLateralComponent {
-  selectedImage: string | ArrayBuffer | null = null;
+export class MenuLateralComponent implements OnInit {
+  
+  selectedImage: string | null = null;
+  usuario: Usuario | null = null;
 
-  recentes = [
-    { label: 'r/datasciencebr', route: '/r/datasciencebr' },
-    { label: 'r/DistantHorizons', route: '/r/distanthorizons' }
-  ];
+  private usuarioService = inject(UsuarioService);
+  private azureService = inject(AzureService);
+  constructor(private router: Router, private cabecalhoService: CabecalhoService, private authService: AuthService) {}
 
-  categorias = [
-    'Cultura da internet',
-    'Jogos',
-    'Tecnologia',
-    'Filmes e TV',
-    'Perguntas'
-  ];
+  ngOnInit() {
+    this.carregarUsuario();
+  }
 
-  constructor(private router: Router, private cabecalhoService: CabecalhoService) {}
+  carregarUsuario() {
+    const usuarioLogado = this.usuarioService.getUsuarioLogado();
+    if (!usuarioLogado) {
+      this.usuario = null;
+      return;
+    }
 
+    this.usuario = usuarioLogado;
+
+    if (usuarioLogado.fotoPerfil) {
+      const fileName = usuarioLogado.fotoPerfil.split('/').pop();
+
+      this.azureService.generateReadUrl(fileName).subscribe({
+        next: (resp: any) => {
+          this.selectedImage = resp?.uploadUrl ?? resp?.url ?? null;
+        },
+        error: (err: any) => {
+          console.error('Erro ao gerar URL da imagem:', err);
+        }
+      });
+    }
+  }
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
-      reader.onload = () => this.selectedImage = reader.result;
+      reader.onload = () => this.selectedImage = reader.result as string;
       reader.readAsDataURL(input.files[0]);
     }
   }

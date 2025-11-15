@@ -1,24 +1,11 @@
 <nav class="h-full flex flex-col bg-gray-950 text-gray-100 px-4 py-6">
 
   <div class="relative w-24 h-24">
-  <label for="file-upload" class="cursor-pointer">
-    <div class="w-full h-full rounded-full overflow-hidden border-4 border-none flex items-center justify-center translate-x-10 bg-gray-600">
-      <img 
-        *ngIf="selectedImage" 
-        [src]="selectedImage" 
-        alt="Avatar" 
-        class="w-full h-full object-cover"
-      />
-      <span *ngIf="!selectedImage" class="text-gray-200 text-sm">+</span>
-    </div>
-  </label>
-
-  <input 
-    id="file-upload" 
-    type="file" 
-    accept="image/*" 
-    (change)="onFileSelected($event)" 
-    class="hidden"
+    <img 
+    *ngIf="selectedImage" 
+    [src]="selectedImage" 
+    alt="Avatar" 
+    class="w-full h-full object-cover"
   />
 </div>
 

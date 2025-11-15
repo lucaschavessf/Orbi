@@ -7,4 +7,5 @@ export interface Usuario {
   tipo: 'ALUNO' | 'PROFESSOR';
   curso?: string;
   bio?: string;
+  fotoPerfil?: string;
 }
