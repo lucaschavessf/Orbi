@@ -1,0 +1,26 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <span class="material-icons">chat_bubble_outline</span>
+    <span>Orbi Assistente</span>
+  </div>
+  
+  <div class="chat-messages" id="chat-messages">
+    <div *ngFor="let msg of messages" [ngClass]="{'message': true, 'user': msg.role === 'user', 'ai': msg.role === 'ai'}">
+      <span>{{ msg.text }}</span>
+    </div>
+  </div>
+
+  <form class="chat-input" autocomplete="off" (ngSubmit)="sendMessage()">
+    <input
+      type="text"
+      [(ngModel)]="input"
+      name="input"
+      placeholder="Digite sua mensagem..."
+      required
+      autocomplete="off"
+    />
+    <button type="submit" aria-label="Enviar">
+      <span class="material-icons">send</span>
+    </button>
+  </form>
+</div>

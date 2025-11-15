@@ -57,4 +57,14 @@ export class MenuLateralComponent {
       this.router.navigate(['/favoritos']);
     }
   }
+
+  onAssistentClick() {
+    if (this.router.url === '/chat_ai') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/chat_ai']);
+      });
+    } else {
+      this.router.navigate(['/chat_ai']);
+    }
+  }
 }
