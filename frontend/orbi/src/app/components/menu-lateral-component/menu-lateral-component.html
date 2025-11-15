@@ -1,4 +1,3 @@
-
 <nav class="h-full flex flex-col bg-gray-950 text-gray-100 px-4 py-6">
 
   <div class="relative w-24 h-24">
@@ -25,10 +24,14 @@
 
 
   <ul class="space-y-2 text-sm translate-y-4 translate-x-2">
-    <li><a routerLink="/feed" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">home_filled</span> Página inicial</a></li>
+    <li><a (click)="onPaginaInicialClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">home_filled</span> Página inicial</a></li>
     <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">person</span> Perfil</a></li>
     <li><a routerLink="/criar_post" class="block px-3 py-2 rounded hover:bg-gray-800 transition"> <span class="material-icons">add_box </span> Criar Post</a></li>
-    <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">star_border</span> Favoritos</a></li>
+    <li>
+      <a (click)="onFavoritosClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition">
+        <span class="material-icons">star_border</span> Favoritos
+      </a>
+    </li>
     <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">logout</span> Sair</a></li>
   </ul>
 

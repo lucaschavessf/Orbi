@@ -37,14 +37,32 @@ export class FormLoginComponent {
 
     this.loginService.logar(this.usuario).subscribe({
       next: (res) => {
-        console.log('Login bem-sucedido:', res);
+        this.authService.salvarToken(res.token);
 
-        this.authService.salvarUsuario(res);
-        this.usuarioService.salvarUsuario(res);
-        this.router.navigate(['/feed']);
+        const tokenSalvo = localStorage.getItem('auth_token');
 
-        this.isError.set(false);
-        this.isLoading.set(false);
+        if (!tokenSalvo) {
+          this.statusMessage.set('Token não foi salvo corretamente!');
+          this.isError.set(true);
+          this.isLoading.set(false);
+          return;
+        }
+
+        this.usuarioService.getUsuario(this.usuario.username).subscribe({
+          next: (usuarioData) => {
+            this.authService.salvarUsuario(usuarioData);
+            this.usuarioService.salvarUsuario(usuarioData);
+            this.isError.set(false);
+            this.isLoading.set(false);
+            this.router.navigate(['/feed']);
+          },
+          error: (err) => {
+            console.error('Erro ao buscar dados do usuário:', err);
+            this.statusMessage.set('Erro ao carregar dados do usuário.');
+            this.isError.set(true);
+            this.isLoading.set(false);
+          }
+        });
       },
       error: (err) => {
         console.error('Erro ao logar:', err);

@@ -1,7 +1,7 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { CabecalhoService } from '../../services/cabecalho-service';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -12,15 +12,6 @@ import { RouterModule } from '@angular/router';
 })
 export class MenuLateralComponent {
   selectedImage: string | ArrayBuffer | null = null;
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = () => this.selectedImage = reader.result;
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
 
   recentes = [
     { label: 'r/datasciencebr', route: '/r/datasciencebr' },
@@ -35,4 +26,35 @@ export class MenuLateralComponent {
     'Perguntas'
   ];
 
+  constructor(private router: Router, private cabecalhoService: CabecalhoService) {}
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => this.selectedImage = reader.result;
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  onPaginaInicialClick() {
+    this.cabecalhoService.clearSearchTerm?.(); 
+    if (this.router.url === '/feed') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/feed']);
+      });
+    } else {
+      this.router.navigate(['/feed']);
+    }
+  }
+
+  onFavoritosClick() {
+    if (this.router.url === '/favoritos') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/favoritos']);
+      });
+    } else {
+      this.router.navigate(['/favoritos']);
+    }
+  }
 }

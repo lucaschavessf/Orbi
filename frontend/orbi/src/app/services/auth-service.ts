@@ -6,22 +6,36 @@ import { Usuario } from '../models/usuario';
 })
 export class AuthService {
 
-  private readonly USER_KEY = 'usuario_logado';
+  private tokenKey = 'auth_token'; 
+  private usuarioKey = 'usuarioLogado_auth'; 
 
-  salvarUsuario(usuario: Usuario): void {
-    localStorage.setItem(this.USER_KEY, JSON.stringify(usuario));
+  constructor() { }
+
+  salvarToken(token: string): void {
+    if (token) {
+      localStorage.setItem(this.tokenKey, token);
+    }
   }
 
-  obterUsuario(): Usuario | null {
-    const dados = localStorage.getItem(this.USER_KEY);
-    return dados ? JSON.parse(dados) : null;
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  salvarUsuario(usuario: Usuario): void {
+    localStorage.setItem(this.usuarioKey, JSON.stringify(usuario));
+  }
+
+  getUsuario(): Usuario | null {
+    const data = localStorage.getItem(this.usuarioKey);
+    return data ? JSON.parse(data) : null;
+  }
+
+  limparSessao(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.usuarioKey);
   }
 
   estaLogado(): boolean {
-    return !!this.obterUsuario();
-  }
-
-  logout(): void {
-    localStorage.removeItem(this.USER_KEY);
+    return !!this.getToken();
   }
 }

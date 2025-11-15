@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Post } from '../../models/posts';
 import { PostService } from '../../services/post-service';
 import { UsuarioService } from '../../services/usuario-service'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-criar-post-component',
@@ -24,7 +25,8 @@ export class CriarPostComponent {
   post: Post = { titulo: '', conteudo: '', usernameAutor: '' };
 
   private postService = inject(PostService);
-  private usuarioService = inject(UsuarioService); 
+  private usuarioService = inject(UsuarioService);
+  private router = inject(Router);
 
   @ViewChild('contentArea', { static: false }) contentArea!: ElementRef<HTMLTextAreaElement>;
 
@@ -49,6 +51,7 @@ export class CriarPostComponent {
         this.post = { titulo: '', conteudo: '', usernameAutor: '' };
         this.isLoading.set(false);
         setTimeout(() => this.statusMessage.set(null), 3000);
+        this.router.navigate(['/feed']);
       },
       error: (err) => {
         console.error('Erro ao criar post:', err);

@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {

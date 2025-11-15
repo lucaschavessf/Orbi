@@ -11,4 +11,8 @@ export class CabecalhoService {
   setSearchTerm(term: string) {
     this.searchTermSubject.next(term);
   }
+
+  clearSearchTerm() {
+    this.searchTermSubject.next('');
+  }
 }
