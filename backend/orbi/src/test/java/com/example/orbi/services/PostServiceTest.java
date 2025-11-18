@@ -83,7 +83,8 @@ class PostServiceTest {
         postRequestDTO = new PostRequestDTO(
                 "Título do Post",
                 "Conteúdo do post de teste",
-                "autor123"
+                "autor123",
+                null
         );
     }
 
@@ -121,7 +122,8 @@ class PostServiceTest {
         PostRequestDTO dto = new PostRequestDTO(
                 "Título",
                 "Conteúdo",
-                "autor_inexistente"
+                "autor_inexistente",
+                null
         );
 
         assertThatThrownBy(() -> postService.criarPost(dto))

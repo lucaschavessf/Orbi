@@ -12,7 +12,7 @@ export class FeedService {
   private http = inject(HttpClient);
 
   getPosts(username: string): Observable<Post[]> {
-    const url = `${environment.apiUrl}/posts?username=${username}&size=10`;
+    const url = `${environment.apiUrl}/posts?username=${username}&size=1`;
     return this.http.get<any>(url).pipe(
       mapResponseToPosts()
     );

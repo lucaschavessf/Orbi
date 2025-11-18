@@ -46,6 +46,7 @@ public class PostService {
         post.setTitulo(dto.titulo());
         post.setConteudo(dto.conteudo());
         post.setAutor(autor);
+        post.setUrlArquivo(dto.urlArquivo());
 
         PostModel postSalvo = postRepository.save(post);
         return mapToResponseDTO(postSalvo, autor);
@@ -144,7 +145,8 @@ public class PostService {
                 curtido,
                 descurtido,
                 favoritado,
-                (int) totalComentarios
+                (int) totalComentarios,
+                post.getUrlArquivo()
         );
     }
 

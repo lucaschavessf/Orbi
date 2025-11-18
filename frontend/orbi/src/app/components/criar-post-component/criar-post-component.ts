@@ -5,6 +5,7 @@ import { Post } from '../../models/posts';
 import { PostService } from '../../services/post-service';
 import { UsuarioService } from '../../services/usuario-service'; 
 import { Router } from '@angular/router';
+import { AzureService } from '../../services/azure-service';
 
 @Component({
   selector: 'app-criar-post-component',
@@ -22,13 +23,36 @@ export class CriarPostComponent {
   isError = signal(false);
   isLoading = signal(false);
 
-  post: Post = { titulo: '', conteudo: '', usernameAutor: '' };
+  post: Post = { titulo: '', conteudo: '', usernameAutor: '' , urlArquivo: ''};
 
   private postService = inject(PostService);
   private usuarioService = inject(UsuarioService);
+  private azureService = inject(AzureService);
   private router = inject(Router);
 
   @ViewChild('contentArea', { static: false }) contentArea!: ElementRef<HTMLTextAreaElement>;
+
+  selectedFile: File | null = null;
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (!file) return;
+
+    if (!(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/webp')) {
+      this.statusMessage.set('A imagem deve ser PNG ou JPG.');
+      this.isError.set(true);
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.statusMessage.set('A imagem deve ter no máximo 5MB.');
+      this.isError.set(true);
+      return;
+    }
+
+    this.selectedFile = file;
+    this.isError.set(false);
+  }
 
   saveDraft() {
     console.log('Rascunho salvo:', this.post);
@@ -42,24 +66,39 @@ export class CriarPostComponent {
     if (usuario) {
       this.post.usernameAutor = usuario.username;
     }
+    const containerName = 'imagens';
+    const upload$ = this.selectedFile
+      ? this.azureService.uploadFile(containerName,this.selectedFile)
+      : new Promise<string>((resolve) => resolve(''));
 
-    this.postService.postar(this.post).subscribe({
-      next: (res) => {
-        console.log('Post criado com sucesso:', res);
-        this.statusMessage.set('Post criado com sucesso!');
-        this.isError.set(false);
-        this.post = { titulo: '', conteudo: '', usernameAutor: '' };
-        this.isLoading.set(false);
-        setTimeout(() => this.statusMessage.set(null), 3000);
-        this.router.navigate(['/feed']);
-      },
-      error: (err) => {
-        console.error('Erro ao criar post:', err);
-        this.statusMessage.set('Erro ao criar post. Verifique o console.');
+    upload$
+      .then((url) => { 
+        console.log('URL da imagem:', url);  
+        this.post.urlArquivo = url;
+        console.log("Enviando para o backend:", this.post);
+        this.postService.postar(this.post).subscribe({
+          next: (res) => {
+            console.log('Post criado com sucesso:', res);
+            this.statusMessage.set('Post criado com sucesso!');
+            this.isError.set(false);
+            this.isLoading.set(false);
+            setTimeout(() => this.statusMessage.set(null), 3000);
+            this.router.navigate(['/feed']);
+          },
+          error: (err) => {
+            console.error('Erro ao criar post:', err);
+            this.statusMessage.set('Erro ao criar post. Verifique o console.');
+            this.isError.set(true);
+            this.isLoading.set(false);
+          }
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        this.statusMessage.set('Erro no upload da imagem.');
         this.isError.set(true);
         this.isLoading.set(false);
-      }
-    });
+      });
   }
 
   private getTextarea(): HTMLTextAreaElement | null {

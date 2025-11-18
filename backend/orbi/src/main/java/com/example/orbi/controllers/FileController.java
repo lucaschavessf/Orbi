@@ -16,13 +16,13 @@ public class FileController {
     }
 
     @GetMapping("/sas-token")
-    public SasTokenResponseDTO getSasToken(@RequestParam String filename) {
-        return azureBlobService.generateSasToken(filename);
+    public SasTokenResponseDTO getSasToken(@RequestParam String container,@RequestParam String filename) {
+        return azureBlobService.generateSasToken(container,filename);
     }
 
-    @GetMapping("/generate-read-url/{fileName}")
-        public SasTokenResponseDTO generateReadUrl(@PathVariable String fileName) {
-            return azureBlobService.generateReadSas(fileName);
+    @GetMapping("/generate-read-url")
+        public SasTokenResponseDTO generateReadUrl(@RequestParam String container,@RequestParam String filename) {
+            return azureBlobService.generateReadSas(container, filename);
         }
 
 }

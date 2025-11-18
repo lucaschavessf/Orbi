@@ -29,6 +29,9 @@ public class PostModel {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id", nullable = false)
     private UsuarioModel autor;
+    
+    @Column(length = 512)
+    private String urlArquivo;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

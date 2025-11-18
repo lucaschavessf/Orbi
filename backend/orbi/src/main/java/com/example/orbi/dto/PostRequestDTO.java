@@ -13,5 +13,7 @@ public record PostRequestDTO(
         String conteudo,
 
         @NotBlank(message = "O username do autor é obrigatório")
-        String usernameAutor
+        String usernameAutor,
+        
+        String urlArquivo
 ) {}

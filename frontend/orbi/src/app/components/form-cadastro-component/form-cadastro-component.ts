@@ -46,7 +46,7 @@ export class FormCadastroComponent {
 
     if (!file) return;
 
-    if (!(file.type === 'image/png' || file.type === 'image/jpeg')) {
+    if (!(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/webp')) {
       this.statusMessage.set('A imagem deve ser PNG ou JPG.');
       this.isError.set(true);
       return;
@@ -65,9 +65,9 @@ export class FormCadastroComponent {
   cadastrar() {
     this.isLoading.set(true);
     this.statusMessage.set(null);
-
+    const containerName = 'imagens-usuarios';
     const upload$ = this.selectedFile
-      ? this.azureService.uploadFile(this.selectedFile)
+      ? this.azureService.uploadFile(containerName,this.selectedFile)
       : new Promise<string>((resolve) => resolve(''));
 
     upload$

@@ -38,8 +38,8 @@ export class MenuLateralComponent implements OnInit {
 
     if (usuarioLogado.fotoPerfil) {
       const fileName = usuarioLogado.fotoPerfil.split('/').pop();
-
-      this.azureService.generateReadUrl(fileName).subscribe({
+      const containerName = 'imagens-usuarios';
+      this.azureService.generateReadUrl(containerName,fileName).subscribe({
         next: (resp: any) => {
           this.selectedImage = resp?.uploadUrl ?? resp?.url ?? null;
         },

@@ -32,6 +32,7 @@ export class PostComponent {
   private postService = inject(PostService);
   private usernameAutor = this.usuarioService.getUsuarioLogado().username;
 
+
   formatVotes(votes: number = 0): string {
     if (votes >= 1000) return (votes / 1000).toFixed(1) + 'k';
     return votes.toString();

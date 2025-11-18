@@ -11,11 +11,11 @@ export class AzureService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/files/sas-token`;
 
-  async uploadFile(file: File): Promise<string> {
+  async uploadFile(containerName: string, file: File): Promise<string> {
     const fileName = `${crypto.randomUUID()}-${file.name}`;
 
     const sasData: any = await firstValueFrom(
-      this.http.get(`${this.apiUrl}?filename=${fileName}`)
+      this.http.get(`${this.apiUrl}?container=${containerName}&filename=${fileName}`)
     );
 
     const uploadUrl = sasData.uploadUrl;
@@ -32,8 +32,9 @@ export class AzureService {
     return finalUrl;
   }
 
-  generateReadUrl(fileName: string) {
-    return this.http.get(`${environment.apiUrl}/files/generate-read-url/${fileName}`);
+  generateReadUrl(containerName: string, fileName: string) {
+    const encodedFileName = encodeURIComponent(fileName);
+    return this.http.get(`${environment.apiUrl}/files/generate-read-url?container=${containerName}&filename=${encodedFileName}`);
   }
 
 }

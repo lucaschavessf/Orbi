@@ -16,6 +16,7 @@ public record PostResponseDTO(
         Boolean curtidoPeloUsuario,
         Boolean descurtidoPeloUsuario,
         Boolean favoritadoPeloUsuario,
-        Integer totalComentarios
+        Integer totalComentarios,
+        String urlArquivo
 ) {}
 
