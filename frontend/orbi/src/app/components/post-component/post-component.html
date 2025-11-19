@@ -100,6 +100,16 @@
         {{ post.conteudo }}
       </p>
     </div>
+    <div *ngIf="post.urlArquivo" class="w-full aspect-video rounded-lg">
+      <img 
+        *ngIf="post.urlArquivo"
+        [src]="post.urlArquivo"
+        alt="Imagem do post"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+
 
     <div class="flex items-center gap-4 mt-4 text-sm font-medium">
       <button class="flex items-center gap-1.5 px-3 py-2 rounded-full hover:bg-gray-700 text-gray-400 transition">

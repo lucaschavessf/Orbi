@@ -11,8 +11,8 @@ import { map } from 'rxjs/operators';
 export class FeedService {
   private http = inject(HttpClient);
 
-  getPosts(username: string): Observable<Post[]> {
-    const url = `${environment.apiUrl}/posts?username=${username}&size=1`;
+  getPosts(username: string, page: number, size: number = 10): Observable<Post[]> {
+    const url = `${environment.apiUrl}/posts?username=${username}&page=${page}&size=${size}`;
     return this.http.get<any>(url).pipe(
       mapResponseToPosts()
     );
@@ -49,7 +49,8 @@ function mapResponseToPosts() {
         totalPontuacao: (item.totalCurtidas ?? 0) - (item.totalDeslikes ?? 0),
         curtidoPeloUsuario: item.curtidoPeloUsuario,
         descurtidoPeloUsuario: item.descurtidoPeloUsuario,
-        favoritadoPeloUsuario: item.favoritadoPeloUsuario
+        favoritadoPeloUsuario: item.favoritadoPeloUsuario,
+        urlArquivo: item.urlArquivo
       };
     });
   });

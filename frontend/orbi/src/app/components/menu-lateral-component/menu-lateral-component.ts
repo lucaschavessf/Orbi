@@ -70,6 +70,7 @@ export class MenuLateralComponent implements OnInit {
   }
 
   onFavoritosClick() {
+    this.cabecalhoService.clearSearchTerm?.();
     if (this.router.url === '/favoritos') {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/favoritos']);

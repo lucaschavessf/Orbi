@@ -17,6 +17,7 @@ export interface Post {
   numeroDeslikes?: number;
   comments?: number;
   flair?: string;
+  urlArquivo?: string;
 }
 
 @Component({
@@ -31,7 +32,7 @@ export class PostComponent {
   private usuarioService = inject(UsuarioService); 
   private postService = inject(PostService);
   private usernameAutor = this.usuarioService.getUsuarioLogado().username;
-
+  selectedImage: string | null = null;
 
   formatVotes(votes: number = 0): string {
     if (votes >= 1000) return (votes / 1000).toFixed(1) + 'k';
