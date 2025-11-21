@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario-service'; 
 import { PostService } from '../../services/post-service';
+import { PostComentarioComponent } from '../post-comentario-component/post-comentario-component';
 
 export interface Post {
   descurtidoPeloUsuario: boolean;
@@ -23,7 +24,7 @@ export interface Post {
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PostComentarioComponent],
   templateUrl: './post-component.html',
   styleUrl: './post-component.css'
 })
@@ -99,4 +100,9 @@ export class PostComponent {
     });
   }
 
+  mostrarComentarios = false;
+
+  toggleComentarios() {
+    this.mostrarComentarios = !this.mostrarComentarios;
+  }
 }
