@@ -1,0 +1,23 @@
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px 0;
+}
+
+.post {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.post-imagem {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.sem-posts {
+  opacity: 0.7;
+  font-style: italic;
+  margin-top: 20px;
+}

@@ -7,6 +7,7 @@ import { FeedComponent } from './components/feed-component/feed-component';
 import { CriarPostComponent } from './components/criar-post-component/criar-post-component';
 import { AuthGuard } from './guards/auth-guard-guard';
 import { ChatAssistentComponent } from './components/chat-assistent-component/chat-assistent-component';
+import { PerfilComponent } from './components/perfil-component/perfil-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,9 +23,18 @@ export const routes: Routes = [
       { path: 'favoritos', component: FeedComponent },
       { path: 'criar_post', component: CriarPostComponent },
       { path: 'chat_ai', component: ChatAssistentComponent },
+
+      {
+        path: 'perfil',
+        children: [
+          { path: ':username', component: PerfilComponent }
+        ]
+      },
+
       { path: '', redirectTo: 'feed', pathMatch: 'full' }
     ]
   },
 
   { path: '**', redirectTo: '' }
 ];
+

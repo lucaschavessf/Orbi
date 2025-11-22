@@ -1,18 +1,25 @@
 <nav class="h-full flex flex-col bg-gray-950 text-gray-100 px-4 py-6">
 
-  <div class="relative w-24 h-24">
-    <img 
-    *ngIf="selectedImage" 
-    [src]="selectedImage" 
-    alt="Avatar" 
-    class="w-full h-full object-cover"
-  />
-</div>
+  <div class="flex items-center gap-4 p-2" *ngIf="!esconderPerfilMenu">
+    <div class="w-16 h-16">
+      <img 
+        [src]="selectedImage || 'https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png'"
+        alt="Avatar" 
+        class="w-full h-full object-cover rounded-full border border-gray-300 shadow-sm"
+      />
+    </div>
+    <div class="flex flex-col">
+      <span class="font-semibold text-lg text-white-800">
+        {{ usuario?.username }}
+      </span>
+    </div>
+  </div>
+
 
 
   <ul class="space-y-2 text-sm translate-y-4 translate-x-2">
     <li><a (click)="onPaginaInicialClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">home_filled</span> Página inicial</a></li>
-    <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">person</span> Perfil</a></li>
+    <li><a (click)="onPerfilClick()" [routerLink]="url_perfil" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">person</span> Perfil</a></li>
     <li><a routerLink="/criar_post" class="block px-3 py-2 rounded hover:bg-gray-800 transition"> <span class="material-icons">add_box </span> Criar Post</a></li>
     <li>
       <a (click)="onFavoritosClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition">
@@ -27,27 +34,4 @@
     <li><a  class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">logout</span> Sair</a></li>
   </ul>
 
-  <!-- <hr class="my-4 border-gray-800"> -->
-
-
-  <!-- <div>
-    <h4 class="text-xs text-gray-400 uppercase mb-2">Recentes</h4>
-    <ul class="space-y-1 text-sm">
-      <li *ngFor="let r of recentes">
-        <a [routerLink]="r.route" class="block px-3 py-2 rounded hover:bg-gray-800 transition">{{ r.label }}</a>
-      </li>
-    </ul>
-  </div> -->
-
-  <!-- <hr class="my-4 border-gray-800"> -->
-
-
-  <!-- <div class="mt-auto">
-    <h4 class="text-xs text-gray-400 uppercase mb-2">Assuntos</h4>
-    <ul class="space-y-1 text-sm">
-      <li *ngFor="let c of categorias">
-        <a href="#" class="block px-3 py-2 rounded hover:bg-gray-800 transition">{{ c }}</a>
-      </li>
-    </ul>
-  </div> -->
 </nav>

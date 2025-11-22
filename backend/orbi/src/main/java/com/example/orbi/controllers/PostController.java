@@ -88,4 +88,13 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/usuario")
+    public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPostsUsuario(
+            @RequestParam String username,
+            @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
+            Pageable pageable) {
+        Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username);
+        return ResponseEntity.ok(PageResponseDTO.of(page));
+    }
 }

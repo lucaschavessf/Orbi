@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { CabecalhoService } from '../../services/cabecalho-service';
-import { AuthService } from '../../services/auth-service'; // <-- IMPORTANTE
-import { Usuario } from '../../models/usuario'; // <-- para tipagem
+import { AuthService } from '../../services/auth-service';
+import { Usuario } from '../../models/usuario'; 
 import { UsuarioService } from '../../services/usuario-service';
 import { AzureService } from '../../services/azure-service';
 
@@ -18,13 +18,28 @@ export class MenuLateralComponent implements OnInit {
   
   selectedImage: string | null = null;
   usuario: Usuario | null = null;
-
+  url_perfil: string = '';
+  esconderPerfilMenu = false;
   private usuarioService = inject(UsuarioService);
   private azureService = inject(AzureService);
-  constructor(private router: Router, private cabecalhoService: CabecalhoService, private authService: AuthService) {}
+  constructor(private router: Router, private cabecalhoService: CabecalhoService,private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.carregarUsuario();
+    const usuarioLogado = this.usuarioService.getUsuarioLogado();
+
+    this.router.events.subscribe(() => {
+      const urlAtual = this.router.url; 
+
+      if (urlAtual.startsWith('/perfil/')) {
+        const usernameDaUrl = urlAtual.split('/')[2]; 
+
+        this.esconderPerfilMenu =
+          usernameDaUrl === usuarioLogado?.username;
+      } else {
+        this.esconderPerfilMenu = false;
+      }
+    });
   }
 
   carregarUsuario() {
@@ -35,7 +50,7 @@ export class MenuLateralComponent implements OnInit {
     }
 
     this.usuario = usuarioLogado;
-
+    this.url_perfil = `/perfil/${usuarioLogado.username}`;
     if (usuarioLogado.fotoPerfil) {
       const fileName = usuarioLogado.fotoPerfil.split('/').pop();
       const containerName = 'imagens-usuarios';
@@ -66,6 +81,17 @@ export class MenuLateralComponent implements OnInit {
       });
     } else {
       this.router.navigate(['/feed']);
+    }
+  }
+
+  onPerfilClick() {
+    this.cabecalhoService.clearSearchTerm?.(); 
+    if (this.router.url === this.url_perfil) {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([this.url_perfil]);
+      });
+    } else {
+      this.router.navigate([this.url_perfil]);
     }
   }
 

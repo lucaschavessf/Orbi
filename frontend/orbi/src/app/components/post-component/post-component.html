@@ -65,10 +65,17 @@
   <div class="flex-1 p-3 sm:p-4">
     <div class="flex items-center justify-between mb-2">
       <div class="flex items-center gap-2 text-sm">
-        <span class="text-gray-400">·</span>
-        <span class="text-gray-200 text-base font-semibold">@{{ post.usernameAutor }}</span>
-        <span class="text-gray-400">{{ post.dataCriacao | date:'short' }}</span>
-      </div>
+      <span class="text-gray-400">·</span>
+
+      <a 
+        [routerLink]="['/perfil', post.usernameAutor]" 
+        class="text-gray-200 text-base font-semibold hover:underline cursor-pointer"
+      >
+        @{{ post.usernameAutor }}
+      </a>
+
+      <span class="text-gray-400">{{ post.dataCriacao | date:'short' }}</span>
+    </div>
 
       <button
         (click)="favoritarPost()"
@@ -100,12 +107,12 @@
         {{ post.conteudo }}
       </p>
     </div>
-    <div *ngIf="post.urlArquivo" class="w-full aspect-video rounded-lg">
+    <div *ngIf="post.urlArquivo" class="w-full aspect-video rounded-lg pt-[10px] pr-[20px]">
       <img 
         *ngIf="post.urlArquivo"
         [src]="post.urlArquivo"
         alt="Imagem do post"
-        class="w-full h-full object-cover"
+        class="w-full max-h-[600px] object-cover rounded-2xl shadow-lg border border-gray-800 "
       />
     </div>
 
@@ -121,7 +128,7 @@
             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10z"
           ></path>
         </svg>
-        <span>{{ post.comments || 0 }} Comentários</span>
+        <span>{{ post.totalComentarios || 0 }} Comentários</span>
       </button>
     </div>
 

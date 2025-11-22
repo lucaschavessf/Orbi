@@ -1,0 +1,66 @@
+.perfil-container {
+  width: 100%;
+  margin:  auto;
+  padding: 20px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.foto-container {
+  width: 120px;
+  height: 120px;
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #444;
+}
+
+.info-usuario .nome {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+.username {
+  font-size: 16px;
+  color: #aaa;
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px solid #333;
+  margin: 20px 0;
+}
+
+.bio {
+  font-size: 16px;
+  margin-bottom: 15px;
+  white-space: pre-line;
+}
+
+.info-extra p {
+  font-size: 15px;
+  margin: 6px 0;
+  color: #ccc;
+}
+
+.posts-section {
+  margin-top: 20px;
+}
+
+.erro {
+  margin-top: 40px;
+  text-align: center;
+  color: #f55;
+  font-size: 18px;
+}

@@ -31,6 +31,14 @@ export class FeedService {
       mapResponseToPosts()
     );
   }
+
+  getPostsByUsername(username: string, page: number, size: number = 10): Observable<Post[]> {
+    const url = `${environment.apiUrl}/posts/usuario?username=${username}&page=${page}&size=${size}`
+    return this.http.get<Post[]>(url).pipe(
+      mapResponseToPosts()
+    );
+  }
+
 }
 
 function mapResponseToPosts() {
@@ -50,7 +58,8 @@ function mapResponseToPosts() {
         curtidoPeloUsuario: item.curtidoPeloUsuario,
         descurtidoPeloUsuario: item.descurtidoPeloUsuario,
         favoritadoPeloUsuario: item.favoritadoPeloUsuario,
-        urlArquivo: item.urlArquivo
+        urlArquivo: item.urlArquivo,
+        totalComentarios: item.totalComentarios
       };
     });
   });

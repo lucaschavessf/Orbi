@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -36,4 +37,8 @@ public interface PostRepository extends JpaRepository<PostModel, UUID> {
             nativeQuery = true)
     Page<PostModel> buscarPorTexto(@Param("texto") String texto, Pageable pageable);
     Page<PostModel> findByFavoritosContaining(UsuarioModel usuario, Pageable pageable);
+
+    Page<PostModel> findByAutor_Id(UUID autorId, Pageable pageable);
+
+
 }

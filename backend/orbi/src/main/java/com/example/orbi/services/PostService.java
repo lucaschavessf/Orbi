@@ -64,6 +64,22 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
+    public Page<PostResponseDTO> listarPostsUsuario(Pageable pageable, String username) {
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 10);
+        }
+
+        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
+        UsuarioModel usuario = usuarioOpt
+        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Page<PostModel> page = postRepository.findByAutor_Id(usuario.getId(), pageable);
+
+        return page.map(post -> mapToResponseDTO(post, usuario));
+
+
+    }
+
+    @Transactional(readOnly = true)
     public Page<PostResponseDTO> buscarPosts(String texto, Pageable pageable, String username) {
         if (pageable == null) {
             pageable = PageRequest.of(0, 10);

@@ -1,0 +1,49 @@
+<div class="perfil-container h-full overflow-y-auto bg-gray-900" *ngIf="usuario">
+  <div class="perfil-header">
+    <div class="foto-container">
+      <img [src]="fotoUrl || 'https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png'" alt="Foto de perfil" class="foto-perfil" />
+    </div>
+
+    <div class="info-usuario">
+      <h2 class="nome">{{ usuario.nome }}</h2>
+      <p class="username">@{{ usuario.username }}</p>
+    </div>
+  </div>
+
+  <hr />
+  <div class="bio" *ngIf="usuario.bio">
+    {{ usuario.bio }}
+  </div>
+  <div class="info-extra">
+
+    <p *ngIf="usuario.email">
+      <strong>Email:</strong> {{ usuario.email }}
+    </p>
+
+    <p *ngIf="usuario.curso">
+      <strong>Curso:</strong> {{ usuario.curso }}
+    </p>
+
+    <p *ngIf="usuario.tipo">
+      <strong>Tipo:</strong> {{ usuario.tipo }}
+    </p>
+    <p *ngIf="usuario.tipo">
+      <strong>Bio:</strong> {{ usuario.bio }}
+    </p>
+
+  </div>
+
+  <hr />
+  <div class="posts-section">
+    <h3>Posts</h3>
+  </div>
+  <hr />
+  <div class="posts-section">
+    <app-feed-perfil [username]="usuario.username"></app-feed-perfil>
+  </div>
+
+</div>
+
+<div *ngIf="!usuario" class="erro">
+  Usuário não encontrado.
+</div>

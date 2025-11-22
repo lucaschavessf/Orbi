@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario-service'; 
 import { PostService } from '../../services/post-service';
 import { PostComentarioComponent } from '../post-comentario-component/post-comentario-component';
+import { Router, RouterModule } from '@angular/router';
 
 export interface Post {
   descurtidoPeloUsuario: boolean;
@@ -16,7 +17,7 @@ export interface Post {
   numeroCurtidas?: number;
   totalPontuacao?: number;
   numeroDeslikes?: number;
-  comments?: number;
+  totalComentarios?: number;
   flair?: string;
   urlArquivo?: string;
 }
@@ -24,7 +25,7 @@ export interface Post {
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule, PostComentarioComponent],
+  imports: [CommonModule, PostComentarioComponent,RouterModule],
   templateUrl: './post-component.html',
   styleUrl: './post-component.css'
 })
@@ -33,6 +34,7 @@ export class PostComponent {
   private usuarioService = inject(UsuarioService); 
   private postService = inject(PostService);
   private usernameAutor = this.usuarioService.getUsuarioLogado().username;
+  private router = inject(Router);
   selectedImage: string | null = null;
 
   formatVotes(votes: number = 0): string {
