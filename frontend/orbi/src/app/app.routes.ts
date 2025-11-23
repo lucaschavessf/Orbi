@@ -8,6 +8,7 @@ import { CriarPostComponent } from './components/criar-post-component/criar-post
 import { AuthGuard } from './guards/auth-guard-guard';
 import { ChatAssistentComponent } from './components/chat-assistent-component/chat-assistent-component';
 import { PerfilComponent } from './components/perfil-component/perfil-component';
+import { EditarPerfilComponent } from './components/editar-perfil-component/editar-perfil-component'
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'favoritos', component: FeedComponent },
       { path: 'criar_post', component: CriarPostComponent },
       { path: 'chat_ai', component: ChatAssistentComponent },
+      { path: 'editar', component: EditarPerfilComponent },
 
       {
         path: 'perfil',
