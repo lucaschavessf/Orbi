@@ -1,5 +1,6 @@
 package com.example.orbi.services;
 
+import com.example.orbi.dto.AtualizarPerfilRequestDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,28 @@ public class UsuarioService {
 
         usuarioRepository.delete(usuario);
     }
+
+    @Transactional
+    public UsuarioDTO atualizarPerfil(String username, AtualizarPerfilRequestDTO dto) {
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (dto.nome() != null && !dto.nome().isBlank()) {
+            usuario.setNome(dto.nome());
+        }
+
+        if (dto.bio() != null) {
+            usuario.setBio(dto.bio());
+        }
+
+        UsuarioModel salvo = usuarioRepository.save(usuario);
+        UsuarioDTO response = new UsuarioDTO(salvo);
+        response.setSenha(null);
+        return response;
+    }
+
+
+
 
     public UsuarioDTO buscarPorUsername(String username) {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)

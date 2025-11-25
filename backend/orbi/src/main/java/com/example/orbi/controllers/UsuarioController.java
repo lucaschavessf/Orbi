@@ -1,8 +1,11 @@
 package com.example.orbi.controllers;
 
+import com.example.orbi.dto.AtualizarPerfilRequestDTO;
 import com.example.orbi.dto.LoginResponseDTO;
+import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.services.JwtService;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.orbi.dto.UsuarioDTO;
@@ -85,4 +88,21 @@ public class UsuarioController {
                     .body(e.getMessage());
         }
     }
+
+    @PutMapping("/perfil/{username}")
+    public ResponseEntity<UsuarioDTO> atualizarPerfil(
+            @PathVariable String username,
+            @RequestBody @Valid AtualizarPerfilRequestDTO dto) {
+        try {
+            UsuarioDTO usuarioAtualizado = usuarioService.atualizarPerfil(username, dto);
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+
+
+
 }
