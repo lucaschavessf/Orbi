@@ -22,6 +22,7 @@ export class MenuLateralComponent implements OnInit {
   esconderPerfilMenu = false;
   private usuarioService = inject(UsuarioService);
   private azureService = inject(AzureService);
+  private authService = inject(AuthService)
   constructor(private router: Router, private cabecalhoService: CabecalhoService,private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -114,5 +115,10 @@ export class MenuLateralComponent implements OnInit {
     } else {
       this.router.navigate(['/chat_ai']);
     }
+  }
+
+  onSairClick() {
+      this.authService.logout()
+      this.router.navigate(['/']);
   }
 }

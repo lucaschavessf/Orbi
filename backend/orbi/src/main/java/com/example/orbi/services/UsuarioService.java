@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.orbi.dto.UsuarioDTO;
 import com.example.orbi.models.UsuarioModel;
+import com.example.orbi.repositories.DominioRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +25,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private DominioRepository dominioRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PersistenceContext
@@ -34,11 +38,14 @@ public class UsuarioService {
         if (usuarioRepository.findByUsername(usuarioDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username já está em uso");
         }
-
         if (usuarioRepository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
             throw new RuntimeException("Email já está em uso");
         }
-
+        String email = usuarioDTO.getEmail();
+        String dominio = email.substring(email.indexOf("@") + 1).trim();
+        if (!dominioRepository.existsByDominioIgnoreCase(dominio)) {
+            throw new RuntimeException("O domínio do email não está vinculado a nenhuma instituição cadastrada.");
+        }
         UsuarioModel usuario = new UsuarioModel();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setNome(usuarioDTO.getNome());
@@ -59,6 +66,7 @@ public class UsuarioService {
 
         return response;
     }
+
 
     public List<UsuarioDTO> listarUsuarios() {
     return usuarioRepository.findAll().stream()

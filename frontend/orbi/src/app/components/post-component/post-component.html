@@ -64,37 +64,65 @@
 
   <div class="flex-1 p-3 sm:p-4">
     <div class="flex items-center justify-between mb-2">
+
       <div class="flex items-center gap-2 text-sm">
-      <span class="text-gray-400">·</span>
+        <span class="text-gray-400">·</span>
 
-      <a 
-        [routerLink]="['/perfil', post.usernameAutor]" 
-        class="text-gray-200 text-base font-semibold hover:underline cursor-pointer"
-      >
-        @{{ post.usernameAutor }}
-      </a>
-
-      <span class="text-gray-400">{{ post.dataCriacao | date:'short' }}</span>
-    </div>
-
-      <button
-        (click)="favoritarPost()"
-        class="p-2 rounded transition active:scale-95"
-        [ngClass]="{
-          'text-red-500 bg-gray-700': post.favoritadoPeloUsuario,
-          'text-gray-400 hover:text-red-500 hover:bg-gray-700': !post.favoritadoPeloUsuario
-        }"
-        title="Favoritar"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
+        <a 
+          [routerLink]="['/perfil', post.usernameAutor]" 
+          class="text-gray-200 text-base font-semibold hover:underline cursor-pointer"
         >
-          <path d="M6 2a2 2 0 0 0-2 2v18l8-4 8 4V4a2 2 0 0 0-2-2H6z"></path>
-        </svg>
-      </button>
+          @{{ post.usernameAutor }}
+        </a>
+
+        <span class="text-gray-400">
+        <ng-container *ngIf="post.editado; else dataOriginal">
+          {{ post.dataEdicao | date:'short' }} <span class="italic text-gray-500">(editado)</span>
+        </ng-container>
+
+        <ng-template #dataOriginal>
+          {{ post.dataCriacao | date:'short' }}
+        </ng-template>
+      </span>
+
+      </div>
+
+      <div class="flex items-center gap-2">
+
+        <button
+          *ngIf="usernameAutor === post.usernameAutor"
+          (click)="editarPost()"
+          class="p-2 rounded transition active:scale-95 text-gray-400 hover:text-yellow-400 hover:bg-gray-700"
+          title="Editar post"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.232 5.232l3.536 3.536M4 20h4l10.232-10.232a2 2 0 0 0 0-2.828l-3.536-3.536a2 2 0 0 0-2.828 0L4 14v6z" />
+          </svg>
+        </button>
+
+        <button
+          (click)="favoritarPost()"
+          class="p-2 rounded transition active:scale-95"
+          [ngClass]="{
+            'text-red-500 bg-gray-700': post.favoritadoPeloUsuario,
+            'text-gray-400 hover:text-red-500 hover:bg-gray-700': !post.favoritadoPeloUsuario
+          }"
+          title="Favoritar"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 2a2 2 0 0 0-2 2v18l8-4 8 4V4a2 2 0 0 0-2-2H6z"></path>
+          </svg>
+        </button>
+
+      </div>
+
     </div>
+
 
     <div class="flex items-center gap-2 mb-2">
       <h2 class="text-lg sm:text-xl font-semibold text-white hover:underline cursor-pointer">

@@ -1,7 +1,9 @@
 package com.example.orbi.services;
 
+import com.azure.core.annotation.Post;
 import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
+import com.example.orbi.dto.PostUpdateRequestDTO;
 import com.example.orbi.models.AvaliacaoModel;
 import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
@@ -13,6 +15,7 @@ import com.example.orbi.repositories.UsuarioRepository;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.data.domain.PageRequest;
@@ -162,7 +165,9 @@ public class PostService {
                 descurtido,
                 favoritado,
                 (int) totalComentarios,
-                post.getUrlArquivo()
+                post.getUrlArquivo(),
+                post.getEditado(),
+                post.getDataHoraEdicao()
         );
     }
 
@@ -200,4 +205,48 @@ public class PostService {
         Page<PostModel> favoritos = postRepository.findByFavoritosContaining(usuario, pageable);
         return favoritos.map(post -> mapToResponseDTO(post, usuario));
     }
+
+    public PostResponseDTO atualizarPost(UUID id, PostUpdateRequestDTO dto) {
+
+        PostModel post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        if(dto.usernameAutor() == null || !dto.usernameAutor().equals(post.getAutor().getUsername())) {
+            throw new RuntimeException("Apenas o autor do post pode editá-lo");
+        }
+        post.setTitulo(dto.titulo());
+        post.setConteudo(dto.conteudo());
+
+        if (dto.urlArquivo() != null && !dto.urlArquivo().isBlank()) {
+            post.setUrlArquivo(dto.urlArquivo());
+        }
+
+        post.setEditado(true);
+        post.setDataHoraEdicao(LocalDateTime.now());
+
+        postRepository.save(post);
+
+        return mapToResponseDTO(post, post.getAutor());
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponseDTO listarPostPorId(UUID id) {
+        PostModel post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        return mapToResponseDTO(post, null);
+    }
+
+    public void excluirPost(UUID postId, String usernameAutenticado) {
+        PostModel post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado."));
+
+        if (!post.getAutor().getUsername().equals(usernameAutenticado)) {
+            throw new RuntimeException("Você não tem permissão para excluir este post. "+post.getAutor()+"-"+usernameAutenticado);
+        }
+
+        postRepository.delete(post);
+    }
+
+
 }

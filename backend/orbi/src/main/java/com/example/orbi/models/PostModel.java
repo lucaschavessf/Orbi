@@ -33,6 +33,12 @@ public class PostModel {
     @Column(length = 512)
     private String urlArquivo;
 
+    @Column(name = "editado",nullable = false)
+    private Boolean editado;
+
+    @Column(name = "data_hora_edicao")
+    private LocalDateTime dataHoraEdicao;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "post_favoritos",
