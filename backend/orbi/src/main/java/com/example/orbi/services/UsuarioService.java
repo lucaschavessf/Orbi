@@ -42,7 +42,6 @@ public class UsuarioService {
         UsuarioModel usuario = new UsuarioModel();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setNome(usuarioDTO.getNome());
-        usuario.setCpf(usuarioDTO.getCpf());
         usuario.setEmail(usuarioDTO.getEmail());
 
         String senhaCriptografada = passwordEncoder.encode(usuarioDTO.getSenha());
@@ -103,6 +102,7 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO atualizarPerfil(String username, AtualizarPerfilRequestDTO dto) {
+
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -114,11 +114,40 @@ public class UsuarioService {
             usuario.setBio(dto.bio());
         }
 
+        if (dto.fotoPerfil() != null) {
+            usuario.setFotoPerfil(dto.fotoPerfil());
+        }
+
+        if (dto.username() != null && !dto.username().isBlank()
+                && !dto.username().equals(usuario.getUsername())) {
+
+            if (usuarioRepository.existsByUsername(dto.username())) {
+                throw new IllegalArgumentException("Nome de usuário já está em uso");
+            }
+
+            usuario.setUsername(dto.username());
+        }
+
+        if (dto.senhaAtual() != null && dto.novaSenha() != null) {
+
+            boolean correta = passwordEncoder.matches(dto.senhaAtual(), usuario.getSenha());
+
+            if (!correta) {
+                throw new IllegalArgumentException("Senha atual incorreta");
+            }
+
+            usuario.setSenha(passwordEncoder.encode(dto.novaSenha()));
+        }
+
         UsuarioModel salvo = usuarioRepository.save(usuario);
+
         UsuarioDTO response = new UsuarioDTO(salvo);
         response.setSenha(null);
+
         return response;
     }
+
+
 
 
 

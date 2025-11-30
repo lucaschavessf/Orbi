@@ -22,7 +22,6 @@ public class UsuarioDTO {
     public UsuarioDTO(UsuarioModel model) {
         this.username = model.getUsername();
         this.nome = model.getNome();
-        this.cpf = model.getCpf();
         this.email = model.getEmail();
         this.senha = model.getSenha();
         this.tipo = model.getTipo();
@@ -35,7 +34,6 @@ public class UsuarioDTO {
         UsuarioModel model = new UsuarioModel();
         model.setUsername(username);
         model.setNome(nome);
-        model.setCpf(cpf);
         model.setEmail(email);
         model.setSenha(senha);
         model.setTipo(tipo);

@@ -43,7 +43,6 @@ class UsuarioServiceTest {
         usuarioDTO = new UsuarioDTO();
         usuarioDTO.setUsername("joao123");
         usuarioDTO.setNome("João Silva");
-        usuarioDTO.setCpf("12345678901");
         usuarioDTO.setEmail("joao@email.com");
         usuarioDTO.setSenha("senha123");
         usuarioDTO.setTipo(TipoUsuario.ALUNO);
@@ -53,7 +52,6 @@ class UsuarioServiceTest {
         usuarioModel.setId(UUID.randomUUID());
         usuarioModel.setUsername("joao123");
         usuarioModel.setNome("João Silva");
-        usuarioModel.setCpf("12345678901");
         usuarioModel.setEmail("joao@email.com");
         usuarioModel.setSenha("senhaCriptografada123");
         usuarioModel.setTipo(TipoUsuario.ALUNO);

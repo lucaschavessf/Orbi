@@ -59,7 +59,6 @@ class PostServiceTest {
         autor.setEmail("autor@email.com");
         autor.setSenha("senha123");
         autor.setTipo(TipoUsuario.ALUNO);
-        autor.setCpf("12345678901");
         autor.setCurso("Engenharia");
 
         usuario = new UsuarioModel();
@@ -69,7 +68,6 @@ class PostServiceTest {
         usuario.setEmail("usuario@email.com");
         usuario.setSenha("senha123");
         usuario.setTipo(TipoUsuario.ALUNO);
-        usuario.setCpf("98765432100");
         usuario.setCurso("Ciência da Computação");
 
         post = new PostModel();

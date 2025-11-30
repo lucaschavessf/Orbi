@@ -38,4 +38,9 @@ export class AuthService {
   estaLogado(): boolean {
     return !!this.getToken();
   }
+
+  logout() {
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('token');
+  }
 }

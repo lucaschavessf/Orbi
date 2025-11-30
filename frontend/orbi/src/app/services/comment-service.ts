@@ -17,14 +17,22 @@ export class CommentService {
   }
 
 
-  criarComentario(postId: string, conteudo: string, usernameAutor: string): Observable<Comment> {
+  criarComentario(postId: string, conteudo: string, usernameAutor: string, comentarioPaiId: string | null = null): Observable<Comment> {
     const body = {
       usernameAutor,
       conteudo,
       postId,
-      comentarioPaiId: null
+      comentarioPaiId
     };
 
     return this.http.post<Comment>(this.apiUrl, body);
   }
+
+  criarResposta(comentarioId: string, conteudo: string, username: string) {
+    return this.http.post<Comment>(
+      `/api/comentarios/${comentarioId}/respostas`,
+      { conteudo, username }
+    );
+  }
+
 }

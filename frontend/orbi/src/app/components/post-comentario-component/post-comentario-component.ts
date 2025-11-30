@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { CommentService } from '../../services/comment-service';
 import { UsuarioService } from '../../services/usuario-service';
 import { Comment } from '../../models/comment';
+import { ComentarioItemComponent } from '../comentario-item-component/comentario-item-component';
 
 @Component({
   selector: 'app-post-comentario',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ComentarioItemComponent],
   templateUrl: './post-comentario-component.html'
 })
 export class PostComentarioComponent {
@@ -30,13 +31,11 @@ export class PostComentarioComponent {
     const username = this.usuarioService.getUsuarioLogado().username;
 
     this.commentService.listarComentarios(this.postId, username)
-      .subscribe(res => {
-        this.comentarios = res;
-      });
+      .subscribe(res => this.comentarios = res);
   }
 
   enviarComentario() {
-    if (this.novoComentario.trim().length === 0) return;
+    if (!this.novoComentario.trim()) return;
 
     const username = this.usuarioService.getUsuarioLogado().username;
 
@@ -48,3 +47,4 @@ export class PostComentarioComponent {
       });
   }
 }
+

@@ -26,8 +26,6 @@ public class UsuarioModel implements Serializable {
     private String username;
     @Column(nullable = false, length = 256)
     private String nome;
-    @Column(unique = true, nullable = false, length = 11)
-    private String cpf;
     @Column(unique = true, nullable = false, length = 256)
     private String email;
     @Column(nullable = false, length = 256)
@@ -85,12 +83,6 @@ public class UsuarioModel implements Serializable {
     }
     public void setTipo(TipoUsuario tipo) {
         this.tipo = tipo;
-    }
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
     public String getCurso() {
         return curso;
