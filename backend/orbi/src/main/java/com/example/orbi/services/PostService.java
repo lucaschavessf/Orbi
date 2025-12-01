@@ -5,6 +5,7 @@ import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
 import com.example.orbi.dto.PostUpdateRequestDTO;
 import com.example.orbi.models.AvaliacaoModel;
+import com.example.orbi.models.ComentarioModel;
 import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.repositories.AvaliacaoRepository;
@@ -12,11 +13,8 @@ import com.example.orbi.repositories.ComentarioRepository;
 import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -285,6 +283,7 @@ public class PostService {
         return mapToResponseDTO(post, usuario);
     }
 
+    @Transactional
     public void excluirPost(UUID postId, String usernameAutenticado) {
         PostModel post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado."));
@@ -293,6 +292,21 @@ public class PostService {
             throw new RuntimeException("Você não tem permissão para excluir este post.");
         }
 
+        List<ComentarioModel> comentarios = comentarioRepository.findAllByPostId(postId);
+        for (ComentarioModel comentario : comentarios) {
+            avaliacaoRepository.deleteByIdConteudo(comentario.getId());
+        }
+
+        List<ComentarioModel> comentariosPai = comentarioRepository.findByPostIdAndComentarioPaiIsNull(postId);
+        for (ComentarioModel comentarioPai : comentariosPai) {
+            comentarioRepository.delete(comentarioPai);
+        }
+
+        avaliacaoRepository.deleteByIdConteudo(postId);
+
+        post.getFavoritos().clear();
+        postRepository.save(post);
         postRepository.delete(post);
     }
+
 }
