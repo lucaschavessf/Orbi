@@ -33,8 +33,8 @@ public class PostModel {
     @Column(length = 512)
     private String urlArquivo;
 
-    @Column(name = "editado",nullable = false)
-    private Boolean editado;
+    @Column(name = "editado", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean editado = false;
 
     @Column(name = "data_hora_edicao")
     private LocalDateTime dataHoraEdicao;
@@ -51,6 +51,9 @@ public class PostModel {
     protected void onCreate() {
         if (this.dataCriacao == null) {
             this.dataCriacao = LocalDateTime.now();
+        }
+        if (this.editado == null) {
+            this.editado = false;
         }
     }
 }

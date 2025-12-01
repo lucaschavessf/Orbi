@@ -1,6 +1,8 @@
 package com.example.orbi.dto;
 
-public record InstituicaoRequestDTO(
-        String nome
-) {}
+import java.util.List;
 
+public record InstituicaoRequestDTO(
+        String nome,
+        List<String> dominios
+) {}

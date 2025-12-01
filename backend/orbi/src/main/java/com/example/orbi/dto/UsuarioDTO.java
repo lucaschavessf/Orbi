@@ -11,7 +11,6 @@ import lombok.*;
 public class UsuarioDTO {
     private String username;
     private String nome;
-    private String cpf;
     private String email;
     private String senha;
     private TipoUsuario tipo;

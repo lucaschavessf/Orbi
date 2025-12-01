@@ -37,7 +37,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPosts(
             @RequestParam String username,
-            @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
+            @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
         Page<PostResponseDTO> page = postService.listarPosts(pageable, username);
         return ResponseEntity.ok(PageResponseDTO.of(page));
@@ -53,11 +53,12 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> listarPostPorId(@PathVariable UUID id) {
-        PostResponseDTO response = postService.listarPostPorId(id);
+    public ResponseEntity<PostResponseDTO> listarPostPorId(
+            @PathVariable UUID id,
+            @RequestParam String username) {
+        PostResponseDTO response = postService.listarPostPorId(id, username);
         return ResponseEntity.ok(response);
     }
-
 
     @GetMapping("/search")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> buscarPosts(
@@ -111,9 +112,10 @@ public class PostController {
     @GetMapping("/usuario")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPostsUsuario(
             @RequestParam String username,
-            @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
+            @RequestParam String usernameAutenticado,
+            @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
-        Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username);
+        Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username, usernameAutenticado);
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
 

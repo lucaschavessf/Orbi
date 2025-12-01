@@ -1,23 +1,15 @@
 package com.example.orbi.controllers;
 
-import java.util.UUID;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.orbi.dto.DominioRequestDTO;
-import com.example.orbi.dto.DominioResponseDTO;
 import com.example.orbi.dto.InstituicaoRequestDTO;
 import com.example.orbi.dto.InstituicaoResponseDTO;
 import com.example.orbi.services.InstituicaoService;
-import com.example.orbi.services.PostService;
 
 import jakarta.validation.Valid;
 
@@ -35,14 +27,19 @@ public class InstituicaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/dominio/{instituicao}")
-    public ResponseEntity<DominioResponseDTO> criarDominio(
-            @PathVariable String instituicao,
-            @RequestBody @Valid DominioRequestDTO dto) {
-        
-        DominioResponseDTO response = instituicaoService.criarDominio(instituicao, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @GetMapping
+    public ResponseEntity<List<InstituicaoResponseDTO>> listarInstituicoes() {
+        List<InstituicaoResponseDTO> instituicoes = instituicaoService.listarInstituicoes();
+        return ResponseEntity.ok(instituicoes);
     }
 
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<InstituicaoResponseDTO> buscarInstituicao(@PathVariable String id) {
+        try {
+            InstituicaoResponseDTO instituicao = instituicaoService.buscarInstituicaoPorId(id);
+            return ResponseEntity.ok(instituicao);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

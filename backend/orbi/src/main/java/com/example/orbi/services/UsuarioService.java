@@ -1,6 +1,7 @@
 package com.example.orbi.services;
 
 import com.example.orbi.dto.AtualizarPerfilRequestDTO;
+import com.example.orbi.models.DominioModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,8 @@ public class UsuarioService {
         }
         String email = usuarioDTO.getEmail();
         String dominio = email.substring(email.indexOf("@") + 1).trim();
-        if (!dominioRepository.existsByDominioIgnoreCase(dominio)) {
-            throw new RuntimeException("O domínio do email não está vinculado a nenhuma instituição cadastrada.");
-        }
+        DominioModel dominioModel = dominioRepository.findByDominioIgnoreCase(dominio)
+                .orElseThrow(() -> new RuntimeException("O domínio do email não está vinculado a nenhuma instituição cadastrada."));
         UsuarioModel usuario = new UsuarioModel();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setNome(usuarioDTO.getNome());
@@ -56,6 +56,7 @@ public class UsuarioService {
 
         usuario.setTipo(usuarioDTO.getTipo());
         usuario.setCurso(usuarioDTO.getCurso());
+        usuario.setInstituicao(dominioModel.getId_instituicao());
         usuario.setBio(usuarioDTO.getBio());
         usuario.setFotoPerfil(usuarioDTO.getFotoPerfil());
 
@@ -102,6 +103,18 @@ public class UsuarioService {
                 .executeUpdate();
 
         entityManager.createNativeQuery("DELETE FROM avaliacoes WHERE id_conteudo IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM avaliacoes WHERE id_conteudo IN (SELECT id FROM comentarios WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId))")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM comentarios WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM posts WHERE autor_id = :usuarioId")
                 .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
