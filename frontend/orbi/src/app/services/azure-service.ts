@@ -12,7 +12,12 @@ export class AzureService {
   private apiUrl = `${environment.apiUrl}/files/sas-token`;
 
   async uploadFile(containerName: string, file: File): Promise<string> {
-    const fileName = `${crypto.randomUUID()}-${file.name}`;
+    const now = new Date();
+    const timestamp = now.toISOString()
+      .replace(/[-:T]/g, "")
+      .split(".")[0];          
+
+    const fileName = `${crypto.randomUUID()}-${timestamp}`;
 
     const sasData: any = await firstValueFrom(
       this.http.get(`${this.apiUrl}?container=${containerName}&filename=${fileName}`)
