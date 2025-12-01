@@ -112,10 +112,9 @@ public class PostController {
     @GetMapping("/usuario")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPostsUsuario(
             @RequestParam String username,
-            @RequestParam String usernameAutenticado,
             @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
-        Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username, usernameAutenticado);
+        Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username);
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
 

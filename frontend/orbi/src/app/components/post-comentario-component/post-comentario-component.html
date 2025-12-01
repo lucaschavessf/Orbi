@@ -24,7 +24,8 @@
     *ngFor="let c of comentarios"
     [comentario]="c"
     [postId]="postId"
-    [nivel]="0">
+    [nivel]="0"
+    (deletado)="onComentarioDeletado($event)">
   </app-comentario-item>
 
 </div>

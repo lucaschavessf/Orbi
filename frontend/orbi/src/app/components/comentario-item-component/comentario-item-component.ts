@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class ComentarioItemComponent {
   @Input() comentario!: Comment;
   @Input() postId!: string;
   @Input() nivel: number = 0;
+  @Output() deletado = new EventEmitter<string>();
 
   mostrandoRespostas = false;
   mostrandoInputResposta = false;
@@ -33,7 +34,7 @@ export class ComentarioItemComponent {
     this.mostrandoInputResposta = !this.mostrandoInputResposta;
   }
 
-  getTotalRespostas(comentario: any): number {
+  getTotalRespostas(comentario: Comment): number {
     if (!comentario.respostas || comentario.respostas.length === 0) return 0;
 
     let total = comentario.respostas.length;
@@ -45,14 +46,13 @@ export class ComentarioItemComponent {
     return total;
   }
 
-
   enviarResposta() {
     if (!this.respostaTexto.trim()) return;
 
     const username = this.usuarioService.getUsuarioLogado().username;
 
     this.commentService
-      .criarComentario(this.postId,this.respostaTexto, username,this.comentario.id)
+      .criarComentario(this.postId, this.respostaTexto, username, this.comentario.id)
       .subscribe(nova => {
         this.comentario.respostas.push(nova);
         this.respostaTexto = '';
@@ -60,4 +60,33 @@ export class ComentarioItemComponent {
         this.mostrandoRespostas = true;
       });
   }
+
+  avaliar(avaliacao: boolean) {
+    const username = this.usuarioService.getUsuarioLogado().username;
+
+    this.commentService
+      .avaliarComentario(this.comentario.id, avaliacao, username)
+      .subscribe(res => {
+
+        this.comentario.totalCurtidas   = res.totalCurtidas;
+        this.comentario.totalDeslikes   = res.totalDeslikes;
+        this.comentario.curtido         = res.curtido;
+        this.comentario.descurtido      = res.descurtido;
+      });
+  }
+
+deletarComentario() {
+  const username = this.usuarioService.getUsuarioLogado().username;
+
+  this.commentService
+    .deletarComentario(this.comentario.id, username)
+    .subscribe(() => {
+      this.deletado.emit(this.comentario.id);
+    });
+}
+
+isAutor(): boolean {
+  return this.comentario.usernameAutor === this.usuarioService.getUsuarioLogado().username;
+}
+
 }

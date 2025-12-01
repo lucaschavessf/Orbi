@@ -32,8 +32,8 @@ export class PostService {
     return this.http.post(url, null,{ responseType: 'text' });
   }
 
-  obterPostPorId(postId: string): Observable<Post> {
-    const url = `${environment.apiUrl}/posts/${postId}`;
+  obterPostPorId(postId: string, username: string): Observable<Post> {
+    const url = `${environment.apiUrl}/posts/${postId}?username=${username}`;
     return this.http.get<Post>(url);
   }
   atualizarPost(postId: string, post: any): Observable<Post>{

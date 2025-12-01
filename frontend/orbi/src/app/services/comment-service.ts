@@ -35,4 +35,18 @@ export class CommentService {
     );
   }
 
+avaliarComentario(comentarioId: string, avaliacao: boolean, username: string) {
+  return this.http.post<Comment>(
+    `${this.apiUrl}/${comentarioId}/avaliar?avaliacao=${avaliacao}&username=${username}`,
+    {}
+  );
+}
+
+  deletarComentario(comentarioId: string, username: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/${comentarioId}`,
+      { params: { username } }
+    );
+  }
+
 }

@@ -14,8 +14,25 @@
 
     <div class="flex items-center gap-4 text-xs text-gray-400 mt-2">
 
-      <button (click)="toggleResponder()" class="hover:text-blue-400">
+      <button (click)="avaliar(true)"
+              [ngClass]="comentario.curtido ? 'text-green-400' : 'hover:text-green-300'">
+        &#8657; {{ comentario.totalCurtidas }}
+      </button>
+
+      <button (click)="avaliar(false)"
+              [ngClass]="comentario.descurtido ? 'text-red-400' : 'hover:text-red-300'">
+        &#8659; {{ comentario.totalDeslikes }}
+      </button>
+
+      <button (click)="toggleResponder()" class="hover:text-blue-400 ml-4">
         Responder
+      </button>
+
+      <button
+      *ngIf="isAutor()"
+      (click)="deletarComentario()"
+      class="hover:text-red-400 text-xs ">
+      Excluir
       </button>
 
       <button
@@ -26,6 +43,7 @@
       </button>
 
     </div>
+
     <div *ngIf="mostrandoInputResposta" class="mt-2 flex gap-2">
 
       <input
@@ -52,6 +70,7 @@
       </app-comentario-item>
 
     </div>
+
 
   </div>
 

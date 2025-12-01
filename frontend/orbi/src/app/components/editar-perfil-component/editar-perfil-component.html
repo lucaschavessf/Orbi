@@ -66,75 +66,57 @@
     <p class="text-gray-400 text-sm mb-4">{{ descricaoModal }}</p>
 
     <div *ngIf="campoSendoEditado === 'avatar'" class="mb-4">
-
       <input 
         type="file"
         accept="image/png, image/jpeg, image/webp"
         (change)="onFileSelected($event)"
         class="text-gray-200"
       />
-
       <p class="text-sm text-gray-400 mt-2" *ngIf="selectedFile">
         Arquivo selecionado: {{ selectedFile.name }}
       </p>
-
       <p class="text-indigo-400 mt-1" *ngIf="uploadingAvatar">
         Enviando imagem, aguarde...
       </p>
-
     </div>
 
     <div *ngIf="campoSendoEditado === 'senha'">
       <label class="text-xs text-gray-400">Senha atual</label>
-      <input
-        type="password"
-        class="w-full p-3 mb-2 bg-gray-200 rounded-xl outline-none text-gray-900"
-        placeholder="Senha atual"
-        [(ngModel)]="senhaAtual"
-      />
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="senhaAtual"/>
 
       <label class="text-xs text-gray-400">Nova senha</label>
-      <input
-        type="password"
-        class="w-full p-3 mb-2 bg-gray-200 rounded-xl outline-none text-gray-900"
-        placeholder="Nova senha"
-        [(ngModel)]="novaSenha"
-      />
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="novaSenha"/>
 
       <label class="text-xs text-gray-400">Confirmar nova senha</label>
-      <input
-        type="password"
-        class="w-full p-3 mb-2 bg-gray-200 rounded-xl outline-none text-gray-900"
-        placeholder="Confirmar nova senha"
-        [(ngModel)]="confirmarSenha"
-      />
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="confirmarSenha"/>
 
-      <div *ngIf="erroSenha" class="text-sm text-red-400 mt-2">
-        {{ erroSenha }}
-      </div>
+      <div *ngIf="erroSenha" class="text-sm text-red-400 mt-2">{{ erroSenha }}</div>
     </div>
 
-    <ng-template #singleInput>
+    <div *ngIf="campoSendoEditado !== 'avatar' && campoSendoEditado !== 'senha'">
+      <ng-container *ngTemplateOutlet="singleInput"></ng-container>
+    </div>
+
+   <ng-template #singleInput>
       <input
         type="text"
-        class="w-full p-3 bg-gray-200 rounded-xl outline-none text-gray-900"
+        class="w-full p-3 bg-gray-200 rounded-xl text-gray-900"
         [placeholder]="placeholder"
         [(ngModel)]="campoEdicao"
         maxlength="500"
       />
       <div class="text-right text-gray-400 text-xs mt-1">
-        {{ campoEdicao.length || 0 }}/500
+        {{ campoEdicao?.length || 0 }}/500
       </div>
     </ng-template>
 
     <div class="flex justify-end gap-3 mt-6">
-      <button class="bg-gray-200 px-4 py-2 rounded-xl"
-              (click)="fecharModal()">Cancelar</button>
-
+      <button class="bg-gray-200 px-4 py-2 rounded-xl" (click)="fecharModal()">Cancelar</button>
       <button class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-xl"
               (click)="salvar()" [disabled]="isSaving">
         {{ isSaving ? 'Salvando...' : 'Salvar' }}
       </button>
     </div>
+
   </div>
 </div>

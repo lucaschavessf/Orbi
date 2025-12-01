@@ -46,5 +46,18 @@ export class PostComentarioComponent {
         this.novoComentario = '';
       });
   }
+
+  onComentarioDeletado(id: string) {
+  this.comentarios = this.removerComentarioRecursivo(this.comentarios, id);
+}
+
+removerComentarioRecursivo(lista: Comment[], id: string): Comment[] {
+  return lista
+    .filter(c => c.id !== id)
+    .map(c => ({
+      ...c,
+      respostas: this.removerComentarioRecursivo(c.respostas, id)
+    }));
+}
 }
 

@@ -43,7 +43,7 @@ export class EditPostComponent {
   constructor() {
     this.postId = this.route.snapshot.params['id'];
 
-    this.postService.obterPostPorId(this.postId).subscribe({
+    this.postService.obterPostPorId(this.postId, this.usernameAutor.username).subscribe({
       next: (res) => {
         this.post = res;
       },

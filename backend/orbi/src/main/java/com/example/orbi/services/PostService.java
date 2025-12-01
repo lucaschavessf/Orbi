@@ -87,7 +87,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponseDTO> listarPostsUsuario(Pageable pageable, String username, String usernameAutenticado) {
+    public Page<PostResponseDTO> listarPostsUsuario(Pageable pageable, String username) {
         if (pageable == null) {
             pageable = PageRequest.of(0, 10);
         }
@@ -95,20 +95,13 @@ public class PostService {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        UsuarioModel usuarioAutenticado = usuarioRepository.findByUsername(usernameAutenticado)
-                .orElseThrow(() -> new RuntimeException("Usuário autenticado não encontrado"));
-
-        if (usuarioAutenticado.getInstituicao() == null) {
-            throw new RuntimeException("Usuário não possui instituição associada");
-        }
-
         if (usuario.getInstituicao() == null ||
-                !usuario.getInstituicao().getId().equals(usuarioAutenticado.getInstituicao().getId())) {
+                !usuario.getInstituicao().getId().equals(usuario.getInstituicao().getId())) {
             throw new RuntimeException("Acesso negado: Este perfil pertence a outra instituição");
         }
 
         Page<PostModel> page = postRepository.findByAutor_Id(usuario.getId(), pageable);
-        return page.map(post -> mapToResponseDTO(post, usuarioAutenticado));
+        return page.map(post -> mapToResponseDTO(post, usuario));
     }
 
     @Transactional(readOnly = true)

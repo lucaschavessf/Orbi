@@ -1,37 +1,90 @@
-<nav class="h-full flex flex-col bg-gray-950 text-gray-100 px-4 py-6">
+<nav 
+  class="h-full flex flex-col bg-gray-950 text-gray-100 py-6 relative
+         w-16 group hover:w-56 transition-all duration-300 overflow-hidden">
 
-  <div class="flex items-center gap-4 p-2" *ngIf="!esconderPerfilMenu">
-    <div class="w-16 h-16">
+  <div 
+    class="flex items-center gap-4 p-2 opacity-0 group-hover:opacity-100 
+           transition-opacity duration-300"
+    *ngIf="!esconderPerfilMenu">
+
+    <div class="w-12 h-12">
       <img 
         [src]="selectedImage || 'https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png'"
-        alt="Avatar" 
+        alt="Avatar"
         class="w-full h-full object-cover rounded-full border border-gray-300 shadow-sm"
       />
     </div>
+
     <div class="flex flex-col">
-      <span class="font-semibold text-lg text-white-800">
+      <span class="font-semibold text-lg">
         {{ usuario?.username }}
       </span>
     </div>
+
   </div>
 
+  <ul class="space-y-2 text-sm mt-6 translate-x-1">
 
-
-  <ul class="space-y-2 text-sm translate-y-4 translate-x-2">
-    <li><a (click)="onPaginaInicialClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">home_filled</span> Página inicial</a></li>
-    <li><a (click)="onPerfilClick()" [routerLink]="url_perfil" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">person</span> Perfil</a></li>
-    <li><a routerLink="/criar_post" class="block px-3 py-2 rounded hover:bg-gray-800 transition"> <span class="material-icons">add_box </span> Criar Post</a></li>
     <li>
-      <a (click)="onFavoritosClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition">
-        <span class="material-icons">star_border</span> Favoritos
+      <a (click)="onPaginaInicialClick()" 
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">home_filled</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Página inicial
+        </span>
       </a>
     </li>
+
     <li>
-      <a (click)="onAssistentClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition">
-        <span class="material-icons">chat_bubble_outline</span> Assistent
+      <a (click)="onPerfilClick()" [routerLink]="url_perfil"
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">person</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Perfil
+        </span>
       </a>
     </li>
-    <li><a  (click)="onSairClick()" class="block px-3 py-2 rounded hover:bg-gray-800 transition"><span class="material-icons">logout</span> Sair</a></li>
+
+    <li>
+      <a routerLink="/criar_post"
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">add_box</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Criar Post
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <a (click)="onFavoritosClick()"
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">star_border</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Favoritos
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <a (click)="onAssistentClick()"
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">chat_bubble_outline</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Assistente
+        </span>
+      </a>
+    </li>
+
+    <li>
+      <a (click)="onSairClick()"
+         class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
+        <span class="material-icons">logout</span>
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Sair
+        </span>
+      </a>
+    </li>
+
   </ul>
 
 </nav>
