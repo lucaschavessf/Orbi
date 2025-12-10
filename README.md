@@ -82,7 +82,11 @@ O backend segue uma arquitetura em camadas (Controller-Service-Repository) para 
 
 * [Link do Diagrama de Atividades](https://miro.com/app/board/uXjVJEURmJ4=/)
 
-* [Vídeo do Protótipo](https://photos.app.goo.gl/oafnAap4K7Bmqj9h9) 
+* [Link do Figma](https://www.figma.com/design/tuF9ldbRI6OFwkwduNUfgB/orbi---prototipo-alta-fidelidade?node-id=158-842)
+
+* [Vídeos de testes](https://drive.google.com/drive/folders/1NNI8i1bGliK2bPYgcJiVzPBa9fy9obgK?usp=sharing)
+
+* [Vídeos do Protótipo Final](https://drive.google.com/drive/u/3/folders/1KDBi9HGBB_fYV21FENrFfNxtsFOCY1gb) 
 
 * [**Link do Board do Jira**](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2)
 

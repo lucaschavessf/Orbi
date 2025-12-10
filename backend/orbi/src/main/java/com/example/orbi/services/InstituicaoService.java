@@ -26,12 +26,10 @@ public class InstituicaoService {
 
     @Transactional
     public InstituicaoResponseDTO criarInstituicao(InstituicaoRequestDTO dto) {
-        // Criar instituição
         InstituicaoModel instituicao = new InstituicaoModel();
         instituicao.setNome(dto.nome());
         InstituicaoModel savedInstituicao = instituicaoRepository.save(instituicao);
 
-        // Criar domínios associados
         if (dto.dominios() != null && !dto.dominios().isEmpty()) {
             for (String dominio : dto.dominios()) {
                 DominioModel dominioModel = new DominioModel();
@@ -41,7 +39,6 @@ public class InstituicaoService {
             }
         }
 
-        // Buscar domínios salvos para retornar
         List<String> dominiosSalvos = dominioRepository.findByInstituicao(savedInstituicao)
                 .stream()
                 .map(DominioModel::getDominio)

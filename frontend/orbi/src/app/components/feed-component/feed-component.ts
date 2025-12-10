@@ -36,7 +36,9 @@ ngOnInit(): void {
       this.noMorePosts = false;
       this.posts = [];
 
-      // this.loadPosts(term);
+      if(term != ''){
+        this.loadPosts(term);
+      }
     });
   }
 
