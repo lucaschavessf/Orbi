@@ -15,30 +15,34 @@ import java.util.UUID;
 @Repository
 public interface PostRepository extends JpaRepository<PostModel, UUID> {
 
+    Page<PostModel> findByAutor_Instituicao_Id(UUID instituicaoId, Pageable pageable);
+
     @Query(value = """
     SELECT DISTINCT p.* FROM posts p 
     LEFT JOIN usuarios a ON p.autor_id = a.id 
-    WHERE 
+    WHERE a.instituicao_id = :instituicaoId
+    AND (
         unaccent(LOWER(p.titulo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(p.conteudo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(a.username)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(a.nome)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+    )
     ORDER BY p.data_criacao DESC
     """,
             countQuery = """
     SELECT COUNT(DISTINCT p.id) FROM posts p 
     LEFT JOIN usuarios a ON p.autor_id = a.id 
-    WHERE 
+    WHERE a.instituicao_id = :instituicaoId
+    AND (
         unaccent(LOWER(p.titulo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(p.conteudo)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(a.username)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
         OR unaccent(LOWER(a.nome)) LIKE unaccent(LOWER(CONCAT('%', :texto, '%')))
+    )
     """,
             nativeQuery = true)
-    Page<PostModel> buscarPorTexto(@Param("texto") String texto, Pageable pageable);
-    Page<PostModel> findByFavoritosContaining(UsuarioModel usuario, Pageable pageable);
-
+    Page<PostModel> buscarPorTextoEInstituicao(@Param("texto") String texto, @Param("instituicaoId") UUID instituicaoId, Pageable pageable);
+    Page<PostModel> findByFavoritosContainingAndAutor_Instituicao_Id(UsuarioModel usuario, UUID instituicaoId, Pageable pageable);
     Page<PostModel> findByAutor_Id(UUID autorId, Pageable pageable);
-
-
+    Page<PostModel> findByFavoritosContaining(UsuarioModel usuario, Pageable pageable);
 }

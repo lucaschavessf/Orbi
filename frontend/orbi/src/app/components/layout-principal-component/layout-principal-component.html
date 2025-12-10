@@ -1,14 +1,15 @@
-
-<div class="flex flex-col h-screen w-screen overflow-hidden bg-gray-950">
-  
+<div class="flex flex-col h-screen w-screen overflow-hidden bg-gray-900">
 
   <app-cabecalho class="w-full h-16 flex-shrink-0"></app-cabecalho>
 
   <div class="flex flex-1 overflow-hidden">
 
-    <app-menu-lateral class="w-64 flex-shrink-0 hidden lg:block"></app-menu-lateral>
+    <app-menu-lateral
+      class="w-16 hover:w-56 group transition-all duration-200 ease-in-out
+             flex-shrink-0 hidden lg:block overflow-hidden"
+    ></app-menu-lateral>
 
-    <div class="flex-1 h-full overflow-hidden">
+    <div class="flex-1 h-full min-w-0 overflow-hidden">
       <router-outlet></router-outlet>
     </div>
 

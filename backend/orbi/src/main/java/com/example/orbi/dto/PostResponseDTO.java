@@ -17,6 +17,9 @@ public record PostResponseDTO(
         Boolean descurtidoPeloUsuario,
         Boolean favoritadoPeloUsuario,
         Integer totalComentarios,
-        String urlArquivo
+        String urlArquivo,
+        Boolean editado,
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        LocalDateTime dataHoraEdicao
 ) {}
 

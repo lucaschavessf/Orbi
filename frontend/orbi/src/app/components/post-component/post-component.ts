@@ -20,6 +20,8 @@ export interface Post {
   totalComentarios?: number;
   flair?: string;
   urlArquivo?: string;
+  editado?: boolean;
+  dataEdicao: string
 }
 
 @Component({
@@ -33,13 +35,17 @@ export class PostComponent {
   @Input() post!: Post;
   private usuarioService = inject(UsuarioService); 
   private postService = inject(PostService);
-  private usernameAutor = this.usuarioService.getUsuarioLogado().username;
+  usernameAutor = this.usuarioService.getUsuarioLogado().username;
   private router = inject(Router);
   selectedImage: string | null = null;
 
   formatVotes(votes: number = 0): string {
     if (votes >= 1000) return (votes / 1000).toFixed(1) + 'k';
     return votes.toString();
+  }
+
+  editarPost() {
+    this.router.navigate(['/editar_post', this.post.id]);
   }
 
   favoritarPost(): void {

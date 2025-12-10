@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth-service';
   styleUrl: './form-login-component.css'
 })
 export class FormLoginComponent {
-  usuario: Usuario = { username: '', nome: '', cpf: '', email: '', senha: '', tipo: 'ALUNO', curso: '', bio: '' };
+  usuario: Usuario = { username: '', nome: '', email: '', senha: '', tipo: 'ALUNO', curso: '', bio: '' };
 
   statusMessage = signal<string | null>(null);
   isError = signal(false);

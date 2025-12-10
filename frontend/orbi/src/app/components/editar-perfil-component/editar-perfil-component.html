@@ -3,109 +3,120 @@
   <h2 class="text-xl font-semibold text-gray-300 mb-6">Geral</h2>
 
   <div class="space-y-6">
-
-    <!-- Nome de exibição -->
-    <div 
-      class="flex items-start justify-between cursor-pointer group"
-      (click)="abrirNomeExibicao()"
-    >
+    <div class="flex items-start justify-between cursor-pointer group"
+         (click)="abrirNomeExibicao()">
       <div>
-        <p class="text-gray-300 font-medium text-lg">Nome de exibição</p>
+        <p class="text-gray-300 font-medium text-lg">Nome</p>
         <p class="text-gray-500 text-sm">
           Alterar seu nome de exibição não alterará seu nome de usuário
         </p>
       </div>
-
       <span class="text-gray-500 text-xl group-hover:text-gray-300">›</span>
     </div>
 
-    <!-- Sobre -->
-    <div 
-      class="flex items-start justify-between cursor-pointer group"
-      (click)="abrirSobre()"
-    >
+    <div class="flex items-start justify-between cursor-pointer group"
+         (click)="abrirUsername()">
+      <div>
+        <p class="text-gray-300 font-medium text-lg">Nome de Usuário</p>
+        <p class="text-gray-500 text-sm">Alterar seu @username</p>
+      </div>
+      <span class="text-gray-500 text-xl group-hover:text-gray-300">›</span>
+    </div>
+    
+    <div class="flex items-start justify-between cursor-pointer group"
+         (click)="abrirSobre()">
       <div>
         <p class="text-gray-300 font-medium text-lg">Sobre</p>
-        <p class="text-gray-500 text-sm">Alterar sua Bios</p>
+        <p class="text-gray-500 text-sm">Alterar sua bio</p>
       </div>
-
       <span class="text-gray-500 text-xl group-hover:text-gray-300">›</span>
     </div>
 
-    <!-- Avatar -->
-    <div 
-      class="flex items-start justify-between cursor-pointer group"
-      (click)="abrirAvatar()"
-    >
+    <div class="flex items-start justify-between cursor-pointer group"
+         (click)="abrirAvatar()">
       <div>
-        <p class="text-gray-300 font-medium text-lg">Avatar</p>
-        <p class="text-gray-500 text-sm">
-          Edite seu avatar ou envie uma imagem
-        </p>
+        <p class="text-gray-300 font-medium text-lg">Foto de Perfil</p>
+        <p class="text-gray-500 text-sm">Alterar sua foto de perfil</p>
       </div>
+      <span class="text-gray-500 text-xl group-hover:text-gray-300">›</span>
+    </div>
 
+    <div class="flex items-start justify-between cursor-pointer group"
+         (click)="abrirSenha()">
+      <div>
+        <p class="text-gray-300 font-medium text-lg">Senha</p>
+        <p class="text-gray-500 text-sm">Alterar sua senha</p>
+      </div>
       <span class="text-gray-500 text-xl group-hover:text-gray-300">›</span>
     </div>
 
   </div>
-
 </div>
 
-<!-- Overlay escurecido -->
-<div 
-  *ngIf="modalAberto"
-  class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
->
-  <!-- Modal -->
+<div *ngIf="modalAberto"
+     class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+
   <div class="bg-gray-800 rounded-2xl shadow-xl p-6 w-[450px] animate-fadeIn">
 
-    <!-- Cabeçalho -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-300">{{ tituloModal }}</h2>
-
-      <button 
-        class="text-gray-500 hover:text-gray-800 text-2xl"
-        (click)="fecharModal()"
-      >
-        ×
-      </button>
+      <button class="text-gray-500 hover:text-gray-800 text-2xl" (click)="fecharModal()">×</button>
     </div>
 
-    <!-- Texto explicativo -->
-    <p class="text-gray-400 text-sm mb-4">
-      {{ descricaoModal }}
-    </p>
+    <p class="text-gray-400 text-sm mb-4">{{ descricaoModal }}</p>
 
-    <!-- Campo -->
-    <input 
-      type="text"
-      class="w-full p-3 bg-gray-200 rounded-xl outline-none text-gray-900"
-      placeholder="{{ placeholder }}"
-      [(ngModel)]="campoEdicao"
-      maxlength="90"
-    />
-
-    <!-- Contador -->
-    <div class="text-right text-gray-400 text-xs mt-1">
-      {{ campoEdicao.length || 0 }}/90
+    <div *ngIf="campoSendoEditado === 'avatar'" class="mb-4">
+      <input 
+        type="file"
+        accept="image/png, image/jpeg, image/webp"
+        (change)="onFileSelected($event)"
+        class="text-gray-200"
+      />
+      <p class="text-sm text-gray-400 mt-2" *ngIf="selectedFile">
+        Arquivo selecionado: {{ selectedFile.name }}
+      </p>
+      <p class="text-indigo-400 mt-1" *ngIf="uploadingAvatar">
+        Enviando imagem, aguarde...
+      </p>
     </div>
 
-    <!-- Botões -->
+    <div *ngIf="campoSendoEditado === 'senha'">
+      <label class="text-xs text-gray-400">Senha atual</label>
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="senhaAtual"/>
+
+      <label class="text-xs text-gray-400">Nova senha</label>
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="novaSenha"/>
+
+      <label class="text-xs text-gray-400">Confirmar nova senha</label>
+      <input type="password" class="w-full p-3 mb-2 bg-gray-200 rounded-xl" [(ngModel)]="confirmarSenha"/>
+
+      <div *ngIf="erroSenha" class="text-sm text-red-400 mt-2">{{ erroSenha }}</div>
+    </div>
+
+    <div *ngIf="campoSendoEditado !== 'avatar' && campoSendoEditado !== 'senha'">
+      <ng-container *ngTemplateOutlet="singleInput"></ng-container>
+    </div>
+
+   <ng-template #singleInput>
+      <input
+        type="text"
+        class="w-full p-3 bg-gray-200 rounded-xl text-gray-900"
+        [placeholder]="placeholder"
+        [(ngModel)]="campoEdicao"
+        maxlength="500"
+      />
+      <div class="text-right text-gray-400 text-xs mt-1">
+        {{ campoEdicao.length || 0 }}/500
+      </div>
+    </ng-template>
+
     <div class="flex justify-end gap-3 mt-6">
-      <button
-        class="bg-gray-200 px-4 py-2 rounded-xl hover:bg-gray-300 text-gray-700 hover:bg-gray-200 transition transform hover:scale-105 duration-200 font-semibold shadow-lg hover:shadow-xl"
-        (click)="fecharModal()"
-      >
-        Cancelar
-      </button>
-
-      <button
-        class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-xl hover:bg-indigo-600 transition transform hover:scale-105 duration-200 font-semibold shadow-lg hover:shadow-xl font-medium"
-        (click)="salvar()"
-      >
-        Salvar
+      <button class="bg-gray-200 px-4 py-2 rounded-xl" (click)="fecharModal()">Cancelar</button>
+      <button class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-xl"
+              (click)="salvar()" [disabled]="isSaving">
+        {{ isSaving ? 'Salvando...' : 'Salvar' }}
       </button>
     </div>
-  </div>
 
+  </div>
 </div>

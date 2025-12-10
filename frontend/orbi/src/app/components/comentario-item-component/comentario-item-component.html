@@ -1,0 +1,77 @@
+<div class="mt-3">
+
+  <div class="p-3 bg-gray-700/40 rounded-lg border border-gray-600"
+       [style.margin-left.px]="nivel * 20">
+
+    <div class="text-gray-300 text-sm">
+      <strong>@{{ comentario.usernameAutor }}</strong>
+      <span class="text-gray-500 text-xs"> — {{ comentario.dataCriacao | date:'short' }}</span>
+    </div>
+
+    <div class="text-gray-200 text-sm whitespace-pre-line">
+      {{ comentario.conteudo }}
+    </div>
+
+    <div class="flex items-center gap-4 text-xs text-gray-400 mt-2">
+
+      <button (click)="avaliar(true)"
+              [ngClass]="comentario.curtido ? 'text-green-400' : 'hover:text-green-300'">
+        &#8657; {{ comentario.totalCurtidas }}
+      </button>
+
+      <button (click)="avaliar(false)"
+              [ngClass]="comentario.descurtido ? 'text-red-400' : 'hover:text-red-300'">
+        &#8659; {{ comentario.totalDeslikes }}
+      </button>
+
+      <button (click)="toggleResponder()" class="hover:text-blue-400 ml-4">
+        Responder
+      </button>
+
+      <button
+      *ngIf="isAutor()"
+      (click)="deletarComentario()"
+      class="hover:text-red-400 text-xs ">
+      Excluir
+      </button>
+
+      <button
+        *ngIf="comentario.respostas.length > 0"
+        (click)="toggleRespostas()"
+        class="hover:text-indigo-400">
+        {{ getTotalRespostas(comentario) }} respostas
+      </button>
+
+    </div>
+
+    <div *ngIf="mostrandoInputResposta" class="mt-2 flex gap-2">
+
+      <input
+        [(ngModel)]="respostaTexto"
+        class="flex-1 px-3 py-2 rounded bg-gray-600 text-white outline-none"
+        placeholder="Responder..."
+      >
+
+      <button
+        (click)="enviarResposta()"
+        class="px-3 py-2 bg-blue-600 text-white rounded">
+        Enviar
+      </button>
+
+    </div>
+
+    <div *ngIf="mostrandoRespostas" class="mt-3">
+
+      <app-comentario-item
+        *ngFor="let r of comentario.respostas"
+        [comentario]="r"
+        [postId]="postId"
+        [nivel]="nivel + 1">
+      </app-comentario-item>
+
+    </div>
+
+
+  </div>
+
+</div>

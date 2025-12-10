@@ -13,6 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Table(name = "usuarios")
@@ -26,8 +29,6 @@ public class UsuarioModel implements Serializable {
     private String username;
     @Column(nullable = false, length = 256)
     private String nome;
-    @Column(unique = true, nullable = false, length = 11)
-    private String cpf;
     @Column(unique = true, nullable = false, length = 256)
     private String email;
     @Column(nullable = false, length = 256)
@@ -41,6 +42,10 @@ public class UsuarioModel implements Serializable {
     private String bio;
     @Column(length = 512)
     private String fotoPerfil;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "instituicao_id")
+    private InstituicaoModel instituicao;
 
     public UUID getId() {
         return id;
@@ -86,29 +91,27 @@ public class UsuarioModel implements Serializable {
     public void setTipo(TipoUsuario tipo) {
         this.tipo = tipo;
     }
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
     public String getCurso() {
         return curso;
     }
     public void setCurso(String curso) {
         this.curso = curso;
     }
+
     public String getBio() {
         return bio;
     }
     public void setBio(String bio) {
         this.bio = bio;
     }
+
     public String getFotoPerfil() {
         return fotoPerfil;
     }
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
-    
+
+    public InstituicaoModel getInstituicao() {return instituicao;}
+    public void setInstituicao(InstituicaoModel instituicao) {this.instituicao = instituicao;}
 }

@@ -59,7 +59,9 @@ function mapResponseToPosts() {
         descurtidoPeloUsuario: item.descurtidoPeloUsuario,
         favoritadoPeloUsuario: item.favoritadoPeloUsuario,
         urlArquivo: item.urlArquivo,
-        totalComentarios: item.totalComentarios
+        totalComentarios: item.totalComentarios,
+        editado: item.editado,
+        dataEdicao: item.dataHoraEdicao
       };
     });
   });

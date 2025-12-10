@@ -3,6 +3,7 @@ export interface Comment {
   conteudo: string;
   dataCriacao: string;
 
+  fotoPerfil?: string;
   usernameAutor: string;
   nomeAutor: string;
   fotoPerfilAutor: string;

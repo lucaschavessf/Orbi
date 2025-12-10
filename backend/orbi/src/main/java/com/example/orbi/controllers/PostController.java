@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.example.orbi.dto.PageResponseDTO;
 import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
+import com.example.orbi.dto.PostUpdateRequestDTO;
 import com.example.orbi.services.PostService;
 
 import jakarta.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,10 +37,27 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPosts(
             @RequestParam String username,
-            @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
+            @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
         Page<PostResponseDTO> page = postService.listarPosts(pageable, username);
         return ResponseEntity.ok(PageResponseDTO.of(page));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> atualizarPost(
+            @PathVariable UUID id,
+            @RequestBody @Valid PostUpdateRequestDTO dto) {
+
+        PostResponseDTO response = postService.atualizarPost(id, dto);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> listarPostPorId(
+            @PathVariable UUID id,
+            @RequestParam String username) {
+        PostResponseDTO response = postService.listarPostPorId(id, username);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
@@ -92,9 +112,19 @@ public class PostController {
     @GetMapping("/usuario")
     public ResponseEntity<PageResponseDTO<PostResponseDTO>> listarPostsUsuario(
             @RequestParam String username,
-            @PageableDefault(size = 2, sort = "dataCriacao", direction = Sort.Direction.DESC)
+            @PageableDefault(size = 10, sort = "dataCriacao", direction = Sort.Direction.DESC)
             Pageable pageable) {
         Page<PostResponseDTO> page = postService.listarPostsUsuario(pageable, username);
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluirPost(
+            @PathVariable UUID id,
+            @AuthenticationPrincipal UserDetails usuarioAutenticado
+    ) {
+        postService.excluirPost(id, usuarioAutenticado.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
 }

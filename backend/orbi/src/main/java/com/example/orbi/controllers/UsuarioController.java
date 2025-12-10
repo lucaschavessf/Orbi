@@ -1,8 +1,11 @@
 package com.example.orbi.controllers;
 
+import com.example.orbi.dto.AtualizarPerfilRequestDTO;
 import com.example.orbi.dto.LoginResponseDTO;
+import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.services.JwtService;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.orbi.dto.UsuarioDTO;
@@ -12,7 +15,9 @@ import com.example.orbi.services.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -85,4 +90,34 @@ public class UsuarioController {
                     .body(e.getMessage());
         }
     }
+
+    @PutMapping("/perfil/{username}")
+    public ResponseEntity<?> atualizarPerfil(
+            @PathVariable String username,
+            @RequestBody @Valid AtualizarPerfilRequestDTO dto) {
+
+        try {
+            UsuarioDTO usuarioAtualizado = usuarioService.atualizarPerfil(username, dto);
+
+            Map<String, Object> resposta = new HashMap<>();
+            resposta.put("usuario", usuarioAtualizado);
+
+            if (!username.equals(usuarioAtualizado.getUsername())) {
+                String novoToken = jwtService.generateToken(usuarioAtualizado.getUsername(), usuarioAtualizado.getTipo().name());
+                resposta.put("token", novoToken);
+            }
+
+            return ResponseEntity.ok(resposta);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
 }

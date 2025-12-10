@@ -29,16 +29,16 @@ export class FeedComponent implements OnInit, OnDestroy {
   private currentTerm: string = '';
   constructor(private searchService: CabecalhoService) {}
 
-  
-
-  ngOnInit(): void {
+ngOnInit(): void {
     this.subscription = this.searchService.searchTerm$.subscribe(term => {
       this.currentTerm = term;
       this.page = 0;
       this.noMorePosts = false;
+      this.posts = [];
 
-      if (term.trim() === '') return;
-      this.loadPosts(term);
+      if(term != ''){
+        this.loadPosts(term);
+      }
     });
   }
 

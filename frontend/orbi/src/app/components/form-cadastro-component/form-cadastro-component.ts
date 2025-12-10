@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormCadastroService } from '../../services/form-cadastro-service';
 import { Usuario } from '../../models/usuario';
 import { AzureService } from '../../services/azure-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-cadastro-component',
@@ -17,13 +18,12 @@ export class FormCadastroComponent {
   usuario: Usuario = {
     username: '',
     nome: '',
-    cpf: '',
     email: '',
     senha: '',
     tipo: 'ALUNO',
     curso: '',
     bio: '',
-    fotoPerfil: '' // <-- adicionar no model
+    fotoPerfil: ''
   };
 
   selectedFile: File | null = null;
@@ -40,6 +40,7 @@ export class FormCadastroComponent {
 
   private cadastroService = inject(FormCadastroService);
   private azureService = inject(AzureService);
+  private router = inject(Router);
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -83,7 +84,6 @@ export class FormCadastroComponent {
             this.usuario = {
               username: '',
               nome: '',
-              cpf: '',
               email: '',
               senha: '',
               tipo: 'ALUNO',
@@ -95,6 +95,7 @@ export class FormCadastroComponent {
             this.selectedFile = null;
 
             setTimeout(() => this.statusMessage.set(null), 3000);
+            this.router.navigate(['/login']);
           },
           error: (err) => {
             console.error(err);

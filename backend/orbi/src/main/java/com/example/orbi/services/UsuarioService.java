@@ -1,5 +1,7 @@
 package com.example.orbi.services;
 
+import com.example.orbi.dto.AtualizarPerfilRequestDTO;
+import com.example.orbi.models.DominioModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.orbi.dto.UsuarioDTO;
 import com.example.orbi.models.UsuarioModel;
+import com.example.orbi.repositories.DominioRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +26,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private DominioRepository dominioRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PersistenceContext
@@ -33,15 +39,16 @@ public class UsuarioService {
         if (usuarioRepository.findByUsername(usuarioDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username já está em uso");
         }
-
         if (usuarioRepository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
             throw new RuntimeException("Email já está em uso");
         }
-
+        String email = usuarioDTO.getEmail();
+        String dominio = email.substring(email.indexOf("@") + 1).trim();
+        DominioModel dominioModel = dominioRepository.findByDominioIgnoreCase(dominio)
+                .orElseThrow(() -> new RuntimeException("O domínio do email não está vinculado a nenhuma instituição cadastrada."));
         UsuarioModel usuario = new UsuarioModel();
         usuario.setUsername(usuarioDTO.getUsername());
         usuario.setNome(usuarioDTO.getNome());
-        usuario.setCpf(usuarioDTO.getCpf());
         usuario.setEmail(usuarioDTO.getEmail());
 
         String senhaCriptografada = passwordEncoder.encode(usuarioDTO.getSenha());
@@ -49,6 +56,7 @@ public class UsuarioService {
 
         usuario.setTipo(usuarioDTO.getTipo());
         usuario.setCurso(usuarioDTO.getCurso());
+        usuario.setInstituicao(dominioModel.getId_instituicao());
         usuario.setBio(usuarioDTO.getBio());
         usuario.setFotoPerfil(usuarioDTO.getFotoPerfil());
 
@@ -59,6 +67,7 @@ public class UsuarioService {
 
         return response;
     }
+
 
     public List<UsuarioDTO> listarUsuarios() {
     return usuarioRepository.findAll().stream()
@@ -97,8 +106,72 @@ public class UsuarioService {
                 .setParameter("usuarioId", usuarioId)
                 .executeUpdate();
 
+        entityManager.createNativeQuery("DELETE FROM avaliacoes WHERE id_conteudo IN (SELECT id FROM comentarios WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId))")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM comentarios WHERE post_id IN (SELECT id FROM posts WHERE autor_id = :usuarioId)")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM posts WHERE autor_id = :usuarioId")
+                .setParameter("usuarioId", usuarioId)
+                .executeUpdate();
+
         usuarioRepository.delete(usuario);
     }
+
+    @Transactional
+    public UsuarioDTO atualizarPerfil(String username, AtualizarPerfilRequestDTO dto) {
+
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (dto.nome() != null && !dto.nome().isBlank()) {
+            usuario.setNome(dto.nome());
+        }
+
+        if (dto.bio() != null) {
+            usuario.setBio(dto.bio());
+        }
+
+        if (dto.fotoPerfil() != null) {
+            usuario.setFotoPerfil(dto.fotoPerfil());
+        }
+
+        if (dto.username() != null && !dto.username().isBlank()
+                && !dto.username().equals(usuario.getUsername())) {
+
+            if (usuarioRepository.existsByUsername(dto.username())) {
+                throw new IllegalArgumentException("Nome de usuário já está em uso");
+            }
+
+            usuario.setUsername(dto.username());
+        }
+
+        if (dto.senhaAtual() != null && dto.novaSenha() != null) {
+
+            boolean correta = passwordEncoder.matches(dto.senhaAtual(), usuario.getSenha());
+
+            if (!correta) {
+                throw new IllegalArgumentException("Senha atual incorreta");
+            }
+
+            usuario.setSenha(passwordEncoder.encode(dto.novaSenha()));
+        }
+
+        UsuarioModel salvo = usuarioRepository.save(usuario);
+
+        UsuarioDTO response = new UsuarioDTO(salvo);
+        response.setSenha(null);
+
+        return response;
+    }
+
+
+
+
+
 
     public UsuarioDTO buscarPorUsername(String username) {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)

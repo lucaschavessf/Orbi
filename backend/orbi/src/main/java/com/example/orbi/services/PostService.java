@@ -1,8 +1,11 @@
 package com.example.orbi.services;
 
+import com.azure.core.annotation.Post;
 import com.example.orbi.dto.PostRequestDTO;
 import com.example.orbi.dto.PostResponseDTO;
+import com.example.orbi.dto.PostUpdateRequestDTO;
 import com.example.orbi.models.AvaliacaoModel;
+import com.example.orbi.models.ComentarioModel;
 import com.example.orbi.models.PostModel;
 import com.example.orbi.models.UsuarioModel;
 import com.example.orbi.repositories.AvaliacaoRepository;
@@ -10,10 +13,8 @@ import com.example.orbi.repositories.ComentarioRepository;
 import com.example.orbi.repositories.PostRepository;
 import com.example.orbi.repositories.UsuarioRepository;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.Objects;
+import java.util.*;
+import java.time.LocalDateTime;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,20 @@ public class PostService {
     @Autowired
     private ComentarioRepository comentarioRepository;
 
+    private void validarInstituicaoPost(PostModel post, UsuarioModel usuario) {
+        if (usuario.getInstituicao() == null) {
+            throw new RuntimeException("Usuário não possui instituição associada");
+        }
+
+        if (post.getAutor().getInstituicao() == null) {
+            throw new RuntimeException("Autor do post não possui instituição associada");
+        }
+
+        if (!post.getAutor().getInstituicao().getId().equals(usuario.getInstituicao().getId())) {
+            throw new RuntimeException("Acesso negado: Este post pertence a outra instituição");
+        }
+    }
+
     @Transactional
     public PostResponseDTO criarPost(PostRequestDTO dto) {
         UsuarioModel autor = usuarioRepository.findByUsername(dto.usernameAutor())
@@ -58,9 +73,15 @@ public class PostService {
             pageable = PageRequest.of(0, 10);
         }
 
-        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
-        return postRepository.findAll(pageable)
-                .map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (usuario.getInstituicao() == null) {
+            throw new RuntimeException("Usuário não possui instituição associada");
+        }
+
+        return postRepository.findByAutor_Instituicao_Id(usuario.getInstituicao().getId(), pageable)
+                .map(post -> mapToResponseDTO(post, usuario));
     }
 
     @Transactional(readOnly = true)
@@ -69,14 +90,16 @@ public class PostService {
             pageable = PageRequest.of(0, 10);
         }
 
-        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
-        UsuarioModel usuario = usuarioOpt
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (usuario.getInstituicao() == null ||
+                !usuario.getInstituicao().getId().equals(usuario.getInstituicao().getId())) {
+            throw new RuntimeException("Acesso negado: Este perfil pertence a outra instituição");
+        }
+
         Page<PostModel> page = postRepository.findByAutor_Id(usuario.getId(), pageable);
-
         return page.map(post -> mapToResponseDTO(post, usuario));
-
-
     }
 
     @Transactional(readOnly = true)
@@ -85,15 +108,24 @@ public class PostService {
             pageable = PageRequest.of(0, 10);
         }
 
-        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findByUsername(username);
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (usuario.getInstituicao() == null) {
+            throw new RuntimeException("Usuário não possui instituição associada");
+        }
 
         Pageable pageableWithoutSort = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize()
         );
 
-        Page<PostModel> postsPage = postRepository.buscarPorTexto(texto, pageableWithoutSort);
-        return postsPage.map(post -> mapToResponseDTO(post, usuarioOpt.orElse(null)));
+        Page<PostModel> postsPage = postRepository.buscarPorTextoEInstituicao(
+                texto,
+                usuario.getInstituicao().getId(),
+                pageableWithoutSort
+        );
+        return postsPage.map(post -> mapToResponseDTO(post, usuario));
     }
 
     @Transactional
@@ -105,6 +137,8 @@ public class PostService {
 
         PostModel post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        validarInstituicaoPost(post, user);
 
         Optional<AvaliacaoModel> avaliacaoExistente =
                 avaliacaoRepository.findByUsuarioIdAndIdConteudo(user.getId(), postId);
@@ -162,7 +196,9 @@ public class PostService {
                 descurtido,
                 favoritado,
                 (int) totalComentarios,
-                post.getUrlArquivo()
+                post.getUrlArquivo(),
+                post.getEditado(),
+                post.getDataHoraEdicao()
         );
     }
 
@@ -175,6 +211,8 @@ public class PostService {
 
         UsuarioModel user = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        validarInstituicaoPost(post, user);
 
         Set<UsuarioModel> favoritos = post.getFavoritos();
 
@@ -197,7 +235,78 @@ public class PostService {
         UsuarioModel usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Page<PostModel> favoritos = postRepository.findByFavoritosContaining(usuario, pageable);
+        if (usuario.getInstituicao() == null) {
+            throw new RuntimeException("Usuário não possui instituição associada");
+        }
+
+        Page<PostModel> favoritos = postRepository.findByFavoritosContainingAndAutor_Instituicao_Id(
+                usuario,
+                usuario.getInstituicao().getId(),
+                pageable
+        );
         return favoritos.map(post -> mapToResponseDTO(post, usuario));
     }
+
+    public PostResponseDTO atualizarPost(UUID id, PostUpdateRequestDTO dto) {
+
+        PostModel post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        if(dto.usernameAutor() == null || !dto.usernameAutor().equals(post.getAutor().getUsername())) {
+            throw new RuntimeException("Apenas o autor do post pode editá-lo");
+        }
+        post.setTitulo(dto.titulo());
+        post.setConteudo(dto.conteudo());
+
+        if (dto.urlArquivo() != null && !dto.urlArquivo().isBlank()) {
+            post.setUrlArquivo(dto.urlArquivo());
+        }
+
+        post.setEditado(true);
+        post.setDataHoraEdicao(LocalDateTime.now());
+
+        postRepository.save(post);
+
+        return mapToResponseDTO(post, post.getAutor());
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponseDTO listarPostPorId(UUID id, String username) {
+        PostModel post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+
+        UsuarioModel usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        validarInstituicaoPost(post, usuario);
+
+        return mapToResponseDTO(post, usuario);
+    }
+
+    @Transactional
+    public void excluirPost(UUID postId, String usernameAutenticado) {
+        PostModel post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post não encontrado."));
+
+        if (!post.getAutor().getUsername().equals(usernameAutenticado)) {
+            throw new RuntimeException("Você não tem permissão para excluir este post.");
+        }
+
+        List<ComentarioModel> comentarios = comentarioRepository.findAllByPostId(postId);
+        for (ComentarioModel comentario : comentarios) {
+            avaliacaoRepository.deleteByIdConteudo(comentario.getId());
+        }
+
+        List<ComentarioModel> comentariosPai = comentarioRepository.findByPostIdAndComentarioPaiIsNull(postId);
+        for (ComentarioModel comentarioPai : comentariosPai) {
+            comentarioRepository.delete(comentarioPai);
+        }
+
+        avaliacaoRepository.deleteByIdConteudo(postId);
+
+        post.getFavoritos().clear();
+        postRepository.save(post);
+        postRepository.delete(post);
+    }
+
 }

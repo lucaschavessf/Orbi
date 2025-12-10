@@ -46,10 +46,6 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractTipo(String token) {
-        return extractClaim(token, claims -> claims.get("tipo", String.class));
-    }
-
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }

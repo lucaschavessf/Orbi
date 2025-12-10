@@ -20,34 +20,12 @@
     Nenhum comentário ainda.
   </div>
 
-  <div *ngFor="let c of comentarios" class="border-t border-gray-700 py-3">
-
-    <div class="text-gray-300 text-sm">
-      <strong>@{{ c.usernameAutor }}</strong>
-      <span class="text-gray-500 text-xs"> — {{ c.dataCriacao | date:'short' }}</span>
-    </div>
-
-    <div class="text-gray-200 text-sm whitespace-pre-line">
-      {{ c.conteudo }}
-    </div>
-
-    <div *ngIf="c.respostas.length > 0" class="mt-2 pl-4 border-l border-gray-600">
-
-      <div *ngFor="let r of c.respostas" class="py-2">
-
-        <div class="text-gray-300 text-xs">
-          <strong>@{{ r.usernameAutor }}</strong>
-          <span class="text-gray-500"> — {{ r.dataCriacao | date:'short' }}</span>
-        </div>
-
-        <div class="text-gray-200 text-sm whitespace-pre-line">
-          {{ r.conteudo }}
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+  <app-comentario-item
+    *ngFor="let c of comentarios"
+    [comentario]="c"
+    [postId]="postId"
+    [nivel]="0"
+    (deletado)="onComentarioDeletado($event)">
+  </app-comentario-item>
 
 </div>

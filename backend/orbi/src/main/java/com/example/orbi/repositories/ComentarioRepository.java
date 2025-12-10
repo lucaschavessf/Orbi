@@ -2,6 +2,7 @@ package com.example.orbi.repositories;
 
 import com.example.orbi.models.ComentarioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -22,4 +23,11 @@ public interface ComentarioRepository extends JpaRepository<ComentarioModel, UUI
 
     @Query("SELECT COUNT(c) FROM ComentarioModel c WHERE c.comentarioPai.id = :comentarioId")
     long countRespostasByComentarioId(@Param("comentarioId") UUID comentarioId);
+
+    @Query("SELECT c FROM ComentarioModel c WHERE c.post.id = :postId")
+    List<ComentarioModel> findAllByPostId(@Param("postId") UUID postId);
+
+    @Modifying
+    @Query("DELETE FROM ComentarioModel c WHERE c.post.id = :postId")
+    void deleteByPostId(@Param("postId") UUID postId);
 }

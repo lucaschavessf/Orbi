@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.orbi.models.UsuarioModel;
+import com.example.orbi.repositories.ComentarioRepository;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, UUID> {
     Optional<UsuarioModel> findByUsername(String username);
     Optional<UsuarioModel> findByEmail(String email);
+    boolean existsByUsername(String username);
+
 }
