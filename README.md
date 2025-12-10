@@ -89,8 +89,13 @@ O backend segue uma arquitetura em camadas (Controller-Service-Repository) para 
 * [Vídeos do Protótipo Final](https://drive.google.com/drive/u/3/folders/1KDBi9HGBB_fYV21FENrFfNxtsFOCY1gb) 
 
 * [**Link do Board do Jira**](https://projeto-fds-cesar.atlassian.net/jira/software/projects/PFDS/boards/2)
-
+  
+SPRINT 2
 <img width="1904" height="998" alt="image" src="https://github.com/user-attachments/assets/83dc5cd4-7823-4599-8b4e-6532c9790eee" />
+
+SPRINT 3 (final)
+<img width="1422" height="701" alt="image" src="https://github.com/user-attachments/assets/abe2dcc8-7c81-4406-9e26-942c8e4153e3" />
+
   
 ## 👥 Contribuidores
 
